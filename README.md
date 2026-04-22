@@ -27,6 +27,29 @@ Then visit:
 
 `http://localhost:8000/index.html`
 
+## Deploy to GitHub Pages
+
+This repo includes `.github/workflows/deploy-pages.yml` to publish the dashboard.
+
+### One-time repo setting
+
+In GitHub:
+1. Open **Settings -> Pages**
+2. Under **Build and deployment**, set **Source** to **GitHub Actions**
+
+### Publish flow
+
+- On every push to `main`, GitHub Actions will:
+  1. run `python3 tools/build_timeline_data.py`
+  2. package `index.html` + `data/`
+  3. deploy to GitHub Pages
+
+### Site URL
+
+For this repository name, the site URL format is:
+
+`https://johnfiron.github.io/johnfiron/`
+
 ### Notes
 
 - The Great Depression window is intentionally labeled **estimated** because high-frequency modern market stress inputs are not available for that period.
