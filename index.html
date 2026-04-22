@@ -287,6 +287,9 @@
           <div class="canvas-wrap">
             <canvas id="inputsChart"></canvas>
           </div>
+          <div class="canvas-wrap">
+            <canvas id="volatilityChart"></canvas>
+          </div>
         </div>
 
         <div class="event-list" id="eventList"></div>
@@ -477,10 +480,38 @@
 
       let phaseChart;
       let inputsChart;
+      let volatilityChart;
 
       function destroyCharts() {
         if (phaseChart) phaseChart.destroy();
         if (inputsChart) inputsChart.destroy();
+        if (volatilityChart) volatilityChart.destroy();
+      }
+
+      function rollingStd(values, windowSize) {
+        const out = [];
+        const buf = [];
+        for (let i = 0; i < values.length; i += 1) {
+          const val = values[i];
+          if (Number.isFinite(val)) buf.push(val);
+          if (buf.length > windowSize) buf.shift();
+          if (buf.length === windowSize) {
+            const mean = buf.reduce((a, b) => a + b, 0) / windowSize;
+            const variance = buf.reduce((acc, x) => acc + (x - mean) ** 2, 0) / windowSize;
+            out.push(Math.sqrt(variance));
+          } else {
+            out.push(null);
+          }
+        }
+        return out;
+      }
+
+      function buildVolatilitySeries(records, valueSelector, windowSize = 12) {
+        const values = records.map((r) => valueSelector(r));
+        const vol = rollingStd(values, windowSize);
+        return records
+          .map((r, idx) => ({ x: dateObj(r.date), y: vol[idx] }))
+          .filter((p) => Number.isFinite(p.y));
       }
 
       function buildCharts(payload) {
@@ -636,6 +667,81 @@
             },
           },
           plugins: [phaseBackgroundPlugin(PHASE_BANDS), eventOverlayPlugin(overlays)],
+        });
+
+        const stressVolSeries = buildVolatilitySeries(records, (r) => r.stressScore, 12);
+        const phaseVolSeries = buildVolatilitySeries(records, (r) => r.phase, 12);
+
+        volatilityChart = new Chart(document.getElementById("volatilityChart"), {
+          type: "line",
+          data: {
+            datasets: [
+              {
+                label: "Stress score volatility (12-month rolling stdev)",
+                data: stressVolSeries,
+                borderColor: "#2dd4bf",
+                pointRadius: 0,
+                borderWidth: 2.2,
+                tension: 0.15,
+                yAxisID: "yStressVol",
+              },
+              {
+                label: "Phase volatility (12-month rolling stdev)",
+                data: phaseVolSeries,
+                borderColor: "#c084fc",
+                pointRadius: 0,
+                borderWidth: 2,
+                tension: 0.12,
+                yAxisID: "yPhaseVol",
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: "index", intersect: false },
+            scales: {
+              x: {
+                type: "time",
+                ticks: { color: "#dbeafe" },
+                grid: { color: "rgba(148,163,184,0.12)" },
+              },
+              yStressVol: {
+                position: "left",
+                min: 0,
+                ticks: { color: "#dbeafe" },
+                title: {
+                  display: true,
+                  text: "Stress volatility",
+                  color: "#99f6e4",
+                },
+                grid: { color: "rgba(148,163,184,0.12)" },
+              },
+              yPhaseVol: {
+                position: "right",
+                min: 0,
+                ticks: { color: "#e9d5ff" },
+                title: {
+                  display: true,
+                  text: "Phase volatility",
+                  color: "#d8b4fe",
+                },
+                grid: { drawOnChartArea: false },
+              },
+            },
+            plugins: {
+              legend: { labels: { color: "#e2e8f0" } },
+              tooltip: {
+                callbacks: {
+                  title: (items) => {
+                    if (!items.length) return "";
+                    return new Date(items[0].parsed.x).toISOString().slice(0, 10);
+                  },
+                },
+              },
+            },
+          },
+          plugins: [eventOverlayPlugin(overlays)],
         });
       }
 
