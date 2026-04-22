@@ -1,0 +1,562 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Collapse Cycle Timeline</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3"></script>
+    <style>
+      :root {
+        --bg: #0f172a;
+        --card: #111827;
+        --line: #334155;
+        --text: #f8fafc;
+        --muted: #cbd5e1;
+        --accent: #60a5fa;
+      }
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background: radial-gradient(circle at top, #1e293b, #0b1022 55%);
+        color: var(--text);
+      }
+      .wrap {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 20px 16px 28px;
+      }
+      .title {
+        margin: 0;
+        font-size: 1.7rem;
+      }
+      .subtitle {
+        margin: 6px 0 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+      .panel {
+        margin-top: 14px;
+        padding: 14px;
+        border-radius: 12px;
+        border: 1px solid #334155;
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.9), rgba(2, 6, 23, 0.95));
+        box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
+      }
+      .controls {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr 1fr;
+        gap: 12px;
+      }
+      .control {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      label {
+        color: var(--muted);
+        font-size: 0.84rem;
+        font-weight: 600;
+      }
+      select, button {
+        border: 1px solid #475569;
+        border-radius: 8px;
+        background: #0b1224;
+        color: var(--text);
+        font-size: 0.92rem;
+        padding: 8px 10px;
+      }
+      button {
+        cursor: pointer;
+        font-weight: 700;
+      }
+      button:hover {
+        border-color: #64748b;
+      }
+      .legend-help {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(120px, 1fr));
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .badge {
+        border: 1px solid #334155;
+        border-left-width: 8px;
+        border-radius: 10px;
+        padding: 9px 10px;
+        background: rgba(15, 23, 42, 0.65);
+      }
+      .badge h4 {
+        margin: 0 0 5px;
+        font-size: 0.9rem;
+      }
+      .badge p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.8rem;
+        line-height: 1.28;
+      }
+      .kpi {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(140px, 1fr));
+        gap: 10px;
+        margin-top: 12px;
+      }
+      .kpi-card {
+        border: 1px solid #334155;
+        border-radius: 10px;
+        background: rgba(15, 23, 42, 0.6);
+        padding: 10px;
+      }
+      .kpi-card .label {
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+      .kpi-card .value {
+        margin-top: 4px;
+        font-size: 1.05rem;
+        font-weight: 700;
+      }
+      .chart-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-top: 12px;
+      }
+      .canvas-wrap {
+        border: 1px solid #334155;
+        border-radius: 12px;
+        background: #071021;
+        padding: 8px;
+      }
+      canvas {
+        width: 100%;
+        height: 400px;
+      }
+      .footnote {
+        margin-top: 12px;
+        color: var(--muted);
+        font-size: 0.82rem;
+        line-height: 1.4;
+      }
+      .event-list {
+        margin-top: 10px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(220px, 1fr));
+        gap: 10px;
+      }
+      .event {
+        border: 1px solid #334155;
+        border-radius: 10px;
+        padding: 10px;
+        background: rgba(15, 23, 42, 0.62);
+      }
+      .event h4 {
+        margin: 0 0 6px;
+        font-size: 0.9rem;
+      }
+      .event p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.8rem;
+      }
+      .estimated-tag {
+        display: inline-block;
+        margin-left: 6px;
+        padding: 2px 6px;
+        border-radius: 999px;
+        font-size: 0.72rem;
+        background: #7c2d12;
+        color: #fed7aa;
+        border: 1px solid #ea580c;
+        vertical-align: middle;
+      }
+      @media (max-width: 960px) {
+        .controls, .legend-help, .kpi, .event-list {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <h1 class="title">Collapse Cycle Timeline: Phase Bands vs Historical Collapses</h1>
+      <p class="subtitle">
+        Dynamic phase-band chart from long-run macro-financial proxies. Designed for non-specialists:
+        green = setup, amber = stress, red = trigger, gray = cascade.
+      </p>
+
+      <section class="panel">
+        <div class="controls">
+          <div class="control">
+            <label for="rangePreset">Timeline window</label>
+            <select id="rangePreset">
+              <option value="all">All available history</option>
+              <option value="1920s">1920-1938 focus (estimated Great Depression section)</option>
+              <option value="gfc">2005-2012 focus (GFC)</option>
+              <option value="covid">2018-2022 focus (COVID)</option>
+              <option value="recent" selected>1998-present (default)</option>
+            </select>
+          </div>
+          <div class="control">
+            <label for="scoreMode">Main line</label>
+            <select id="scoreMode">
+              <option value="stress" selected>Composite stress score</option>
+              <option value="phase">Phase level (1-4)</option>
+            </select>
+          </div>
+          <div class="control">
+            <label>Actions</label>
+            <button id="refreshBtn" type="button">Reload data</button>
+          </div>
+        </div>
+
+        <div class="legend-help" id="phaseLegend"></div>
+
+        <div class="kpi" id="kpiRow"></div>
+
+        <div class="chart-grid">
+          <div class="canvas-wrap">
+            <canvas id="phaseChart"></canvas>
+          </div>
+          <div class="canvas-wrap">
+            <canvas id="inputsChart"></canvas>
+          </div>
+        </div>
+
+        <div class="event-list" id="eventList"></div>
+
+        <p class="footnote" id="footnote"></p>
+      </section>
+    </main>
+
+    <script>
+      const PHASE_BANDS = {
+        1: { min: 0.0, max: 0.35, label: "Phase 1 Setup", color: "rgba(183, 228, 199, 0.35)" },
+        2: { min: 0.35, max: 0.58, label: "Phase 2 Stress", color: "rgba(247, 214, 161, 0.30)" },
+        3: { min: 0.58, max: 0.75, label: "Phase 3 Trigger", color: "rgba(242, 168, 168, 0.28)" },
+        4: { min: 0.75, max: 1.0, label: "Phase 4 Cascade", color: "rgba(123, 127, 138, 0.32)" },
+      };
+
+      function dateObj(v) {
+        return new Date(v + "T00:00:00Z");
+      }
+
+      function phaseBackgroundPlugin(bands) {
+        return {
+          id: "phaseBands",
+          beforeDraw(chart, args, opts) {
+            const { ctx, chartArea, scales } = chart;
+            if (!chartArea || !scales.y) return;
+            const y = scales.y;
+            ctx.save();
+            Object.values(bands).forEach((b) => {
+              const yTop = y.getPixelForValue(b.max);
+              const yBottom = y.getPixelForValue(b.min);
+              ctx.fillStyle = b.color;
+              ctx.fillRect(chartArea.left, yTop, chartArea.right - chartArea.left, yBottom - yTop);
+            });
+            ctx.restore();
+          },
+        };
+      }
+
+      function eventOverlayPlugin(events) {
+        return {
+          id: "eventOverlay",
+          afterDatasetsDraw(chart, args, opts) {
+            const { ctx, chartArea, scales } = chart;
+            if (!chartArea || !scales.x) return;
+            const x = scales.x;
+            ctx.save();
+            events.forEach((ev) => {
+              const start = x.getPixelForValue(dateObj(ev.start));
+              const end = x.getPixelForValue(dateObj(ev.end));
+              if (Number.isNaN(start) || Number.isNaN(end)) return;
+
+              ctx.fillStyle = ev.estimated ? "rgba(250, 204, 21, 0.08)" : "rgba(96, 165, 250, 0.08)";
+              ctx.fillRect(start, chartArea.top, Math.max(1, end - start), chartArea.bottom - chartArea.top);
+
+              // Trigger and cascade markers.
+              const triggerX = x.getPixelForValue(dateObj(ev.trigger));
+              const cascadeX = x.getPixelForValue(dateObj(ev.cascade));
+
+              ctx.strokeStyle = ev.estimated ? "#fbbf24" : "#60a5fa";
+              ctx.lineWidth = 1.2;
+              [triggerX, cascadeX].forEach((vx) => {
+                ctx.beginPath();
+                ctx.moveTo(vx, chartArea.top);
+                ctx.lineTo(vx, chartArea.bottom);
+                ctx.stroke();
+              });
+            });
+            ctx.restore();
+          },
+        };
+      }
+
+      function filterRange(data, preset) {
+        if (preset === "all") return data;
+        const windows = {
+          "1920s": ["1920-01-01", "1938-12-01"],
+          gfc: ["2005-01-01", "2012-12-01"],
+          covid: ["2018-01-01", "2022-12-01"],
+          recent: ["1998-01-01", "2100-01-01"],
+        };
+        const [s, e] = windows[preset];
+        return data.filter((d) => d.date >= s && d.date <= e);
+      }
+
+      function phaseName(phaseInfo, p) {
+        return phaseInfo[String(p)] ? phaseInfo[String(p)].name : `Phase ${p}`;
+      }
+
+      function toLine(records, key, mapper = (x) => x) {
+        return records
+          .map((r) => ({ x: dateObj(r.date), y: mapper(r[key], r) }))
+          .filter((p) => Number.isFinite(p.y));
+      }
+
+      async function loadData() {
+        const res = await fetch("./data/timeline_data.json?ts=" + Date.now(), { cache: "no-store" });
+        if (!res.ok) throw new Error(`Failed to load data: ${res.status}`);
+        return res.json();
+      }
+
+      function renderLegend(meta) {
+        const host = document.getElementById("phaseLegend");
+        host.innerHTML = "";
+        Object.entries(meta.phaseInfo).forEach(([id, item]) => {
+          const card = document.createElement("article");
+          card.className = "badge";
+          card.style.borderLeftColor = item.color;
+          card.innerHTML = `<h4>${item.name}</h4><p>${item.description}</p>`;
+          host.appendChild(card);
+        });
+      }
+
+      function renderEvents(events) {
+        const host = document.getElementById("eventList");
+        host.innerHTML = "";
+        events.forEach((ev) => {
+          const card = document.createElement("article");
+          card.className = "event";
+          const est = ev.estimated ? '<span class="estimated-tag">Estimated</span>' : "";
+          card.innerHTML = `
+            <h4>${ev.label}${est}</h4>
+            <p><strong>Window:</strong> ${ev.start} to ${ev.end}</p>
+            <p><strong>Trigger marker:</strong> ${ev.trigger} | <strong>Cascade marker:</strong> ${ev.cascade}</p>
+            <p>${ev.notes}</p>
+          `;
+          host.appendChild(card);
+        });
+      }
+
+      function renderKpis(records, meta) {
+        const host = document.getElementById("kpiRow");
+        host.innerHTML = "";
+        if (!records.length) return;
+        const latest = records[records.length - 1];
+        const phase = phaseName(meta.phaseInfo, latest.phase);
+        const cards = [
+          ["Latest date", latest.date],
+          ["Current phase", phase],
+          ["Stress score", latest.stressScore.toFixed(3)],
+          ["Data confidence", latest.confidence === "estimated" ? "Estimated proxies" : "Observed"],
+        ];
+        cards.forEach(([label, value]) => {
+          const c = document.createElement("article");
+          c.className = "kpi-card";
+          c.innerHTML = `<div class="label">${label}</div><div class="value">${value}</div>`;
+          host.appendChild(c);
+        });
+      }
+
+      function makeFootnote(meta) {
+        document.getElementById("footnote").textContent =
+          `${meta.description} Generated: ${meta.generatedAtUTC}. Method: ${meta.method.name}. ` +
+          `Key limitation: ${meta.method.limitations.join(" ")}`;
+      }
+
+      let phaseChart;
+      let inputsChart;
+
+      function destroyCharts() {
+        if (phaseChart) phaseChart.destroy();
+        if (inputsChart) inputsChart.destroy();
+      }
+
+      function buildCharts(payload) {
+        const preset = document.getElementById("rangePreset").value;
+        const scoreMode = document.getElementById("scoreMode").value;
+        const records = filterRange(payload.timeline, preset);
+        const events = payload.events;
+        const meta = payload.meta;
+
+        renderLegend(meta);
+        renderEvents(events);
+        renderKpis(records, meta);
+        makeFootnote(meta);
+        destroyCharts();
+
+        const showStress = scoreMode === "stress";
+        const phaseLineData = showStress
+          ? toLine(records, "stressScore")
+          : toLine(records, "phase", (v) => (v - 1) / 3);
+
+        const overlays = events.filter((ev) => {
+          const first = records[0]?.date;
+          const last = records[records.length - 1]?.date;
+          return first && last && ev.end >= first && ev.start <= last;
+        });
+
+        phaseChart = new Chart(document.getElementById("phaseChart"), {
+          type: "line",
+          data: {
+            datasets: [
+              {
+                label: showStress ? "Composite stress score" : "Normalized phase level",
+                data: phaseLineData,
+                borderColor: "#22d3ee",
+                borderWidth: 2.3,
+                pointRadius: 0,
+                tension: 0.16,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: "index", intersect: false },
+            scales: {
+              x: {
+                type: "time",
+                time: { unit: preset === "1920s" ? "year" : "year" },
+                ticks: { color: "#dbeafe" },
+                grid: { color: "rgba(148,163,184,0.15)" },
+              },
+              y: {
+                min: 0,
+                max: 1,
+                ticks: {
+                  color: "#dbeafe",
+                  callback: (v) => (showStress ? v.toFixed(2) : `P${(v * 3 + 1).toFixed(1)}`),
+                },
+                grid: { color: "rgba(148,163,184,0.15)" },
+                title: {
+                  display: true,
+                  text: showStress ? "Stress Score (0 to 1)" : "Normalized Phase (1 to 4)",
+                  color: "#bfdbfe",
+                },
+              },
+            },
+            plugins: {
+              legend: { labels: { color: "#e2e8f0" } },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => {
+                    const idx = ctx.dataIndex;
+                    const r = records[idx];
+                    if (!r) return ctx.formattedValue;
+                    return [
+                      `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(3)}`,
+                      `Phase: ${phaseName(meta.phaseInfo, r.phase)}`,
+                      `Confidence: ${r.confidence}`,
+                    ];
+                  },
+                },
+              },
+            },
+          },
+          plugins: [phaseBackgroundPlugin(PHASE_BANDS), eventOverlayPlugin(overlays)],
+        });
+
+        const input1 = toLine(records, "stressScore");
+        const input2 = records
+          .map((r) => ({ x: dateObj(r.date), y: r.inputs.creditSpreadProxyBAA10Y }))
+          .filter((p) => Number.isFinite(p.y))
+          .map((p) => ({ x: p.x, y: Math.min(1, Math.max(0, p.y / 6.0)) }));
+        const input3 = records
+          .map((r) => ({ x: dateObj(r.date), y: r.inputs.unrate }))
+          .filter((p) => Number.isFinite(p.y))
+          .map((p) => ({ x: p.x, y: Math.min(1, Math.max(0, p.y / 12.0)) }));
+
+        inputsChart = new Chart(document.getElementById("inputsChart"), {
+          type: "line",
+          data: {
+            datasets: [
+              {
+                label: "Composite stress (reference)",
+                data: input1,
+                borderColor: "#22d3ee",
+                pointRadius: 0,
+                borderWidth: 2,
+                tension: 0.15,
+              },
+              {
+                label: "Credit spread proxy (normalized)",
+                data: input2,
+                borderColor: "#fb7185",
+                pointRadius: 0,
+                borderWidth: 1.8,
+                tension: 0.12,
+              },
+              {
+                label: "Unemployment (normalized)",
+                data: input3,
+                borderColor: "#facc15",
+                pointRadius: 0,
+                borderWidth: 1.8,
+                tension: 0.12,
+              },
+            ],
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: "index", intersect: false },
+            scales: {
+              x: {
+                type: "time",
+                ticks: { color: "#dbeafe" },
+                grid: { color: "rgba(148,163,184,0.12)" },
+              },
+              y: {
+                min: 0,
+                max: 1,
+                ticks: { color: "#dbeafe" },
+                title: {
+                  display: true,
+                  text: "Normalized level (0 to 1)",
+                  color: "#bfdbfe",
+                },
+                grid: { color: "rgba(148,163,184,0.12)" },
+              },
+            },
+            plugins: {
+              legend: { labels: { color: "#e2e8f0" } },
+            },
+          },
+          plugins: [phaseBackgroundPlugin(PHASE_BANDS), eventOverlayPlugin(overlays)],
+        });
+      }
+
+      async function init() {
+        const payload = await loadData();
+        buildCharts(payload);
+        document.getElementById("rangePreset").addEventListener("change", () => buildCharts(payload));
+        document.getElementById("scoreMode").addEventListener("change", () => buildCharts(payload));
+        document.getElementById("refreshBtn").addEventListener("click", async () => {
+          const fresh = await loadData();
+          buildCharts(fresh);
+        });
+      }
+
+      init().catch((err) => {
+        console.error(err);
+        const root = document.querySelector(".wrap");
+        root.innerHTML += `<p style="color:#fca5a5;">Failed to load chart data: ${err.message}</p>`;
+      });
+    </script>
+  </body>
+</html>
