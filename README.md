@@ -6,6 +6,7 @@ Interactive timeline showing:
 - phase bands (Setup, Stress, Trigger, Cascade),
 - current and historical cycle classification,
 - highlighted collapse windows (including an **estimated 1927-1933** segment).
+- rolling volatility chart for both stress score and phase regime changes (12-month window).
 
 ### 1) Build the dataset
 
