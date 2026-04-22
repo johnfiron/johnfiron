@@ -1,0 +1,1040 @@
+{
+  "meta": {
+    "generatedAtUTC": "2026-04-22T23:52:22+00:00",
+    "description": "Deterministic cause/effect evidence index for timeline metrics. Sources are searched dynamically and summarized with a rule-based parser.",
+    "sourceEngines": [
+      "OpenAlex",
+      "Crossref"
+    ],
+    "summaryMethod": "rule_based_summary_parser.py (deterministic, no ML)",
+    "stats": {
+      "metrics": 7,
+      "withEvidence": 7,
+      "totalItems": 42,
+      "totalPapers": 8,
+      "totalArticles": 34
+    }
+  },
+  "monthDataPointIndex": [
+    {
+      "date": "2023-05-01",
+      "phase": 1,
+      "stressScore": 0.4974,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2023-06-01",
+      "phase": 1,
+      "stressScore": 0.3909,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2023-07-01",
+      "phase": 1,
+      "stressScore": 0.3594,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2023-08-01",
+      "phase": 1,
+      "stressScore": 0.3711,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2023-09-01",
+      "phase": 1,
+      "stressScore": 0.4024,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2023-10-01",
+      "phase": 1,
+      "stressScore": 0.4317,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2023-11-01",
+      "phase": 1,
+      "stressScore": 0.3029,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2023-12-01",
+      "phase": 1,
+      "stressScore": 0.2688,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2024-01-01",
+      "phase": 1,
+      "stressScore": 0.3232,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2024-02-01",
+      "phase": 1,
+      "stressScore": 0.3,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2024-03-01",
+      "phase": 1,
+      "stressScore": 0.2781,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2024-04-01",
+      "phase": 1,
+      "stressScore": 0.2955,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2024-05-01",
+      "phase": 1,
+      "stressScore": 0.2563,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2024-06-01",
+      "phase": 1,
+      "stressScore": 0.2479,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2024-07-01",
+      "phase": 1,
+      "stressScore": 0.3745,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2024-08-01",
+      "phase": 1,
+      "stressScore": 0.3685,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2024-09-01",
+      "phase": 1,
+      "stressScore": 0.3496,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2024-10-01",
+      "phase": 1,
+      "stressScore": 0.3758,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2024-11-01",
+      "phase": 1,
+      "stressScore": 0.2496,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2024-12-01",
+      "phase": 1,
+      "stressScore": 0.2961,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2025-01-01",
+      "phase": 1,
+      "stressScore": 0.2284,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2025-02-01",
+      "phase": 1,
+      "stressScore": 0.3034,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2025-03-01",
+      "phase": 1,
+      "stressScore": 0.3963,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2025-04-01",
+      "phase": 1,
+      "stressScore": 0.4559,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2025-05-01",
+      "phase": 1,
+      "stressScore": 0.373,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2025-06-01",
+      "phase": 1,
+      "stressScore": 0.3187,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2025-07-01",
+      "phase": 1,
+      "stressScore": 0.2989,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2025-08-01",
+      "phase": 1,
+      "stressScore": 0.3064,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2025-09-01",
+      "phase": 1,
+      "stressScore": 0.2766,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2025-10-01",
+      "phase": 1,
+      "stressScore": 0.3406,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2025-11-01",
+      "phase": 1,
+      "stressScore": 0.3146,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2025-12-01",
+      "phase": 1,
+      "stressScore": 0.2706,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2026-01-01",
+      "phase": 1,
+      "stressScore": 0.2691,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2026-02-01",
+      "phase": 1,
+      "stressScore": 0.3583,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2026-03-01",
+      "phase": 1,
+      "stressScore": 0.4255,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci",
+        "unrate",
+        "indproYoY",
+        "termSpread10y3m"
+      ]
+    },
+    {
+      "date": "2026-04-01",
+      "phase": 1,
+      "stressScore": 0.4182,
+      "availableDataPoints": [
+        "creditSpreadProxyBAA10Y",
+        "vix",
+        "stlfsi",
+        "nfci"
+      ]
+    }
+  ],
+  "metrics": [
+    {
+      "metricKey": "creditSpreadProxyBAA10Y",
+      "label": "Credit spread proxy (BAA-10Y)",
+      "causeHint": "credit risk repricing",
+      "effectHint": "higher funding costs and tighter financial conditions",
+      "queries": [
+        "credit spreads recession risk transmission financial stress",
+        "corporate bond spread macroeconomic downturn evidence"
+      ],
+      "queryStatus": [
+        {
+          "query": "credit spreads recession risk transmission financial stress",
+          "openalexResults": 5,
+          "crossrefResults": 5
+        },
+        {
+          "query": "corporate bond spread macroeconomic downturn evidence",
+          "openalexResults": 5,
+          "crossrefResults": 5
+        }
+      ],
+      "paperCount": 0,
+      "articleCount": 6,
+      "evidence": [
+        {
+          "sourceType": "article",
+          "title": "Interaction between Sovereign Quanto Credit Default Swap Spreads and Currency Options",
+          "url": "https://doi.org/10.3390/jrfm17020085",
+          "year": 2024,
+          "score": 10.9,
+          "summary": "This study analyzes the term structures of sovereign quanto credit default swap CDS spreads and currency options, which are driven by anticipated currency depreciation risk following sovereign credit. We find a common risk factor between the intensity process of sovereign credit risk and the stochastic volatility of the exchange rate, and the depreciation risk mainly captures. Depreciation risk is an important component of sovereign quanto CDS spreads and is evident in the negative slope of the volatility smile in the currency option market."
+        },
+        {
+          "sourceType": "article",
+          "title": "Economic Policy Uncertainty and Volatility of Corporate Bond Credit Spread: Evidence from China\u00a0And U.S",
+          "url": "https://doi.org/10.2139/ssrn.4700685",
+          "year": 2024,
+          "score": 8.9,
+          "summary": "Summary unavailable from source metadata."
+        },
+        {
+          "sourceType": "article",
+          "title": "Hsr Access and Local Government Financing Cost: Evidence from the Municipal Corporate Bond Issuance Credit Spread",
+          "url": "https://doi.org/10.2139/ssrn.4281883",
+          "year": 2022,
+          "score": 8.8,
+          "summary": "Hsr Access and Local Government Financing Cost: Evidence from the Municipal Corporate Bond Issuance Credit Spread."
+        },
+        {
+          "sourceType": "article",
+          "title": "Relationships between Financial Sectors\u2019 CDS Spreads and Other Gauges of Risk: Did the Great Recession Change Them?",
+          "url": "https://doi.org/10.2139/ssrn.1923968",
+          "year": 2011,
+          "score": 8.25,
+          "summary": "Relationships between Financial Sectors CDS Spreads and Other Gauges of Risk: Did the Great Recession Change Them?."
+        },
+        {
+          "sourceType": "article",
+          "title": "Turks and Caicos Islands: Financial Stability Report Review, Credit Risk Modelling, and Stress Testing",
+          "url": "https://doi.org/10.5089/9798229007474.029.a001",
+          "year": null,
+          "score": 8.0,
+          "summary": "Turks and Caicos Islands: Financial Stability Report Review, Credit Risk Modelling, and Stress Testing."
+        },
+        {
+          "sourceType": "article",
+          "title": "Economic Policy Uncertainty, Credit Rating Inflation and Credit Spread",
+          "url": "https://doi.org/10.54691/bcpbm.v21i.1190",
+          "year": 2022,
+          "score": 6.8,
+          "summary": "Economic Policy Uncertainty, Credit Rating Inflation and Credit Spread. Utilizing data of corporate bonds issued by Chinese companies in Shanghai and Shenzhen Stock Exchanges, this paper examines the impact and mechanism of China s economic policy uncertainty. 2 The impact of economic policy uncertainty on credit spreads will have an asymmetric effect due to factors such as property rights, corporate size and equity concentration."
+        }
+      ]
+    },
+    {
+      "metricKey": "vix",
+      "label": "Equity volatility (VIX)",
+      "causeHint": "uncertainty shock",
+      "effectHint": "de-risking and lower risk-asset demand",
+      "queries": [
+        "VIX volatility macro uncertainty downturn evidence",
+        "equity implied volatility financial crisis transmission"
+      ],
+      "queryStatus": [
+        {
+          "query": "VIX volatility macro uncertainty downturn evidence",
+          "openalexResults": 5,
+          "crossrefResults": 5
+        },
+        {
+          "query": "equity implied volatility financial crisis transmission",
+          "openalexResults": 5,
+          "crossrefResults": 5
+        }
+      ],
+      "paperCount": 3,
+      "articleCount": 3,
+      "evidence": [
+        {
+          "sourceType": "paper",
+          "title": "Volatility spillovers during normal and high volatility states and their driving factors: A cross\u2010country and cross\u2010asset analysis",
+          "url": "https://doi.org/10.1002/ijfe.2717",
+          "year": 2022,
+          "score": 12.8,
+          "summary": "Volatility spillovers during normal and high volatility states and their driving factors: A cross country and cross asset analysis. To gain such an understanding and enrich the related literature, we examine in this article the system of volatility spillovers across various equity markets and asset classes using. Furthermore, we study the drivers of implied volatility spillovers using regression models and find that US Default spread contributes to the total volatility spillover index in both volatility."
+        },
+        {
+          "sourceType": "paper",
+          "title": "Volatility contagion across commodity, equity, foreign exchange and Treasury bond markets",
+          "url": "https://doi.org/10.1080/13504851.2013.879282",
+          "year": 2014,
+          "score": 12.4,
+          "summary": "Over the last years, the Chicago Board of Options Exchange CBOE has launched a set of implied volatility indices based on new asset classes following the success of. Using some of the newly created volatility indices, this study shows that evidence of implied volatility transmission across commodity, equity, foreign exchange and Treasury bond markets cannot be. The findings are strong over the recent financial crisis period and the post-crisis period."
+        },
+        {
+          "sourceType": "paper",
+          "title": "Macrofinancial Risk Analysis",
+          "url": "https://doi.org/10.1002/9781118467428",
+          "year": 2008,
+          "score": 12.1,
+          "summary": "Foreword Preface 1 Introduction PART I OVERVIEW OF FINANCE, MACROECONOMICS, AND RISK CONCEPTS 2 A Brief History of Macroeconomics, and Why the Theory of Asset Pricing and Contingent. 2.6 Asset price process related to a threshold or barrier 2.7 Relating finance models and risk analytics to macroeconomic models 2.8 Toward macrofinancial engineering 2.9 Summary References 3. Crisis Models: Why Nonlinearity Matters 15.1 Recent financial crises and crisis models 15.2 Summary References 16 Sensitivity Analysis, Destabilization Mechanisms, and Financial Crises 16.1 Sensitivity analysis, the Greeks."
+        },
+        {
+          "sourceType": "article",
+          "title": "FINANCIAL CRISIS, RISK PERCEPTION AND THE IMPLIED VOLATILITY TRANSMISSION: A CROSS\u2010REGION STUDY*",
+          "url": "https://doi.org/10.1111/j.1467-9957.2012.02322.x",
+          "year": 2012,
+          "score": 10.3,
+          "summary": "FINANCIAL CRISIS, RISK PERCEPTION AND THE IMPLIED VOLATILITY TRANSMISSION: A CROSS REGION STUDY . This study uses the newly released Hang Seng Volatility Index VHSI data set to explore differences of the risk perception between the US and Hong Kong HK financial. Direct implied volatility flows one way from USA to HK at first but shows reversal after the financial crisis."
+        },
+        {
+          "sourceType": "article",
+          "title": "Predicting the equity premium with the implied volatility spread",
+          "url": "https://doi.org/10.1016/j.finmar.2019.100531",
+          "year": 2020,
+          "score": 8.7,
+          "summary": "Predicting the equity premium with the implied volatility spread."
+        },
+        {
+          "sourceType": "article",
+          "title": "Implied Volatility Function Approximation with Korean ELWs (Equity-Linked Warrants) via Gaussian Processes",
+          "url": "https://doi.org/10.7737/msfe.2014.20.1.021",
+          "year": 2014,
+          "score": 8.4,
+          "summary": "Implied Volatility Function Approximation with Korean ELWs Equity-Linked Warrants via Gaussian Processes. Management Science and Financial Engineering."
+        }
+      ]
+    },
+    {
+      "metricKey": "stlfsi",
+      "label": "St. Louis financial stress index",
+      "causeHint": "system-wide funding and risk stress",
+      "effectHint": "reduced credit creation and weaker activity",
+      "queries": [
+        "financial stress index recession forecasting evidence",
+        "systemic stress index growth slowdown transmission"
+      ],
+      "queryStatus": [
+        {
+          "query": "financial stress index recession forecasting evidence",
+          "openalexResults": 5,
+          "crossrefResults": 5
+        },
+        {
+          "query": "systemic stress index growth slowdown transmission",
+          "openalexResults": 5,
+          "crossrefResults": 5
+        }
+      ],
+      "paperCount": 1,
+      "articleCount": 5,
+      "evidence": [
+        {
+          "sourceType": "paper",
+          "title": "Macroeconomic Uncertainty in South Africa",
+          "url": "https://doi.org/10.13140/rg.2.1.1589.7368",
+          "year": 2016,
+          "score": 12.5,
+          "summary": "This paper develops a new index of economic uncertainty for South Africa for the period 1990-2014 and analyses the macroeconomic impact of changes in this measure. The index is constructed from three sources: 1 Disagreement among professional forecasters about macroeconomic conditions using novel data from a forecasting competition run by a national newspaper, 2. The index shows high levels of uncertainty around the period of democratic transition in 1992-4, the large depreciation of the currency in 2001 and the financial crisis of."
+        },
+        {
+          "sourceType": "article",
+          "title": "Dynamic impact of macroeconomic and financial stress factors on Clean Energy Index performance: Evidence from an ARDL analysis",
+          "url": "https://doi.org/10.21511/imfi.23(1).2026.31",
+          "year": 2026,
+          "score": 9.0,
+          "summary": "This study aims to examine the dynamic short-run and long-run impacts of macroeconomic and financial stress factors on clean energy stock returns, proxied by the Clean Edge Green. In the short run, increases in volatility, exchange-rate appreciation, and rising interest rates exert statistically significant negative effects on clean energy stock returns, while the adjustment toward long-run. These findings underscore the importance of macro-financial conditions in shaping clean energy stock performance beyond commodity price dynamics and highlight the role of stable financial environments in supporting."
+        },
+        {
+          "sourceType": "article",
+          "title": "The Role of Financial and Macroeoconomic Conditions in Forecasting Recession",
+          "url": "https://doi.org/10.2139/ssrn.4176581",
+          "year": 2022,
+          "score": 6.8,
+          "summary": "The Role of Financial and Macroeoconomic Conditions in Forecasting Recession."
+        },
+        {
+          "sourceType": "article",
+          "title": "Index",
+          "url": "https://doi.org/10.4337/9780857934840.00023",
+          "year": 2011,
+          "score": 6.25,
+          "summary": "Summary unavailable from source metadata."
+        },
+        {
+          "sourceType": "article",
+          "title": "Determinants of Financial Stress and Recovery during the Great Recession",
+          "url": "https://doi.org/10.3386/w16605",
+          "year": 2010,
+          "score": 6.2,
+          "summary": "Determinants of Financial Stress and Recovery during the Great Recession."
+        },
+        {
+          "sourceType": "article",
+          "title": "Dynamic probit models and financial variables in recession forecasting",
+          "url": "https://doi.org/10.1002/for.1161",
+          "year": 2009,
+          "score": 6.15,
+          "summary": "Dynamic probit models and financial variables in recession forecasting. Abstract In this paper, various financial variables are examined as predictors of the probability of a recession in the USA and Germany. We propose a new dynamic probit model that outperforms the standard static model, giving accurate out of sample forecasts in both countries for the recession period that began."
+        }
+      ]
+    },
+    {
+      "metricKey": "nfci",
+      "label": "Chicago Fed NFCI",
+      "causeHint": "tight financial conditions",
+      "effectHint": "slower investment and hiring",
+      "queries": [
+        "national financial conditions index growth forecasting",
+        "tight financial conditions and economic slowdown evidence"
+      ],
+      "queryStatus": [
+        {
+          "query": "national financial conditions index growth forecasting",
+          "openalexResults": 5,
+          "crossrefResults": 5
+        },
+        {
+          "query": "tight financial conditions and economic slowdown evidence",
+          "openalexResults": 5,
+          "crossrefResults": 5
+        }
+      ],
+      "paperCount": 1,
+      "articleCount": 5,
+      "evidence": [
+        {
+          "sourceType": "article",
+          "title": "Global financial conditions and asset markets: Evidence from fragile emerging economies",
+          "url": "https://doi.org/10.1016/j.econmod.2016.04.018",
+          "year": 2016,
+          "score": 10.5,
+          "summary": "Global financial conditions and asset markets: Evidence from fragile emerging economies."
+        },
+        {
+          "sourceType": "paper",
+          "title": "The Financial Accelerator and the Flight to Quality",
+          "url": "https://doi.org/10.2307/2109844",
+          "year": 1996,
+          "score": 10.0,
+          "summary": "Adverse shocks to the economy may be amplified by worsening credit-market conditions-- the financial accelerator . Theoretically, we interpret the financial accelerator as resulting from endogenous changes over the business cycle in the agency costs of lending. An implication of the theory is that, at the onset of a recession, borrowers facing high agency costs should receive a relatively lower share of credit extended the."
+        },
+        {
+          "sourceType": "article",
+          "title": "Investment Slowdown in India:\u00a0Role of Monetary policy, Financial Sector and Economic Uncertainty",
+          "url": "https://doi.org/10.21203/rs.3.rs-1990693/v1",
+          "year": 2023,
+          "score": 8.85,
+          "summary": "We study the underlying factors for investment slowdown in India at disaggregate level - private investment, private corporate investment and household sector investment - using quarterly data from. The study finds that aggregate investment gets affected by aggregate demand, fiscal-monetary policy measures, financial sector development, exchange rate and economic uncertainty. Thus, to counter the current investment slowdown, there is a need to develop capital markets, strengthen monetary transmission, implement appropriate fiscal policies and reduce uncertainty in the economy."
+        },
+        {
+          "sourceType": "article",
+          "title": "A UK Financial Conditions Index Using Targeted Data Reduction: Forecasting and Structural Identification",
+          "url": "https://doi.org/10.2139/ssrn.3035653",
+          "year": 2017,
+          "score": 8.55,
+          "summary": "A UK Financial Conditions Index Using Targeted Data Reduction: Forecasting and Structural Identification."
+        },
+        {
+          "sourceType": "article",
+          "title": "A UK Financial Conditions Index Using Targeted Data Reduction: Forecasting and Structural Identification",
+          "url": "https://doi.org/10.2139/ssrn.3086031",
+          "year": 2017,
+          "score": 8.55,
+          "summary": "A UK Financial Conditions Index Using Targeted Data Reduction: Forecasting and Structural Identification."
+        },
+        {
+          "sourceType": "article",
+          "title": "Do Economic Conditions Drive DIP Lending? Evidence from the Financial Crisis",
+          "url": "https://doi.org/10.2139/ssrn.2828295",
+          "year": 2016,
+          "score": 8.5,
+          "summary": "Do Economic Conditions Drive DIP Lending?"
+        }
+      ]
+    },
+    {
+      "metricKey": "unrate",
+      "label": "Unemployment rate",
+      "causeHint": "labor market deterioration",
+      "effectHint": "weaker income growth and softer demand",
+      "queries": [
+        "unemployment rise recession dynamics evidence",
+        "labor market weakness consumption slowdown transmission"
+      ],
+      "queryStatus": [
+        {
+          "query": "unemployment rise recession dynamics evidence",
+          "openalexResults": 5,
+          "crossrefResults": 5
+        },
+        {
+          "query": "labor market weakness consumption slowdown transmission",
+          "openalexResults": 5,
+          "crossrefResults": 5
+        }
+      ],
+      "paperCount": 2,
+      "articleCount": 4,
+      "evidence": [
+        {
+          "sourceType": "article",
+          "title": "Measuring the gender disparities in unemployment dynamics during the recession: evidence from Portugal",
+          "url": "https://doi.org/10.1080/00036846.2019.1659494",
+          "year": 2019,
+          "score": 8.65,
+          "summary": "Measuring the gender disparities in unemployment dynamics during the recession: evidence from Portugal."
+        },
+        {
+          "sourceType": "paper",
+          "title": "The Ins and Outs of UK Unemployment",
+          "url": "https://doi.org/10.1111/j.1468-0297.2011.02428.x",
+          "year": 2011,
+          "score": 8.25,
+          "summary": "This study shows that in the UK, increases in unemployment in a recession are driven by rises in the separation rate. A new decomposition of unemployment dynamics is devised that does not require unemployment to be in steady state at all times. This is important because low UK transition rates one quarter the size of the US imply substantial deviation of unemployment from steady state near cyclical turning points."
+        },
+        {
+          "sourceType": "paper",
+          "title": "Informality",
+          "url": "https://doi.org/10.1596/978-0-8213-7092-6",
+          "year": 2007,
+          "score": 8.05,
+          "summary": "Maloney, Andrew Mason, Jaime Saavedra-Chanduvi 2.1 MB ToolsAdd to favoritesDownload CitationsTrack Citations ShareFacebookTwitterLinked In Abstract:Informality: Exit and Exclusion analyzes informality in Latin America, exploring root causes and reasons. They find both lenses have considerable explanatory power to understand the causes and consequences of informality in the region. Evidence from quantile regression on panel dataEmpirical Economics, Vol.58, No.627 February 2019EVALUATING THE IMPLICATIONS OF STARTING-UP UNREGISTERED ON FUTURE FIRM PERFORMANCE: EVIDENCE A 2019 SURVEY IN ALBANIAJournal of."
+        },
+        {
+          "sourceType": "article",
+          "title": "Do Declines in Labor Market Fluidity Cause Productivity Slowdown?&amp;nbsp;",
+          "url": "https://doi.org/10.2139/ssrn.6071646",
+          "year": 2026,
+          "score": 7.0,
+          "summary": "Do Declines in Labor Market Fluidity Cause Productivity Slowdown?"
+        },
+        {
+          "sourceType": "article",
+          "title": "The Impact of the Retirement Slowdown on the US Youth Labor Market",
+          "url": "https://doi.org/10.1086/725874",
+          "year": 2025,
+          "score": 6.95,
+          "summary": "Summary unavailable from source metadata."
+        },
+        {
+          "sourceType": "article",
+          "title": "The Relationship Between Economic Growth and Labor Market in Bangladesh: Challenges and Options",
+          "url": "https://doi.org/10.1201/9781779643469-6",
+          "year": 2025,
+          "score": 6.95,
+          "summary": "The Relationship Between Economic Growth and Labor Market in Bangladesh: Challenges and Options."
+        }
+      ]
+    },
+    {
+      "metricKey": "indproYoY",
+      "label": "Industrial production YoY",
+      "causeHint": "real activity slowdown",
+      "effectHint": "lower earnings momentum and rising stress",
+      "queries": [
+        "industrial production contraction recession signal",
+        "manufacturing output decline macro cycle evidence"
+      ],
+      "queryStatus": [
+        {
+          "query": "industrial production contraction recession signal",
+          "openalexResults": 5,
+          "crossrefResults": 5
+        },
+        {
+          "query": "manufacturing output decline macro cycle evidence",
+          "openalexResults": 5,
+          "crossrefResults": 5
+        }
+      ],
+      "paperCount": 1,
+      "articleCount": 5,
+      "evidence": [
+        {
+          "sourceType": "article",
+          "title": "What Is the Nature of the Output-Employment in the Manufacturing Sector? Evidence from the Manufacturing Subsectors",
+          "url": "https://doi.org/10.1007/978-3-030-55148-3_26",
+          "year": 2020,
+          "score": 8.7,
+          "summary": "What Is the Nature of the Output-Employment in the Manufacturing Sector? Evidence from the Manufacturing Subsectors. The Secular Decline of the South African Manufacturing Sector."
+        },
+        {
+          "sourceType": "article",
+          "title": "Does an Increase in Trade-Openness and Import-Penetration Affect Income Inequality? Evidence from the Manufacturing Sector Output Growth and Employment Growth",
+          "url": "https://doi.org/10.1007/978-3-030-55148-3_4",
+          "year": 2020,
+          "score": 8.7,
+          "summary": "Does an Increase in Trade-Openness and Import-Penetration Affect Income Inequality? Evidence from the Manufacturing Sector Output Growth and Employment Growth. The Secular Decline of the South African Manufacturing Sector."
+        },
+        {
+          "sourceType": "article",
+          "title": "The Independence of Farm Output and Macro Variables:  Some Evidence from the Business Cycle",
+          "url": "https://doi.org/10.20955/wp.1984.023",
+          "year": 1984,
+          "score": 8.0,
+          "summary": "The Independence of Farm Output and Macro Variables: Some Evidence from the Business Cycle."
+        },
+        {
+          "sourceType": "article",
+          "title": "Iran will see a decline in manufacturing output",
+          "url": "https://doi.org/10.1108/oxan-db243088",
+          "year": 2019,
+          "score": 6.65,
+          "summary": "Iran will see a decline in manufacturing output. Subject The consequences of renewed US sanctions on Iranian domestic manufacturing Significance Shortly after Washington announced that it would reimpose sanctions in May 2018, various international businesses began. Demand for autos may cease to be elastic if prices rise further."
+        },
+        {
+          "sourceType": "paper",
+          "title": "Monetary Policy, Business Cycles, and the Behavior of Small Manufacturing Firms",
+          "url": "https://doi.org/10.2307/2118465",
+          "year": 1994,
+          "score": 6.0,
+          "summary": "Monetary Policy, Business Cycles, and the Behavior of Small Manufacturing Firms. We analyze the response of small versus large manufacturing firms to monetary policy. We find that small firms account for a significantly disproportionate share of the manufacturing decline that follows tightening of monetary policy."
+        },
+        {
+          "sourceType": "article",
+          "title": "Economic Input-Output Life-Cycle Assessment of Canada-United States Trade and Manufacturing",
+          "url": "https://doi.org/10.1021/es060082c.s002",
+          "year": null,
+          "score": 6.0,
+          "summary": "Economic Input-Output Life-Cycle Assessment of Canada-United States Trade and Manufacturing."
+        }
+      ]
+    },
+    {
+      "metricKey": "termSpread10y3m",
+      "label": "Term spread (10Y-3M)",
+      "causeHint": "inverted or flat term structure",
+      "effectHint": "tighter credit channel and weaker future growth expectations",
+      "queries": [
+        "yield curve inversion recession probability evidence",
+        "term spread predictive power economic downturn"
+      ],
+      "queryStatus": [
+        {
+          "query": "yield curve inversion recession probability evidence",
+          "openalexResults": 5,
+          "crossrefResults": 5
+        },
+        {
+          "query": "term spread predictive power economic downturn",
+          "openalexResults": 5,
+          "crossrefResults": 5
+        }
+      ],
+      "paperCount": 0,
+      "articleCount": 6,
+      "evidence": [
+        {
+          "sourceType": "article",
+          "title": "Study on the Predictive Power of China's Treasury Bond Term Spread to Economic Growth",
+          "url": "https://doi.org/10.62517/jse.202511407",
+          "year": 2025,
+          "score": 10.95,
+          "summary": "This paper examines China s government bond term spreads predictive power for economic growth using 2015-2024 quarterly data via basic and extended with PMI linear models. Basic model shows weak, insignificant positive correlation. With PMI, term spread coefficient hits 34.56 highly significant , model explanatory power rises from 4.8% to 49.5%, indicating real economy influences predictive power."
+        },
+        {
+          "sourceType": "article",
+          "title": "The Predictive Power of the Term Spread and Financial Variables for Economic Activity across Countries",
+          "url": "https://doi.org/10.3386/w32084",
+          "year": 2024,
+          "score": 10.9,
+          "summary": "The Predictive Power of the Term Spread and Financial Variables for Economic Activity across Countries."
+        },
+        {
+          "sourceType": "article",
+          "title": "The Predictive Power of the Term Spread and Financial Variables for Economic Activity Across Countries",
+          "url": "https://doi.org/10.2139/ssrn.4872636",
+          "year": 2024,
+          "score": 10.9,
+          "summary": "The Predictive Power of the Term Spread and Financial Variables for Economic Activity Across Countries."
+        },
+        {
+          "sourceType": "article",
+          "title": "The Predictive Power of the Term Spread and Financial Variables for Economic Activity Across Countries",
+          "url": "https://doi.org/10.2139/ssrn.4709138",
+          "year": 2024,
+          "score": 10.9,
+          "summary": "The Predictive Power of the Term Spread and Financial Variables for Economic Activity Across Countries."
+        },
+        {
+          "sourceType": "article",
+          "title": "On the Predictive Power of the Malaysian T Bills Term Spread in Predicting Real Economic Activity",
+          "url": "https://doi.org/10.32890/mmj.3.2.1999.8566",
+          "year": 2020,
+          "score": 10.7,
+          "summary": "On the Predictive Power of the Malaysian T Bills Term Spread in Predicting Real Economic Activity. The ability of financial market interest rates to predict real economic activity has gained considerable\u00a0attention of economics and financial researchers. Our results also indicate that, the power of term spread is limited for the\u00a0near term prediction and over the long run money dominates spread in predicting output."
+        },
+        {
+          "sourceType": "article",
+          "title": "Are We Heading into a Recession? Yield Curve Inversion as a Recession Predictor",
+          "url": "https://doi.org/10.2139/ssrn.3448739",
+          "year": 2019,
+          "score": 8.65,
+          "summary": "Are We Heading into a Recession?"
+        }
+      ]
+    }
+  ]
+}

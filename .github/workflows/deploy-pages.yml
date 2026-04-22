@@ -29,6 +29,9 @@ jobs:
       - name: Build timeline data
         run: python3 tools/build_timeline_data.py
 
+      - name: Build cause/effect evidence index
+        run: python3 tools/build_evidence_links.py
+
       - name: Prepare Pages artifact
         run: |
           mkdir -p _site

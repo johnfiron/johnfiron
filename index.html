@@ -152,12 +152,64 @@
         background: rgba(15, 23, 42, 0.58);
         overflow: hidden;
       }
+      .evidence {
+        margin-top: 12px;
+      }
       .requests h3 {
         margin: 0;
         padding: 10px 12px;
         font-size: 0.9rem;
         border-bottom: 1px solid #334155;
         background: rgba(30, 41, 59, 0.55);
+      }
+      .evidence-controls {
+        padding: 10px 12px;
+        border-bottom: 1px solid rgba(51, 65, 85, 0.8);
+      }
+      .evidence-meta {
+        padding: 10px 12px;
+        font-size: 0.83rem;
+        color: var(--muted);
+        border-bottom: 1px solid rgba(51, 65, 85, 0.8);
+      }
+      .evidence-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(280px, 1fr));
+        gap: 10px;
+        padding: 10px 12px;
+      }
+      .evidence-item {
+        border: 1px solid #334155;
+        border-radius: 10px;
+        background: rgba(15, 23, 42, 0.62);
+        padding: 10px;
+      }
+      .source-badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 0.7rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        margin-bottom: 7px;
+      }
+      .source-badge.paper {
+        background: #1e3a8a;
+        color: #bfdbfe;
+      }
+      .source-badge.article {
+        background: #14532d;
+        color: #bbf7d0;
+      }
+      .evidence-item h4 {
+        margin: 0 0 6px;
+        font-size: 0.9rem;
+      }
+      .evidence-item p {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.8rem;
+        line-height: 1.35;
       }
       .request-list {
         max-height: 220px;
@@ -237,7 +289,7 @@
         vertical-align: middle;
       }
       @media (max-width: 960px) {
-        .controls, .legend-help, .kpi, .event-list {
+        .controls, .legend-help, .kpi, .event-list, .evidence-list {
           grid-template-columns: 1fr;
         }
       }
@@ -296,6 +348,25 @@
         <section class="requests">
           <h3>Embedded data request status (live source calls)</h3>
           <div class="request-list" id="requestList"></div>
+        </section>
+        <section class="requests evidence">
+          <h3>Cause and effect evidence explorer (papers + articles)</h3>
+          <div class="controls evidence-controls">
+            <div class="control">
+              <label for="evidenceMetric">Data point</label>
+              <select id="evidenceMetric"></select>
+            </div>
+            <div class="control">
+              <label for="evidenceMonth">Month context</label>
+              <select id="evidenceMonth"></select>
+            </div>
+            <div class="control">
+              <label>Evidence source</label>
+              <button id="evidenceReloadBtn" type="button">Reload evidence index</button>
+            </div>
+          </div>
+          <div class="evidence-meta" id="evidenceMeta"></div>
+          <div class="evidence-list" id="evidenceList"></div>
         </section>
 
         <p class="footnote" id="footnote"></p>
@@ -395,6 +466,12 @@
         return res.json();
       }
 
+      async function loadEvidenceData() {
+        const res = await fetch("./data/evidence_data.json?ts=" + Date.now(), { cache: "no-store" });
+        if (!res.ok) throw new Error(`Failed to load evidence data: ${res.status}`);
+        return res.json();
+      }
+
       function renderLegend(meta) {
         const host = document.getElementById("phaseLegend");
         host.innerHTML = "";
@@ -478,9 +555,91 @@
           `Key limitation: ${meta.method.limitations.join(" ")}`;
       }
 
+      function initializeEvidenceExplorer(evidencePayload) {
+        const metricSelect = document.getElementById("evidenceMetric");
+        const monthSelect = document.getElementById("evidenceMonth");
+        const metaHost = document.getElementById("evidenceMeta");
+        const listHost = document.getElementById("evidenceList");
+
+        listHost.innerHTML = "";
+        metaHost.textContent = "";
+
+        if (!evidencePayload || !Array.isArray(evidencePayload.metrics) || !evidencePayload.metrics.length) {
+          metricSelect.innerHTML = `<option value="">No evidence index available</option>`;
+          monthSelect.innerHTML = `<option value="">No month mapping available</option>`;
+          metaHost.textContent = "Evidence index could not be loaded. Run tools/build_evidence_links.py to generate it.";
+          return;
+        }
+
+        const previousMetric = metricSelect.value;
+        const previousMonth = monthSelect.value;
+        metricSelect.innerHTML = evidencePayload.metrics
+          .map((m) => `<option value="${m.metricKey}">${m.label}</option>`)
+          .join("");
+        const monthRows = evidencePayload.monthDataPointIndex || [];
+        monthSelect.innerHTML = monthRows
+          .slice()
+          .reverse()
+          .map((m) => `<option value="${m.date}">${m.date} | Phase ${m.phase} | Stress ${Number(m.stressScore).toFixed(3)}</option>`)
+          .join("");
+
+        if (previousMetric && Array.from(metricSelect.options).some((o) => o.value === previousMetric)) {
+          metricSelect.value = previousMetric;
+        }
+        if (previousMonth && Array.from(monthSelect.options).some((o) => o.value === previousMonth)) {
+          monthSelect.value = previousMonth;
+        }
+
+        const renderSelection = () => {
+          const metric = evidencePayload.metrics.find((m) => m.metricKey === metricSelect.value) || evidencePayload.metrics[0];
+          const month = monthRows.find((m) => m.date === monthSelect.value) || monthRows[monthRows.length - 1];
+          const available = month?.availableDataPoints || [];
+          const isAvailable = metric ? available.includes(metric.metricKey) : false;
+
+          const queryStatusText = (metric?.queryStatus || [])
+            .map((q) => `${q.query} (papers ${q.openalexResults}, articles ${q.crossrefResults})`)
+            .join(" | ");
+
+          metaHost.textContent = metric
+            ? `Cause: ${metric.causeHint}. Effect: ${metric.effectHint}. ${
+                isAvailable
+                  ? `Selected month includes this data point.`
+                  : `Selected month does not include this data point (available: ${available.join(", ") || "none"}).`
+              } Query coverage: ${queryStatusText || "n/a"}.`
+            : "No metric selected.";
+
+          listHost.innerHTML = "";
+          const evidence = metric?.evidence || [];
+          if (!evidence.length) {
+            listHost.innerHTML = `<article class="evidence-item"><p>No evidence results found for this data point.</p></article>`;
+            return;
+          }
+
+          evidence.forEach((item) => {
+            const card = document.createElement("article");
+            card.className = "evidence-item";
+            const sourceType = (item.sourceType || "article").toLowerCase();
+            const yearText = item.year ? ` (${item.year})` : "";
+            card.innerHTML = `
+              <span class="source-badge ${sourceType}">${sourceType}</span>
+              <h4><a class="req-link" href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>${yearText}</h4>
+              <p><strong>Score:</strong> ${Number(item.score).toFixed(2)}</p>
+              <p>${item.summary}</p>
+            `;
+            listHost.appendChild(card);
+          });
+        };
+
+        metricSelect.onchange = renderSelection;
+        monthSelect.onchange = renderSelection;
+        renderSelection();
+      }
+
       let phaseChart;
       let inputsChart;
       let volatilityChart;
+      let timelinePayloadCache = null;
+      let evidencePayloadCache = null;
 
       function destroyCharts() {
         if (phaseChart) phaseChart.destroy();
@@ -746,13 +905,31 @@
       }
 
       async function init() {
-        const payload = await loadData();
+        const [payload, evidencePayload] = await Promise.all([
+          loadData(),
+          loadEvidenceData().catch(() => null),
+        ]);
+        timelinePayloadCache = payload;
+        evidencePayloadCache = evidencePayload;
         buildCharts(payload);
-        document.getElementById("rangePreset").addEventListener("change", () => buildCharts(payload));
-        document.getElementById("scoreMode").addEventListener("change", () => buildCharts(payload));
+        initializeEvidenceExplorer(evidencePayload);
+
+        document.getElementById("rangePreset").addEventListener("change", () => buildCharts(timelinePayloadCache));
+        document.getElementById("scoreMode").addEventListener("change", () => buildCharts(timelinePayloadCache));
         document.getElementById("refreshBtn").addEventListener("click", async () => {
-          const fresh = await loadData();
-          buildCharts(fresh);
+          const [freshTimeline, freshEvidence] = await Promise.all([
+            loadData(),
+            loadEvidenceData().catch(() => null),
+          ]);
+          timelinePayloadCache = freshTimeline;
+          evidencePayloadCache = freshEvidence;
+          buildCharts(freshTimeline);
+          initializeEvidenceExplorer(freshEvidence);
+        });
+        document.getElementById("evidenceReloadBtn").addEventListener("click", async () => {
+          const freshEvidence = await loadEvidenceData().catch(() => null);
+          evidencePayloadCache = freshEvidence;
+          initializeEvidenceExplorer(freshEvidence);
         });
       }
 
