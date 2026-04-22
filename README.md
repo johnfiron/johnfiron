@@ -31,3 +31,4 @@ Then visit:
 
 - The Great Depression window is intentionally labeled **estimated** because high-frequency modern market stress inputs are not available for that period.
 - Hover any point to see the date, phase, stress score, and core inputs.
+- The dashboard now embeds a **data request status panel** showing every live source call, row counts, date coverage, and any fetch errors, so missing series are transparent and traceable.

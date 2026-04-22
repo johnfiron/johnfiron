@@ -22,6 +22,7 @@ from urllib.request import urlopen
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
 OUTPUT_FILE = DATA_DIR / "timeline_data.json"
+FRED_CSV_BASE = "https://fred.stlouisfed.org/graph/fredgraph.csv?id="
 
 # FRED daily/weekly/monthly core series used for regime scoring.
 SERIES = {
@@ -106,25 +107,38 @@ class Point:
     value: float
 
 
-def fetch_fred_series(series_id: str) -> List[Point]:
-    """Fetch a FRED series as a list of dated points."""
-    url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}"
-    with urlopen(url, timeout=30) as resp:
-        payload = resp.read().decode("utf-8")
-    rows = list(csv.DictReader(payload.splitlines()))
-    if not rows:
-        return []
-    date_key = "DATE" if "DATE" in rows[0] else "observation_date"
-    points: List[Point] = []
-    for row in rows:
-        raw = row.get(series_id, ".")
-        if raw == ".":
-            continue
-        try:
-            points.append(Point(dt.date.fromisoformat(row[date_key]), float(raw)))
-        except ValueError:
-            continue
-    return points
+@dataclass
+class FetchResult:
+    series_id: str
+    url: str
+    points: List[Point]
+    status: str
+    error: Optional[str] = None
+
+
+def fetch_fred_series(series_id: str) -> FetchResult:
+    """Fetch a FRED series with graceful error handling."""
+    url = f"{FRED_CSV_BASE}{series_id}"
+    try:
+        with urlopen(url, timeout=30) as resp:
+            payload = resp.read().decode("utf-8")
+        rows = list(csv.DictReader(payload.splitlines()))
+        if not rows:
+            return FetchResult(series_id=series_id, url=url, points=[], status="empty")
+        date_key = "DATE" if "DATE" in rows[0] else "observation_date"
+        points: List[Point] = []
+        for row in rows:
+            raw = row.get(series_id, ".")
+            if raw == ".":
+                continue
+            try:
+                points.append(Point(dt.date.fromisoformat(row[date_key]), float(raw)))
+            except ValueError:
+                continue
+        status = "ok" if points else "empty"
+        return FetchResult(series_id=series_id, url=url, points=points, status=status)
+    except Exception as exc:  # pragma: no cover - network edge cases
+        return FetchResult(series_id=series_id, url=url, points=[], status="error", error=str(exc))
 
 
 def to_monthly(series: List[Point]) -> Dict[dt.date, float]:
@@ -171,13 +185,31 @@ def zscore(values: List[float], x: float) -> float:
 def build() -> None:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     fetched = {sid: fetch_fred_series(sid) for sid in SERIES}
+    fetch_manifest = []
+    for sid, result in fetched.items():
+        first_date = result.points[0].date.isoformat() if result.points else None
+        last_date = result.points[-1].date.isoformat() if result.points else None
+        fetch_manifest.append(
+            {
+                "seriesId": sid,
+                "label": SERIES[sid],
+                "url": result.url,
+                "status": result.status,
+                "points": len(result.points),
+                "firstDate": first_date,
+                "lastDate": last_date,
+                "error": result.error,
+            }
+        )
 
     # Convert all to monthly first.
-    monthly = {sid: to_monthly(points) for sid, points in fetched.items()}
+    monthly = {sid: to_monthly(result.points) for sid, result in fetched.items()}
 
     # Determine available date window intersection, but keep broad history where possible.
     starts = [min(m.keys()) for m in monthly.values() if m]
     ends = [max(m.keys()) for m in monthly.values() if m]
+    if not starts or not ends:
+        raise RuntimeError("No input series could be fetched. See data request manifest for errors.")
     global_start = min(starts)
     global_end = max(ends)
 
@@ -321,6 +353,7 @@ def build() -> None:
                     "termSpread10y3m": None if term_spread is None else round(term_spread, 3),
                 },
                 "confidence": "estimated" if year <= 1933 else "observed",
+                "inputsAvailable": sum(1 for sid in SERIES if r[sid] is not None),
             }
         )
 
@@ -333,6 +366,7 @@ def build() -> None:
                 "Early-history sections (including 1920s/1930s) are estimated due to limited high-frequency market microstructure data."
             ),
             "series": SERIES,
+            "dataRequests": fetch_manifest,
             "phaseInfo": PHASE_INFO,
             "method": {
                 "name": "Convergence model (proxy implementation)",

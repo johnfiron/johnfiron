@@ -145,6 +145,71 @@
         grid-template-columns: repeat(3, minmax(220px, 1fr));
         gap: 10px;
       }
+      .requests {
+        margin-top: 12px;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        background: rgba(15, 23, 42, 0.58);
+        overflow: hidden;
+      }
+      .requests h3 {
+        margin: 0;
+        padding: 10px 12px;
+        font-size: 0.9rem;
+        border-bottom: 1px solid #334155;
+        background: rgba(30, 41, 59, 0.55);
+      }
+      .request-list {
+        max-height: 220px;
+        overflow: auto;
+      }
+      .request-row {
+        display: grid;
+        grid-template-columns: 1.1fr 0.6fr 0.45fr 0.8fr;
+        gap: 10px;
+        padding: 8px 12px;
+        border-top: 1px solid rgba(51, 65, 85, 0.6);
+        align-items: center;
+        font-size: 0.79rem;
+      }
+      .request-row:first-child {
+        border-top: none;
+      }
+      .request-row small {
+        color: var(--muted);
+      }
+      .status {
+        display: inline-block;
+        border-radius: 999px;
+        padding: 2px 8px;
+        font-weight: 700;
+        font-size: 0.72rem;
+        text-transform: uppercase;
+      }
+      .status.ok {
+        background: #14532d;
+        color: #bbf7d0;
+      }
+      .status.empty {
+        background: #78350f;
+        color: #fde68a;
+      }
+      .status.error {
+        background: #7f1d1d;
+        color: #fecaca;
+      }
+      .status.pending {
+        background: #1e3a8a;
+        color: #bfdbfe;
+      }
+      .req-link {
+        color: #93c5fd;
+        text-decoration: none;
+        font-weight: 600;
+      }
+      .req-link:hover {
+        text-decoration: underline;
+      }
       .event {
         border: 1px solid #334155;
         border-radius: 10px;
@@ -225,6 +290,10 @@
         </div>
 
         <div class="event-list" id="eventList"></div>
+        <section class="requests">
+          <h3>Embedded data request status (live source calls)</h3>
+          <div class="request-list" id="requestList"></div>
+        </section>
 
         <p class="footnote" id="footnote"></p>
       </section>
@@ -372,6 +441,34 @@
         });
       }
 
+      function renderDataRequests(meta) {
+        const host = document.getElementById("requestList");
+        host.innerHTML = "";
+        const requests = meta.dataRequests || [];
+        if (!requests.length) {
+          host.innerHTML = `<div class="request-row"><div>No request manifest found.</div><div><span class="status pending">pending</span></div><div>0 pts</div><div>n/a</div></div>`;
+          return;
+        }
+
+        requests.forEach((r) => {
+          const row = document.createElement("div");
+          row.className = "request-row";
+          const status = (r.status || "pending").toLowerCase();
+          const dateRange = r.firstDate && r.lastDate ? `${r.firstDate} to ${r.lastDate}` : "no observations";
+          const detail = r.error ? `${r.label} — ${r.error}` : r.label;
+          row.innerHTML = `
+            <div>
+              <a class="req-link" href="${r.url}" target="_blank" rel="noopener noreferrer">${r.seriesId}</a>
+              <small> — ${detail}</small>
+            </div>
+            <div><span class="status ${status}">${status}</span></div>
+            <div>${r.points ?? 0} pts</div>
+            <div>${dateRange}</div>
+          `;
+          host.appendChild(row);
+        });
+      }
+
       function makeFootnote(meta) {
         document.getElementById("footnote").textContent =
           `${meta.description} Generated: ${meta.generatedAtUTC}. Method: ${meta.method.name}. ` +
@@ -396,6 +493,7 @@
         renderLegend(meta);
         renderEvents(events);
         renderKpis(records, meta);
+        renderDataRequests(meta);
         makeFootnote(meta);
         destroyCharts();
 
