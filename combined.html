@@ -84,6 +84,52 @@
         line-height: 1.35;
         font-size: 0.86rem;
       }
+      .evidence {
+        margin-top: 12px;
+        border: 1px solid #334155;
+        border-radius: 12px;
+        background: rgba(15, 23, 42, 0.62);
+        padding: 12px;
+      }
+      .evidence-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(280px, 1fr));
+        gap: 10px;
+      }
+      .item {
+        border: 1px solid #334155;
+        border-radius: 10px;
+        background: rgba(15, 23, 42, 0.72);
+        padding: 10px;
+      }
+      .item h4 {
+        margin: 0 0 6px;
+        font-size: 0.9rem;
+      }
+      .item p {
+        margin: 0;
+        color: #cbd5e1;
+        font-size: 0.8rem;
+        line-height: 1.35;
+      }
+      .selection-card {
+        border: 1px solid #334155;
+        border-radius: 10px;
+        background: rgba(15, 23, 42, 0.62);
+        padding: 10px;
+      }
+      .selection-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(200px, 1fr));
+        gap: 8px 12px;
+      }
+      .selection-row {
+        font-size: 0.8rem;
+        color: #cbd5e1;
+      }
+      .selection-row strong {
+        color: #e2e8f0;
+      }
       .links {
         margin-top: 12px;
         display: flex;
@@ -98,6 +144,10 @@
       }
       @media (max-width: 900px) {
         .controls {
+          grid-template-columns: 1fr;
+        }
+        .evidence-list,
+        .selection-grid {
           grid-template-columns: 1fr;
         }
       }
@@ -135,6 +185,11 @@
           <div class="canvas-wrap"><canvas id="phaseChart"></canvas></div>
         </div>
         <div class="insight"><p id="insightText">Click a point to inspect combined state.</p></div>
+        <div class="evidence">
+          <h3>Clicked point evidence (dynamic)</h3>
+          <p class="sub" id="evidenceMeta">Click any line point to fetch ranked references.</p>
+          <div class="evidence-list" id="evidenceList"></div>
+        </div>
       </section>
       <div class="links">
         <a href="./index.html">Main dashboard</a>
@@ -143,8 +198,133 @@
     </main>
 
     <script>
+      const metricQueries = {
+        NASDAQ100: ["technology sector leadership earnings concentration", "mega cap growth leadership macro cycle"],
+        NASDAQCOM: ["broad technology performance and macro conditions", "nasdaq outperformance recession cycle"],
+        DJIA: ["defensive large cap rotation during stress", "cyclical defensive sector rotation evidence"],
+        NASDAQNQUS500LCE: ["equal weight vs cap weight market breadth", "market breadth deterioration and concentration"],
+      };
+
       function dateObj(v) {
         return new Date(v + "T00:00:00Z");
+      }
+
+      function stripHtmlTags(t) {
+        return String(t || "").replace(/<[^>]+>/g, " ").replace(/\s{2,}/g, " ").trim();
+      }
+      function invertOpenAlexAbstract(indexObj) {
+        if (!indexObj || typeof indexObj !== "object") return "";
+        const pairs = [];
+        Object.entries(indexObj).forEach(([tok, pos]) => (pos || []).forEach((p) => pairs.push([p, tok])));
+        pairs.sort((a, b) => a[0] - b[0]);
+        return pairs.map((x) => x[1]).join(" ");
+      }
+      function normalizeDoiUrl(v) {
+        if (!v) return "";
+        if (String(v).startsWith("http://") || String(v).startsWith("https://")) return String(v);
+        if (String(v).toLowerCase().startsWith("doi.org/")) return `https://${v}`;
+        return `https://doi.org/${v}`;
+      }
+      function summarize(title, body) {
+        const txt = `${title}. ${body}`.replace(/https?:\/\/\S+/g, " ").replace(/\s{2,}/g, " ").trim();
+        const parts = txt.split(/(?<=[.!?])\s+/).map((s) => s.trim()).filter(Boolean);
+        const out = [];
+        for (const p of parts) {
+          const words = p.split(/\s+/);
+          if (words.length < 6) continue;
+          out.push(words.length > 34 ? words.slice(0, 34).join(" ") + "." : p);
+          if (out.length >= 3) break;
+        }
+        return out.length ? out.join(" ") : (title.endsWith(".") ? title : title + ".");
+      }
+      function score(text, query, year) {
+        const tset = new Set(String(text).toLowerCase().match(/[a-z0-9]+/g) || []);
+        const q = (String(query).toLowerCase().match(/[a-z0-9]+/g) || []).filter((x) => x.length > 2);
+        const overlap = q.reduce((n, tok) => n + (tset.has(tok) ? 1 : 0), 0);
+        let rec = 0;
+        if (Number.isFinite(year)) {
+          const now = new Date().getUTCFullYear();
+          rec = Math.max(0, 1 - Math.min(20, now - year) / 20);
+        }
+        return overlap * 2 + rec;
+      }
+      async function fetchOpenAlex(query) {
+        const url = "https://api.openalex.org/works?search=" + encodeURIComponent(query) + "&per-page=5&select=display_name,publication_year,doi,id,abstract_inverted_index";
+        try { const r = await fetch(url, { cache: "no-store" }); if (!r.ok) return []; return (await r.json()).results || []; } catch { return []; }
+      }
+      async function fetchCrossref(query) {
+        const url = "https://api.crossref.org/works?query=" + encodeURIComponent(query) + "&rows=5";
+        try { const r = await fetch(url, { cache: "no-store" }); if (!r.ok) return []; return (await r.json())?.message?.items || []; } catch { return []; }
+      }
+
+      async function renderEvidence(clickCtx) {
+        const meta = document.getElementById("evidenceMeta");
+        const list = document.getElementById("evidenceList");
+        list.innerHTML = "";
+        const targetYear = Number(String(clickCtx.date).slice(0, 4));
+        const yearFloor = Math.max(1900, targetYear - 2);
+        const yearCeil = targetYear + 1;
+        const queries = (metricQueries[clickCtx.seriesId] || ["market leadership macro cycle"]).map(
+          (q) => `${q} ${clickCtx.date} value ${clickCtx.value.toFixed(3)} phase ${clickCtx.phase} stress ${clickCtx.stress.toFixed(3)}`
+        );
+
+        meta.innerHTML = `
+          <div class="selection-card">
+            <div class="selection-grid">
+              <div class="selection-row"><strong>Selected line:</strong> ${clickCtx.label}</div>
+              <div class="selection-row"><strong>Date:</strong> ${clickCtx.date}</div>
+              <div class="selection-row"><strong>Relative 12m:</strong> ${clickCtx.value.toFixed(3)}%</div>
+              <div class="selection-row"><strong>Phase / Stress:</strong> ${clickCtx.phase} / ${clickCtx.stress.toFixed(3)}</div>
+              <div class="selection-row"><strong>Publication window:</strong> ${yearFloor} to ${yearCeil}</div>
+              <div class="selection-row"><strong>Queries:</strong> ${queries.length} (context-conditioned)</div>
+            </div>
+          </div>
+        `;
+
+        const items = [];
+        for (const q of queries) {
+          const [oa, cr] = await Promise.all([fetchOpenAlex(q), fetchCrossref(q)]);
+          oa.forEach((rec) => {
+            const title = String(rec.display_name || "").trim();
+            const year = Number.isFinite(rec.publication_year) ? rec.publication_year : null;
+            if (Number.isFinite(year) && (year < yearFloor || year > yearCeil)) return;
+            const url = normalizeDoiUrl(rec.doi) || String(rec.id || "");
+            if (!title || !url) return;
+            const abs = invertOpenAlexAbstract(rec.abstract_inverted_index);
+            const txt = `${title}. ${abs}`;
+            items.push({ sourceType: "paper", title, year, url, score: score(txt, q, year), summary: summarize(title, abs) });
+          });
+          cr.forEach((rec) => {
+            const title = String((rec.title || [])[0] || "").trim();
+            const issued = rec?.issued?.["date-parts"] || [];
+            const year = issued[0] && Number.isFinite(issued[0][0]) ? issued[0][0] : null;
+            if (Number.isFinite(year) && (year < yearFloor || year > yearCeil)) return;
+            const url = String(rec.URL || "").trim();
+            if (!title || !url) return;
+            const c = String((rec["container-title"] || [])[0] || "").trim();
+            const abs = stripHtmlTags(rec.abstract || "");
+            const txt = `${title}. ${c}. ${abs}`;
+            items.push({ sourceType: "article", title, year, url, score: score(txt, q, year), summary: summarize(title, `${c}. ${abs}`) });
+          });
+        }
+
+        const dedup = new Map();
+        items.forEach((x) => {
+          const k = (x.url || x.title).toLowerCase();
+          if (!dedup.has(k) || x.score > dedup.get(k).score) dedup.set(k, x);
+        });
+        const ranked = Array.from(dedup.values()).sort((a, b) => b.score - a.score).slice(0, 8);
+        if (!ranked.length) {
+          list.innerHTML = `<article class="item"><p>No live evidence results found for this clicked context.</p></article>`;
+          return;
+        }
+        ranked.forEach((x) => {
+          const el = document.createElement("article");
+          el.className = "item";
+          const y = x.year ? ` (${x.year})` : "";
+          el.innerHTML = `<h4><a style="color:#93c5fd" href="${x.url}" target="_blank" rel="noopener noreferrer">${x.title}</a>${y}</h4><p><strong>Rank score:</strong> ${x.score.toFixed(2)}</p><p>${x.summary}</p>`;
+          list.appendChild(el);
+        });
       }
 
       function filterRange(data, preset) {
@@ -269,7 +449,7 @@
           },
         });
 
-        chart1.canvas.onclick = (evt) => {
+        chart1.canvas.onclick = async (evt) => {
           const pts = chart1.getElementsAtEventForMode(evt, "nearest", { intersect: true }, true);
           if (!pts.length) return;
           const p = pts[0];
@@ -281,6 +461,16 @@
             `${payload.meta.sectorSeries[sid]} relative 12m vs S&P: ${
               sec?.relative12mPct != null ? sec.relative12mPct.toFixed(2) + "%" : "n/a"
             }.`;
+          if (sec?.relative12mPct != null) {
+            await renderEvidence({
+              seriesId: sid,
+              label: payload.meta.sectorSeries[sid],
+              date: d.date,
+              value: sec.relative12mPct,
+              phase: d.phase,
+              stress: Number(d.stressScore),
+            });
+          }
         };
       }
 
