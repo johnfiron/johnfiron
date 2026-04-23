@@ -118,6 +118,24 @@
       }
       .item h4 { margin: 0 0 6px; font-size: 0.9rem; }
       .item p { margin: 0; color: #cbd5e1; font-size: 0.8rem; line-height: 1.35; }
+      .source-badge {
+        display: inline-block;
+        margin-bottom: 6px;
+        border-radius: 999px;
+        padding: 2px 8px;
+        font-size: 0.7rem;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        border: 1px solid transparent;
+      }
+      .source-badge.paper {
+        background: rgba(56, 189, 248, 0.14);
+        border-color: rgba(56, 189, 248, 0.55);
+      }
+      .source-badge.article {
+        background: rgba(167, 139, 250, 0.14);
+        border-color: rgba(167, 139, 250, 0.55);
+      }
       .hint { color: #cbd5e1; font-size: 0.85rem; margin-top: 8px; }
       @media (max-width: 900px) {
         .controls, .evidence-list, .selection-grid { grid-template-columns: 1fr; }
@@ -220,7 +238,121 @@
         const t = String(text || "");
         return longPattern.test(t) || shortPattern.test(t) || ymdPattern.test(t) ? 1 : 0;
       }
-      function score(text, query, year, targetDate) {
+      function relationSignal(text, contextTerms = []) {
+        const t = String(text || "").toLowerCase();
+        const cueTerms = [
+          "because", "due to", "led to", "results in", "caused", "therefore", "as a result",
+          "driven by", "triggered by", "pressured by", "contributed to", "linked to",
+        ];
+        const contextMatches = (contextTerms || [])
+          .filter((w) => typeof w === "string" && w.length > 3 && t.includes(w.toLowerCase()))
+          .slice(0, 3);
+        const cueMatches = cueTerms.filter((w) => t.includes(w)).slice(0, 3);
+        const contextHit = contextMatches.length > 0;
+        const cueHit = cueMatches.length > 0;
+        return { contextHit, cueHit, strong: contextHit && cueHit, contextMatches, cueMatches };
+      }
+      function splitSentences(text) {
+        return String(text || "")
+          .replace(/\s{2,}/g, " ")
+          .split(/(?<=[.!?])\s+/)
+          .map((s) => s.trim())
+          .filter((s) => s.length > 0);
+      }
+      function extractDateReference(text, targetDate) {
+        const target = new Date(targetDate + "T00:00:00Z");
+        const y = target.getUTCFullYear();
+        const mIdx = target.getUTCMonth();
+        const monthNames = [
+          "january","february","march","april","may","june",
+          "july","august","september","october","november","december",
+        ];
+        const shortNames = monthNames.map((x) => x.slice(0, 3));
+        const patterns = [
+          new RegExp(`\\b${monthNames[mIdx]}\\s+${y}\\b`, "i"),
+          new RegExp(`\\b${shortNames[mIdx]}\\.?\\s+${y}\\b`, "i"),
+          new RegExp(`\\b${y}-${String(mIdx + 1).padStart(2, "0")}\\b`),
+          new RegExp(`\\b${y}\\b`),
+        ];
+        const t = String(text || "");
+        for (const p of patterns) {
+          const m = t.match(p);
+          if (m && m[0]) return m[0];
+        }
+        return "";
+      }
+      function extractValueReference(text) {
+        const t = String(text || "");
+        const valuePatterns = [
+          /\b\d+(?:\.\d+)?\s?(?:%|percent)\b/i,
+          /\b\d+(?:\.\d+)?\s?(?:bps|bp|basis points)\b/i,
+          /\b\d+(?:\.\d+)?\b/,
+        ];
+        for (const p of valuePatterns) {
+          const m = t.match(p);
+          if (m && m[0]) return m[0];
+        }
+        return "";
+      }
+      function extractCausalReference(text, contextTerms) {
+        const rel = relationSignal(text, contextTerms);
+        const sentences = splitSentences(text);
+        const cueTerms = rel.cueMatches?.length
+          ? rel.cueMatches
+          : ["because", "due to", "led to", "results in", "caused", "therefore", "as a result", "driven by"];
+        const metricTokens = (contextTerms || [])
+          .map((x) => String(x || "").toLowerCase())
+          .filter((x) => x.length > 3);
+        const best = sentences.find((s) => {
+          const lower = s.toLowerCase();
+          return cueTerms.some((t) => lower.includes(t)) && metricTokens.some((t) => lower.includes(t));
+        }) || sentences.find((s) => cueTerms.some((t) => s.toLowerCase().includes(t)));
+        return best ? (best.split(/\s+/).length > 34 ? best.split(/\s+/).slice(0, 34).join(" ") + "." : best) : "";
+      }
+      function sentimentSignal(text) {
+        const t = String(text || "").toLowerCase();
+        const positiveLex = [
+          "improve", "improved", "resilient", "recovery", "stabilize", "stabilized", "expansion", "strong", "supportive", "easing",
+        ];
+        const negativeLex = [
+          "stress", "deterioration", "decline", "contraction", "weak", "recession", "tightening", "shock", "volatility", "default", "crisis", "loss",
+        ];
+        const posHits = positiveLex.reduce((n, w) => n + (t.includes(w) ? 1 : 0), 0);
+        const negHits = negativeLex.reduce((n, w) => n + (t.includes(w) ? 1 : 0), 0);
+        const total = posHits + negHits;
+        const score = total ? (posHits - negHits) / total : 0;
+        let label = "neutral";
+        if (score > 0.18) label = "positive";
+        if (score < -0.18) label = "negative";
+        return { label, score };
+      }
+      function buildContextTerms(clickCtx) {
+        return Array.from(new Set([
+          clickCtx.label,
+          clickCtx.seriesId,
+          clickCtx.modeLabel,
+          "sector leadership",
+          "market breadth",
+          "relative return",
+        ].join(" ").toLowerCase().match(/[a-z0-9]+/g) || [])).filter((x) => x.length > 3);
+      }
+      function extractEvidenceSignals(text, targetDate, contextTerms) {
+        const rel = relationSignal(text, contextTerms);
+        const sentiment = sentimentSignal(text);
+        return {
+          monthMatched: monthMentionScore(text, targetDate) === 1,
+          relationStrong: rel.strong,
+          relationContext: rel.contextHit,
+          relationCue: rel.cueHit,
+          relationTerms: [...(rel.contextMatches || []), ...(rel.cueMatches || [])].slice(0, 5),
+          extractedDate: extractDateReference(text, targetDate),
+          extractedValue: extractValueReference(text),
+          extractedCausal: extractCausalReference(text, contextTerms),
+          sentimentLabel: sentiment.label,
+          sentimentScore: sentiment.score,
+        };
+      }
+      function score(text, query, year, targetDate, contextTerms, signals = null) {
         const tset = new Set(String(text).toLowerCase().match(/[a-z0-9]+/g) || []);
         const q = (String(query).toLowerCase().match(/[a-z0-9]+/g) || []).filter((x) => x.length > 2);
         const overlap = q.reduce((n, tok) => n + (tset.has(tok) ? 1 : 0), 0);
@@ -229,15 +361,63 @@
         if (Number.isFinite(year)) {
           temporal = Math.max(0, 1 - Math.min(20, Math.abs(year - targetYear)) / 20);
         }
-        const monthHit = monthMentionScore(text, targetDate);
-        return temporal * 10 + monthHit * 8 + overlap * 1.5;
+        const s = signals || extractEvidenceSignals(text, targetDate, contextTerms);
+        return temporal * 14
+          + (s.monthMatched ? 10 : 0)
+          + overlap * 1.2
+          + (s.relationStrong ? 6 : (s.relationContext || s.relationCue ? 2 : 0))
+          + Math.abs(s.sentimentScore || 0) * 1.5
+          + (s.extractedCausal ? 1.2 : 0);
+      }
+      function crossReferenceEvidence(items) {
+        const withRefs = items.map((item) => ({ ...item }));
+        const signatureMap = new Map();
+        withRefs.forEach((item, idx) => {
+          const signatures = new Set();
+          if (item.extractedDate) signatures.add(`date:${String(item.extractedDate).toLowerCase()}`);
+          if (item.extractedValue) signatures.add(`value:${String(item.extractedValue).toLowerCase()}`);
+          (item.relationTerms || []).forEach((term) => signatures.add(`term:${String(term).toLowerCase()}`));
+          if (item.sentimentLabel && item.sentimentLabel !== "neutral") signatures.add(`sent:${item.sentimentLabel}`);
+          item.crossRefSignatures = Array.from(signatures);
+          item.crossRefSignatures.forEach((sig) => {
+            if (!signatureMap.has(sig)) signatureMap.set(sig, []);
+            signatureMap.get(sig).push(idx);
+          });
+        });
+        withRefs.forEach((item, idx) => {
+          const peers = new Set();
+          const support = [];
+          item.crossRefSignatures.forEach((sig) => {
+            const hits = signatureMap.get(sig) || [];
+            if (hits.length > 1) support.push(`${sig.replace(/^[^:]+:/, "")} (${hits.length})`);
+            hits.forEach((peerIdx) => { if (peerIdx !== idx) peers.add(peerIdx); });
+          });
+          item.crossRefCount = peers.size;
+          item.crossRefStrength = withRefs.length > 1 ? peers.size / (withRefs.length - 1) : 0;
+          item.crossRefSupport = support.slice(0, 3);
+        });
+        const sentimentBreakdown = { positive: 0, neutral: 0, negative: 0 };
+        withRefs.forEach((item) => {
+          sentimentBreakdown[item.sentimentLabel] = (sentimentBreakdown[item.sentimentLabel] || 0) + 1;
+        });
+        const dominantSentiment = Object.entries(sentimentBreakdown).sort((a, b) => b[1] - a[1])[0]?.[0] || "neutral";
+        const crossReferencedCount = withRefs.filter((x) => x.crossRefCount > 0).length;
+        return {
+          items: withRefs,
+          summary: {
+            dominantSentiment,
+            sentimentBreakdown,
+            crossReferencedCount,
+            coverageRatio: withRefs.length ? crossReferencedCount / withRefs.length : 0,
+          },
+        };
       }
       async function fetchOpenAlex(query) {
-        const url = "https://api.openalex.org/works?search=" + encodeURIComponent(query) + "&per-page=5&select=display_name,publication_year,doi,id,abstract_inverted_index";
+        const url = "https://api.openalex.org/works?search=" + encodeURIComponent(query) + "&per-page=24&select=display_name,publication_year,doi,id,abstract_inverted_index";
         try { const r = await fetch(url, { cache: "no-store" }); if (!r.ok) return []; return (await r.json()).results || []; } catch { return []; }
       }
       async function fetchCrossref(query) {
-        const url = "https://api.crossref.org/works?query=" + encodeURIComponent(query) + "&rows=5";
+        const url = "https://api.crossref.org/works?query=" + encodeURIComponent(query) + "&rows=24";
         try { const r = await fetch(url, { cache: "no-store" }); if (!r.ok) return []; return (await r.json())?.message?.items || []; } catch { return []; }
       }
 
@@ -280,9 +460,24 @@
         const targetYear = Number.parseInt(String(clickCtx.date).slice(0, 4), 10);
         const yearFloor = Math.max(1900, targetYear - 2);
         const yearCeil = targetYear + 1;
-        const queries = (metricQueries[clickCtx.seriesId] || ["market leadership macro cycle"]).map(
-          (q) => `${q} ${clickCtx.date} value ${clickCtx.value.toFixed(3)}`
-        );
+        const isoMonth = String(clickCtx.date || "").slice(0, 7);
+        const baseQueries = metricQueries[clickCtx.seriesId] || ["market leadership macro cycle"];
+        const targeted = [
+          `${clickCtx.label} ${isoMonth} relative performance`,
+          `${clickCtx.label} sector leadership ${isoMonth} cause effect`,
+          `${clickCtx.modeLabel} ${clickCtx.value.toFixed(3)} ${isoMonth}`,
+        ];
+        const qDedup = new Set();
+        const queries = [...baseQueries, ...targeted]
+          .map((q) => `${q} ${clickCtx.date} value ${clickCtx.value.toFixed(3)}`.trim())
+          .filter((q) => {
+            const k = q.toLowerCase();
+            if (qDedup.has(k)) return false;
+            qDedup.add(k);
+            return true;
+          })
+          .slice(0, 6);
+        const contextTerms = buildContextTerms(clickCtx);
         meta.textContent = `Searching live references for ${clickCtx.label} on ${clickCtx.date}...`;
 
         const items = [];
@@ -296,8 +491,16 @@
             if (!title || !url) return;
             const abs = invertOpenAlexAbstract(rec.abstract_inverted_index);
             const txt = `${title}. ${abs}`;
-            const monthMatched = monthMentionScore(txt, clickCtx.date) === 1;
-            items.push({ sourceType: "paper", title, year, url, monthMatched, score: score(txt, q, year, clickCtx.date), summary: summarize(title, abs) });
+            const signals = extractEvidenceSignals(txt, clickCtx.date, contextTerms);
+            items.push({
+              sourceType: "paper",
+              title,
+              year,
+              url,
+              ...signals,
+              score: score(txt, q, year, clickCtx.date, contextTerms, signals),
+              summary: summarize(title, abs),
+            });
           });
           cr.forEach((rec) => {
             const title = String((rec.title || [])[0] || "").trim();
@@ -309,8 +512,16 @@
             const c = String((rec["container-title"] || [])[0] || "").trim();
             const abs = stripHtmlTags(rec.abstract || "");
             const txt = `${title}. ${c}. ${abs}`;
-            const monthMatched = monthMentionScore(txt, clickCtx.date) === 1;
-            items.push({ sourceType: "article", title, year, url, monthMatched, score: score(txt, q, year, clickCtx.date), summary: summarize(title, `${c}. ${abs}`) });
+            const signals = extractEvidenceSignals(txt, clickCtx.date, contextTerms);
+            items.push({
+              sourceType: "article",
+              title,
+              year,
+              url,
+              ...signals,
+              score: score(txt, q, year, clickCtx.date, contextTerms, signals),
+              summary: summarize(title, `${c}. ${abs}`),
+            });
           });
         }
 
@@ -321,8 +532,14 @@
         });
         const ranked = Array.from(dedup.values())
           .filter((x) => x.monthMatched || Number.isFinite(x.year))
-          .sort((a, b) => b.score - a.score)
-          .slice(0, 8);
+          .sort((a, b) => b.score - a.score);
+        const crossRef = crossReferenceEvidence(ranked);
+        const all = crossRef.items.sort((a, b) => (b.score + b.crossRefStrength * 4) - (a.score + a.crossRefStrength * 4));
+        const prior = all.filter((x) => Number.isFinite(x.year) && x.year < targetYear).slice(0, 5);
+        const currentRaw = all.filter((x) => Number.isFinite(x.year) && x.year === targetYear);
+        const currentStrict = currentRaw.filter((x) => x.monthMatched || x.extractedDate || x.relationStrong || x.extractedCausal);
+        const current = (currentStrict.length ? currentStrict : currentRaw).slice(0, 5);
+        const future = all.filter((x) => Number.isFinite(x.year) && x.year > targetYear).slice(0, 5);
         meta.innerHTML = `
           <div class="selection-card">
             <div class="selection-grid">
@@ -332,21 +549,44 @@
               <div class="selection-row"><strong>Value:</strong> ${clickCtx.value.toFixed(3)}%</div>
               <div class="selection-row"><strong>Publication window:</strong> ${yearFloor} to ${yearCeil}</div>
               <div class="selection-row"><strong>Live queries:</strong> ${queries.length}</div>
-              <div class="selection-row"><strong>Temporal weighting:</strong> dominant (year/month proximity)</div>
+              <div class="selection-row"><strong>Candidates analyzed:</strong> ${items.length} raw / ${all.length} deduped</div>
+              <div class="selection-row"><strong>Month-specific references:</strong> ${all.filter((x) => x.monthMatched).length}</div>
+              <div class="selection-row"><strong>Cross-referenced items:</strong> ${crossRef.summary.crossReferencedCount} (${(crossRef.summary.coverageRatio * 100).toFixed(0)}%)</div>
+              <div class="selection-row"><strong>Sentiment model:</strong> ${crossRef.summary.dominantSentiment} (${crossRef.summary.sentimentBreakdown.positive} pos / ${crossRef.summary.sentimentBreakdown.neutral} neut / ${crossRef.summary.sentimentBreakdown.negative} neg)</div>
             </div>
           </div>
         `;
-        if (!ranked.length) {
+        if (!all.length) {
           list.innerHTML = `<article class="item"><p>No live evidence results found for this clicked context.</p></article>`;
           return;
         }
-        ranked.forEach((x) => {
-          const el = document.createElement("article");
-          el.className = "item";
-          const y = x.year ? ` (${x.year})` : "";
-          const monthTag = x.monthMatched ? " | month matched" : "";
-          el.innerHTML = `<h4><a class="req-link" href="${x.url}" target="_blank" rel="noopener noreferrer">${x.title}</a>${y}</h4><p><strong>Rank score:</strong> ${x.score.toFixed(2)}${monthTag}</p><p>${x.summary}</p>`;
-          list.appendChild(el);
+
+        [
+          ["Prior observation", prior],
+          ["Current information (as of point)", current],
+          ["Future analysis", future],
+        ].forEach(([label, rows]) => {
+          const head = document.createElement("article");
+          head.className = "item";
+          head.innerHTML = `<h4>${label}</h4><p>${rows.length} references</p>`;
+          list.appendChild(head);
+          rows.forEach((x) => {
+            const el = document.createElement("article");
+            el.className = "item";
+            const y = x.year ? ` (${x.year})` : "";
+            const sourceType = (x.sourceType || "article").toLowerCase();
+            el.innerHTML = `
+              <span class="source-badge ${sourceType}">${sourceType}</span>
+              <h4><a class="req-link" href="${x.url}" target="_blank" rel="noopener noreferrer">${x.title}</a>${y}</h4>
+              <p><strong>Rank score:</strong> ${Number(x.score).toFixed(2)} | <strong>Month match:</strong> ${x.monthMatched ? "yes" : "no"} | <strong>Cause/effect extraction:</strong> ${x.relationStrong ? "strong" : (x.relationContext || x.relationCue ? "partial" : "weak")}</p>
+              <p><strong>Extracted date/value:</strong> ${x.extractedDate || "n/a"} / ${x.extractedValue || "n/a"}</p>
+              <p><strong>Cross-reference support:</strong> ${x.crossRefCount || 0} corroborating refs${x.crossRefSupport?.length ? ` (${x.crossRefSupport.join(", ")})` : ""}</p>
+              <p><strong>Sentiment:</strong> ${x.sentimentLabel || "neutral"} (${Number(x.sentimentScore || 0).toFixed(2)})</p>
+              <p><strong>Extracted causal text:</strong> ${x.extractedCausal || "No explicit causal sentence extracted."}</p>
+              <p>${x.summary}</p>
+            `;
+            list.appendChild(el);
+          });
         });
       }
 
