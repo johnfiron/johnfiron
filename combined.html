@@ -13,6 +13,34 @@
         background: #070e1f;
         color: #f8fafc;
       }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 60;
+        border-bottom: 1px solid #334155;
+        background: rgba(2, 6, 23, 0.94);
+        backdrop-filter: blur(8px);
+      }
+      .topbar-inner {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 8px 16px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .topbar a {
+        color: #bfdbfe;
+        text-decoration: none;
+        border: 1px solid #334155;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 0.82rem;
+      }
+      .topbar a.active {
+        border-color: #60a5fa;
+        color: #dbeafe;
+      }
       .wrap {
         max-width: 1240px;
         margin: 0 auto;
@@ -130,18 +158,6 @@
       .selection-row strong {
         color: #e2e8f0;
       }
-      .links {
-        margin-top: 12px;
-        display: flex;
-        gap: 10px;
-      }
-      .links a {
-        color: #93c5fd;
-        text-decoration: none;
-      }
-      .links a:hover {
-        text-decoration: underline;
-      }
       @media (max-width: 900px) {
         .controls {
           grid-template-columns: 1fr;
@@ -154,6 +170,13 @@
     </style>
   </head>
   <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a href="./index.html">Macro cycle</a>
+        <a href="./sectors.html">Sectors</a>
+        <a class="active" href="./combined.html">Combined</a>
+      </div>
+    </header>
     <main class="wrap">
       <h1>Combined View: Macro Cycle + Sector Leadership</h1>
       <p class="sub">
@@ -191,10 +214,6 @@
           <div class="evidence-list" id="evidenceList"></div>
         </div>
       </section>
-      <div class="links">
-        <a href="./index.html">Main dashboard</a>
-        <a href="./sectors.html">Sector page</a>
-      </div>
     </main>
 
     <script>
@@ -237,16 +256,33 @@
         }
         return out.length ? out.join(" ") : (title.endsWith(".") ? title : title + ".");
       }
-      function score(text, query, year) {
+      function monthMentionScore(text, targetDate) {
+        const target = new Date(targetDate + "T00:00:00Z");
+        const y = target.getUTCFullYear();
+        const mIdx = target.getUTCMonth();
+        const monthNames = [
+          "january","february","march","april","may","june",
+          "july","august","september","october","november","december",
+        ];
+        const shortNames = monthNames.map((x) => x.slice(0, 3));
+        const longPattern = new RegExp(`\\b${monthNames[mIdx]}\\s+${y}\\b`, "i");
+        const shortPattern = new RegExp(`\\b${shortNames[mIdx]}\\.?\\s+${y}\\b`, "i");
+        const ymdPattern = new RegExp(`\\b${y}-${String(mIdx + 1).padStart(2, "0")}\\b`);
+        const t = String(text || "");
+        if (longPattern.test(t) || shortPattern.test(t) || ymdPattern.test(t)) return 1;
+        return 0;
+      }
+      function score(text, query, year, targetDate) {
         const tset = new Set(String(text).toLowerCase().match(/[a-z0-9]+/g) || []);
         const q = (String(query).toLowerCase().match(/[a-z0-9]+/g) || []).filter((x) => x.length > 2);
         const overlap = q.reduce((n, tok) => n + (tset.has(tok) ? 1 : 0), 0);
-        let rec = 0;
+        const targetYear = Number(String(targetDate).slice(0, 4));
+        let temporal = 0;
         if (Number.isFinite(year)) {
-          const now = new Date().getUTCFullYear();
-          rec = Math.max(0, 1 - Math.min(20, now - year) / 20);
+          temporal = Math.max(0, 1 - Math.min(20, Math.abs(year - targetYear)) / 20);
         }
-        return overlap * 2 + rec;
+        const monthMatch = monthMentionScore(text, targetDate);
+        return temporal * 10 + monthMatch * 8 + overlap * 1.5;
       }
       async function fetchOpenAlex(query) {
         const url = "https://api.openalex.org/works?search=" + encodeURIComponent(query) + "&per-page=5&select=display_name,publication_year,doi,id,abstract_inverted_index";
@@ -292,7 +328,15 @@
             if (!title || !url) return;
             const abs = invertOpenAlexAbstract(rec.abstract_inverted_index);
             const txt = `${title}. ${abs}`;
-            items.push({ sourceType: "paper", title, year, url, score: score(txt, q, year), summary: summarize(title, abs) });
+            items.push({
+              sourceType: "paper",
+              title,
+              year,
+              url,
+              monthMatched: monthMentionScore(txt, clickCtx.date) === 1,
+              score: score(txt, q, year, clickCtx.date),
+              summary: summarize(title, abs),
+            });
           });
           cr.forEach((rec) => {
             const title = String((rec.title || [])[0] || "").trim();
@@ -304,7 +348,15 @@
             const c = String((rec["container-title"] || [])[0] || "").trim();
             const abs = stripHtmlTags(rec.abstract || "");
             const txt = `${title}. ${c}. ${abs}`;
-            items.push({ sourceType: "article", title, year, url, score: score(txt, q, year), summary: summarize(title, `${c}. ${abs}`) });
+            items.push({
+              sourceType: "article",
+              title,
+              year,
+              url,
+              monthMatched: monthMentionScore(txt, clickCtx.date) === 1,
+              score: score(txt, q, year, clickCtx.date),
+              summary: summarize(title, `${c}. ${abs}`),
+            });
           });
         }
 
@@ -313,7 +365,10 @@
           const k = (x.url || x.title).toLowerCase();
           if (!dedup.has(k) || x.score > dedup.get(k).score) dedup.set(k, x);
         });
-        const ranked = Array.from(dedup.values()).sort((a, b) => b.score - a.score).slice(0, 8);
+        const ranked = Array.from(dedup.values())
+          .filter((x) => x.monthMatched || Number.isFinite(x.year))
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 8);
         if (!ranked.length) {
           list.innerHTML = `<article class="item"><p>No live evidence results found for this clicked context.</p></article>`;
           return;

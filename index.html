@@ -21,6 +21,35 @@
         background: radial-gradient(circle at top, #1e293b, #0b1022 55%);
         color: var(--text);
       }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        border-bottom: 1px solid #334155;
+        background: rgba(2, 6, 23, 0.94);
+        backdrop-filter: blur(8px);
+      }
+      .topbar-inner {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 8px 16px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      .topbar a {
+        color: #bfdbfe;
+        text-decoration: none;
+        border: 1px solid #334155;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 0.82rem;
+      }
+      .topbar a.active {
+        border-color: #60a5fa;
+        color: #dbeafe;
+      }
       .wrap {
         max-width: 1240px;
         margin: 0 auto;
@@ -341,19 +370,19 @@
     </style>
   </head>
   <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="active" href="./index.html">Macro cycle</a>
+        <a href="./sectors.html">Sectors</a>
+        <a href="./combined.html">Combined</a>
+      </div>
+    </header>
     <main class="wrap">
       <h1 class="title">Collapse Cycle Timeline: Phase Bands vs Historical Collapses</h1>
       <p class="subtitle">
         Dynamic phase-band chart from long-run macro-financial proxies. Designed for non-specialists:
         green = setup, amber = stress, red = trigger, gray = cascade.
       </p>
-      <p class="subtitle">
-        Pages:
-        <a class="req-link" href="./index.html">Macro cycle</a> |
-        <a class="req-link" href="./sectors.html">Sectors</a> |
-        <a class="req-link" href="./combined.html">Combined</a>
-      </p>
-
       <section class="panel">
         <div class="controls">
           <div class="control">
@@ -779,16 +808,35 @@
         return selected.join(" ");
       }
 
-      function scoreResult(text, query, year) {
+      function monthMentionScore(text, targetDate) {
+        const target = new Date(targetDate + "T00:00:00Z");
+        const y = target.getUTCFullYear();
+        const mIdx = target.getUTCMonth();
+        const monthNames = [
+          "january","february","march","april","may","june",
+          "july","august","september","october","november","december",
+        ];
+        const shortNames = monthNames.map((x) => x.slice(0, 3));
+        const longPattern = new RegExp(`\\b${monthNames[mIdx]}\\s+${y}\\b`, "i");
+        const shortPattern = new RegExp(`\\b${shortNames[mIdx]}\\.?\\s+${y}\\b`, "i");
+        const ymdPattern = new RegExp(`\\b${y}-${String(mIdx + 1).padStart(2, "0")}\\b`);
+        const t = String(text || "");
+        if (longPattern.test(t) || shortPattern.test(t) || ymdPattern.test(t)) return 1;
+        return 0;
+      }
+
+      function scoreResult(text, query, year, targetDate) {
         const textTokens = new Set(String(text).toLowerCase().match(/[a-z0-9]+/g) || []);
         const qTokens = (String(query).toLowerCase().match(/[a-z0-9]+/g) || []).filter((t) => t.length > 2);
         const overlap = qTokens.reduce((n, t) => n + (textTokens.has(t) ? 1 : 0), 0);
-        let recency = 0;
+        const targetYear = Number(String(targetDate).slice(0, 4));
+        let temporal = 0;
         if (Number.isFinite(year)) {
-          const now = new Date().getUTCFullYear();
-          recency = Math.max(0, 1 - Math.min(20, now - year) / 20);
+          temporal = Math.max(0, 1 - Math.min(20, Math.abs(year - targetYear)) / 20);
         }
-        return overlap * 2 + recency;
+        const explicitMonthMatch = monthMentionScore(text, targetDate);
+        // Temporal relevance is intentionally heaviest.
+        return temporal * 10 + explicitMonthMatch * 8 + overlap * 1.5;
       }
 
       function collectSupplementalForMetric(supplementalPayload, key) {
@@ -813,12 +861,14 @@
             if (!title || !url) return;
             const abstract = invertOpenAlexAbstract(rec.abstract_inverted_index);
             const combinedText = `${title}. ${abstract}`.trim();
+            const monthHit = monthMentionScore(combinedText, context.date) === 1;
             combined.push({
               sourceType: "paper",
               title,
               year,
               url,
-              score: scoreResult(combinedText, query, year),
+              monthMatched: monthHit,
+              score: scoreResult(combinedText, query, year, context.date),
               summary: simpleDeterministicSummary(title, abstract),
             });
           });
@@ -833,12 +883,14 @@
             const container = String((rec["container-title"] || [])[0] || "").trim();
             const abstract = stripHtmlTags(rec.abstract || "");
             const combinedText = `${title}. ${container}. ${abstract}`.trim();
+            const monthHit = monthMentionScore(combinedText, context.date) === 1;
             combined.push({
               sourceType: "article",
               title,
               year,
               url,
-              score: scoreResult(combinedText, query, year),
+              monthMatched: monthHit,
+              score: scoreResult(combinedText, query, year, context.date),
               summary: simpleDeterministicSummary(title, `${container}. ${abstract}`),
             });
           });
@@ -850,9 +902,16 @@
           if (!dedup.has(key) || item.score > dedup.get(key).score) dedup.set(key, item);
         });
         const ranked = Array.from(dedup.values())
+          .filter((item) => item.monthMatched || Number.isFinite(item.year))
           .sort((a, b) => b.score - a.score)
           .slice(0, 8);
-        return { metricCfg, queries, evidence: ranked, yearWindow: [yearFloor, yearCeil] };
+        return {
+          metricCfg,
+          queries,
+          evidence: ranked,
+          yearWindow: [yearFloor, yearCeil],
+          monthSpecificCount: ranked.filter((x) => x.monthMatched).length,
+        };
       }
 
       function activateEvidenceContainer(targetContainerId) {
@@ -903,6 +962,7 @@
               <div class="selection-row"><strong>Cause -> Effect:</strong> ${metricCfg.cause} -> ${metricCfg.effect}</div>
               <div class="selection-row"><strong>Publication window:</strong> ${dynamic.yearWindow[0]} to ${dynamic.yearWindow[1]}</div>
               <div class="selection-row"><strong>Live queries:</strong> ${dynamic.queries.length}</div>
+              <div class="selection-row"><strong>Month-specific references:</strong> ${dynamic.monthSpecificCount}</div>
             </div>
           </div>
         `;
