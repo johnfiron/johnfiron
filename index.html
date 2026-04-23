@@ -172,6 +172,23 @@
         color: var(--muted);
         border-bottom: 1px solid rgba(51, 65, 85, 0.8);
       }
+      .method-box {
+        margin-top: 12px;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        background: rgba(15, 23, 42, 0.58);
+        padding: 10px 12px;
+      }
+      .method-box h3 {
+        margin: 0 0 6px;
+        font-size: 0.92rem;
+      }
+      .method-box p {
+        margin: 0;
+        font-size: 0.8rem;
+        color: var(--muted);
+        line-height: 1.35;
+      }
       .evidence-list {
         display: grid;
         grid-template-columns: repeat(2, minmax(280px, 1fr));
@@ -353,20 +370,26 @@
           <h3>Cause and effect evidence explorer (papers + articles)</h3>
           <div class="controls evidence-controls">
             <div class="control">
-              <label for="evidenceMetric">Data point</label>
-              <select id="evidenceMetric"></select>
-            </div>
-            <div class="control">
-              <label for="evidenceMonth">Month context</label>
-              <select id="evidenceMonth"></select>
+              <label>Interaction</label>
+              <select id="evidenceMode">
+                <option value="click" selected>Click a line data point on any chart to view ranked evidence</option>
+              </select>
             </div>
             <div class="control">
               <label>Evidence source</label>
               <button id="evidenceReloadBtn" type="button">Reload evidence index</button>
             </div>
+            <div class="control">
+              <label>Context</label>
+              <button id="clearSelectionBtn" type="button">Clear point selection</button>
+            </div>
           </div>
           <div class="evidence-meta" id="evidenceMeta"></div>
           <div class="evidence-list" id="evidenceList"></div>
+        </section>
+        <section class="method-box">
+          <h3>How phase is determined (calculated, not manual)</h3>
+          <p id="phaseMethodText"></p>
         </section>
 
         <p class="footnote" id="footnote"></p>
@@ -466,9 +489,9 @@
         return res.json();
       }
 
-      async function loadEvidenceData() {
-        const res = await fetch("./data/evidence_data.json?ts=" + Date.now(), { cache: "no-store" });
-        if (!res.ok) throw new Error(`Failed to load evidence data: ${res.status}`);
+      async function loadSupplementalData() {
+        const res = await fetch("./data/evidence_supplemental.json?ts=" + Date.now(), { cache: "no-store" });
+        if (!res.ok) return null;
         return res.json();
       }
 
@@ -555,91 +578,320 @@
           `Key limitation: ${meta.method.limitations.join(" ")}`;
       }
 
-      function initializeEvidenceExplorer(evidencePayload) {
-        const metricSelect = document.getElementById("evidenceMetric");
-        const monthSelect = document.getElementById("evidenceMonth");
+      let selectedPointContext = null;
+
+      function metricLabel(metric) {
+        return metric?.label || metric?.metricKey || "Unknown metric";
+      }
+
+      function lineMetricMap() {
+        return {
+          "Composite stress score": "creditSpreadProxyBAA10Y",
+          "Normalized phase level": "creditSpreadProxyBAA10Y",
+          "Composite stress (reference)": "creditSpreadProxyBAA10Y",
+          "Credit spread proxy (normalized)": "creditSpreadProxyBAA10Y",
+          "Unemployment (normalized)": "unrate",
+          "Stress score volatility (12-month rolling stdev)": "creditSpreadProxyBAA10Y",
+          "Phase volatility (12-month rolling stdev)": "termSpread10y3m",
+        };
+      }
+
+      function renderPhaseMethod(meta) {
+        const host = document.getElementById("phaseMethodText");
+        if (!meta?.method) {
+          host.textContent = "Method details unavailable.";
+          return;
+        }
+        const weights = meta.method.componentWeights || {};
+        const rules = meta.method.phaseRules || {};
+        host.textContent =
+          `Phase is computed monthly from weighted components: credit ${weights.creditScore ?? "?"}, volatility ${weights.volatilityScore ?? "?"}, liquidity ${weights.liquidityScore ?? "?"}, labor ${weights.laborScore ?? "?"}, growth ${weights.growthScore ?? "?"}, and curve ${weights.curveScore ?? "?"}. ` +
+          `Phase 2 rule: ${rules.phase2Stress || "n/a"}. ` +
+          `Phase 3 rule: ${rules.phase3Trigger || "n/a"}. ` +
+          `Phase 4 rule: ${rules.phase4Cascade || "n/a"}.`;
+      }
+
+      function metricConfigMap() {
+        return {
+          creditSpreadProxyBAA10Y: {
+            label: "Credit spread proxy (BAA-10Y)",
+            cause: "credit risk repricing",
+            effect: "higher funding costs and tighter financial conditions",
+            queries: ["credit spreads recession risk transmission", "corporate bond spread macro downturn"],
+          },
+          vix: {
+            label: "Equity volatility (VIX)",
+            cause: "uncertainty shock",
+            effect: "de-risking and lower risk-asset demand",
+            queries: ["VIX implied volatility macro uncertainty", "equity volatility crisis transmission"],
+          },
+          stlfsi: {
+            label: "St. Louis financial stress index",
+            cause: "system-wide funding and risk stress",
+            effect: "reduced credit creation and weaker activity",
+            queries: ["financial stress index recession forecasting", "systemic stress growth slowdown"],
+          },
+          nfci: {
+            label: "Chicago Fed NFCI",
+            cause: "tight financial conditions",
+            effect: "slower investment and hiring",
+            queries: ["NFCI growth forecasting", "tight financial conditions slowdown"],
+          },
+          unrate: {
+            label: "Unemployment rate",
+            cause: "labor market deterioration",
+            effect: "weaker income growth and softer demand",
+            queries: ["unemployment rise recession dynamics", "labor weakness consumption slowdown"],
+          },
+          indproYoY: {
+            label: "Industrial production YoY",
+            cause: "real activity slowdown",
+            effect: "lower earnings momentum and rising stress",
+            queries: ["industrial production contraction recession", "manufacturing output decline macro cycle"],
+          },
+          termSpread10y3m: {
+            label: "Term spread (10Y-3M)",
+            cause: "inverted or flat term structure",
+            effect: "tighter credit channel and weaker future growth expectations",
+            queries: ["yield curve inversion recession probability", "term spread predictive power downturn"],
+          },
+        };
+      }
+
+      function extractClickContext() {
+        if (!selectedPointContext || !timelinePayloadCache?.timeline) return null;
+        const row = timelinePayloadCache.timeline.find((r) => r.date === selectedPointContext.date);
+        if (!row) return null;
+        const metricKey = selectedPointContext.metricKey;
+        const metricValue = row.inputs?.[metricKey];
+        return {
+          metricKey,
+          date: row.date,
+          phase: row.phase,
+          stressScore: row.stressScore,
+          metricValue,
+        };
+      }
+
+      function buildDynamicQueries(context) {
+        const map = metricConfigMap();
+        const metricCfg = map[context.metricKey] || map.creditSpreadProxyBAA10Y;
+        const valueText = Number.isFinite(context.metricValue)
+          ? `${metricCfg.label} ${Number(context.metricValue).toFixed(3)}`
+          : metricCfg.label;
+        const phaseText = `phase ${context.phase} stress score ${Number(context.stressScore).toFixed(3)}`;
+        return {
+          metricCfg,
+          queries: metricCfg.queries.map((q) => `${q} ${valueText} ${phaseText} ${context.date}`),
+        };
+      }
+
+      async function fetchOpenAlex(query) {
+        const url =
+          "https://api.openalex.org/works?search=" +
+          encodeURIComponent(query) +
+          "&per-page=5&select=display_name,publication_year,doi,id,abstract_inverted_index";
+        try {
+          const res = await fetch(url, { cache: "no-store" });
+          if (!res.ok) return [];
+          const data = await res.json();
+          return data.results || [];
+        } catch {
+          return [];
+        }
+      }
+
+      async function fetchCrossref(query) {
+        const url = "https://api.crossref.org/works?query=" + encodeURIComponent(query) + "&rows=5";
+        try {
+          const res = await fetch(url, { cache: "no-store" });
+          if (!res.ok) return [];
+          const data = await res.json();
+          return data?.message?.items || [];
+        } catch {
+          return [];
+        }
+      }
+
+      function stripHtmlTags(text) {
+        return String(text || "").replace(/<[^>]+>/g, " ").replace(/\s{2,}/g, " ").trim();
+      }
+
+      function invertOpenAlexAbstract(indexObj) {
+        if (!indexObj || typeof indexObj !== "object") return "";
+        const pairs = [];
+        Object.entries(indexObj).forEach(([token, positions]) => {
+          (positions || []).forEach((p) => pairs.push([p, token]));
+        });
+        pairs.sort((a, b) => a[0] - b[0]);
+        return pairs.map((x) => x[1]).join(" ");
+      }
+
+      function normalizeDoiUrl(v) {
+        if (!v) return "";
+        if (String(v).startsWith("http://") || String(v).startsWith("https://")) return String(v);
+        if (String(v).toLowerCase().startsWith("doi.org/")) return `https://${v}`;
+        return `https://doi.org/${v}`;
+      }
+
+      function simpleDeterministicSummary(title, body) {
+        const txt = `${title || ""}. ${body || ""}`
+          .replace(/https?:\/\/\S+/g, " ")
+          .replace(/\s{2,}/g, " ")
+          .trim();
+        const pieces = txt.split(/(?<=[.!?])\s+/).map((s) => s.trim()).filter(Boolean);
+        const selected = [];
+        for (const s of pieces) {
+          const words = s.split(/\s+/);
+          if (words.length < 6) continue;
+          selected.push(words.length > 34 ? words.slice(0, 34).join(" ") + "." : s);
+          if (selected.length >= 3) break;
+        }
+        if (!selected.length && title) return title.endsWith(".") ? title : title + ".";
+        return selected.join(" ");
+      }
+
+      function scoreResult(text, query, year) {
+        const textTokens = new Set(String(text).toLowerCase().match(/[a-z0-9]+/g) || []);
+        const qTokens = (String(query).toLowerCase().match(/[a-z0-9]+/g) || []).filter((t) => t.length > 2);
+        const overlap = qTokens.reduce((n, t) => n + (textTokens.has(t) ? 1 : 0), 0);
+        let recency = 0;
+        if (Number.isFinite(year)) {
+          const now = new Date().getUTCFullYear();
+          recency = Math.max(0, 1 - Math.min(20, now - year) / 20);
+        }
+        return overlap * 2 + recency;
+      }
+
+      function collectSupplementalForMetric(supplementalPayload, key) {
+        return (supplementalPayload?.supplementalFactors || []).filter((f) => (f.relatedMetrics || []).includes(key));
+      }
+
+      async function searchDynamicEvidence(context) {
+        const { metricCfg, queries } = buildDynamicQueries(context);
+        const combined = [];
+        for (const query of queries) {
+          const [openalex, crossref] = await Promise.all([fetchOpenAlex(query), fetchCrossref(query)]);
+
+          openalex.forEach((rec) => {
+            const title = String(rec.display_name || "").trim();
+            const year = Number.isFinite(rec.publication_year) ? rec.publication_year : null;
+            const doiUrl = normalizeDoiUrl(rec.doi);
+            const url = doiUrl || String(rec.id || "");
+            if (!title || !url) return;
+            const abstract = invertOpenAlexAbstract(rec.abstract_inverted_index);
+            const combinedText = `${title}. ${abstract}`.trim();
+            combined.push({
+              sourceType: "paper",
+              title,
+              year,
+              url,
+              score: scoreResult(combinedText, query, year),
+              summary: simpleDeterministicSummary(title, abstract),
+            });
+          });
+
+          crossref.forEach((rec) => {
+            const title = String((rec.title || [])[0] || "").trim();
+            const issued = rec?.issued?.["date-parts"] || [];
+            const year = issued[0] && Number.isFinite(issued[0][0]) ? issued[0][0] : null;
+            const url = String(rec.URL || "").trim();
+            if (!title || !url) return;
+            const container = String((rec["container-title"] || [])[0] || "").trim();
+            const abstract = stripHtmlTags(rec.abstract || "");
+            const combinedText = `${title}. ${container}. ${abstract}`.trim();
+            combined.push({
+              sourceType: "article",
+              title,
+              year,
+              url,
+              score: scoreResult(combinedText, query, year),
+              summary: simpleDeterministicSummary(title, `${container}. ${abstract}`),
+            });
+          });
+        }
+
+        const dedup = new Map();
+        combined.forEach((item) => {
+          const key = (item.url || item.title).toLowerCase();
+          if (!dedup.has(key) || item.score > dedup.get(key).score) dedup.set(key, item);
+        });
+        const ranked = Array.from(dedup.values())
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 8);
+        return { metricCfg, queries, evidence: ranked };
+      }
+
+      async function renderEvidenceForSelection(supplementalPayload) {
         const metaHost = document.getElementById("evidenceMeta");
         const listHost = document.getElementById("evidenceList");
 
         listHost.innerHTML = "";
         metaHost.textContent = "";
-
-        if (!evidencePayload || !Array.isArray(evidencePayload.metrics) || !evidencePayload.metrics.length) {
-          metricSelect.innerHTML = `<option value="">No evidence index available</option>`;
-          monthSelect.innerHTML = `<option value="">No month mapping available</option>`;
-          metaHost.textContent = "Evidence index could not be loaded. Run tools/build_evidence_links.py to generate it.";
+        if (!selectedPointContext) {
+          metaHost.textContent = "Click any data point on a chart line to view ranked evidence and related Fed factors.";
           return;
         }
 
-        const previousMetric = metricSelect.value;
-        const previousMonth = monthSelect.value;
-        metricSelect.innerHTML = evidencePayload.metrics
-          .map((m) => `<option value="${m.metricKey}">${m.label}</option>`)
-          .join("");
-        const monthRows = evidencePayload.monthDataPointIndex || [];
-        monthSelect.innerHTML = monthRows
-          .slice()
-          .reverse()
-          .map((m) => `<option value="${m.date}">${m.date} | Phase ${m.phase} | Stress ${Number(m.stressScore).toFixed(3)}</option>`)
-          .join("");
-
-        if (previousMetric && Array.from(metricSelect.options).some((o) => o.value === previousMetric)) {
-          metricSelect.value = previousMetric;
-        }
-        if (previousMonth && Array.from(monthSelect.options).some((o) => o.value === previousMonth)) {
-          monthSelect.value = previousMonth;
+        const context = extractClickContext();
+        if (!context) {
+          metaHost.textContent = "Could not map click to timeline context.";
+          return;
         }
 
-        const renderSelection = () => {
-          const metric = evidencePayload.metrics.find((m) => m.metricKey === metricSelect.value) || evidencePayload.metrics[0];
-          const month = monthRows.find((m) => m.date === monthSelect.value) || monthRows[monthRows.length - 1];
-          const available = month?.availableDataPoints || [];
-          const isAvailable = metric ? available.includes(metric.metricKey) : false;
+        metaHost.textContent =
+          `Searching live sources for ${context.metricKey} on ${context.date} (phase ${context.phase}, stress ${Number(context.stressScore).toFixed(3)}).`;
 
-          const queryStatusText = (metric?.queryStatus || [])
-            .map((q) => `${q.query} (papers ${q.openalexResults}, articles ${q.crossrefResults})`)
-            .join(" | ");
+        const dynamic = await searchDynamicEvidence(context);
+        const metricCfg = dynamic.metricCfg;
+        const supplemental = collectSupplementalForMetric(supplementalPayload, context.metricKey);
 
-          metaHost.textContent = metric
-            ? `Cause: ${metric.causeHint}. Effect: ${metric.effectHint}. ${
-                isAvailable
-                  ? `Selected month includes this data point.`
-                  : `Selected month does not include this data point (available: ${available.join(", ") || "none"}).`
-              } Query coverage: ${queryStatusText || "n/a"}.`
-            : "No metric selected.";
+        metaHost.textContent =
+          `Selected line: ${selectedPointContext.datasetLabel} | Date: ${context.date}. Data point: ${metricCfg.label}. Cause: ${metricCfg.cause}. Effect: ${metricCfg.effect}. ` +
+          `Live queries: ${dynamic.queries.join(" | ")}.`;
 
-          listHost.innerHTML = "";
-          const evidence = metric?.evidence || [];
-          if (!evidence.length) {
-            listHost.innerHTML = `<article class="evidence-item"><p>No evidence results found for this data point.</p></article>`;
-            return;
-          }
+        if (!dynamic.evidence.length && !supplemental.length) {
+          listHost.innerHTML = `<article class="evidence-item"><p>No live evidence results found for this clicked context.</p></article>`;
+          return;
+        }
 
-          evidence.forEach((item) => {
-            const card = document.createElement("article");
-            card.className = "evidence-item";
-            const sourceType = (item.sourceType || "article").toLowerCase();
-            const yearText = item.year ? ` (${item.year})` : "";
-            card.innerHTML = `
-              <span class="source-badge ${sourceType}">${sourceType}</span>
-              <h4><a class="req-link" href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>${yearText}</h4>
-              <p><strong>Score:</strong> ${Number(item.score).toFixed(2)}</p>
-              <p>${item.summary}</p>
-            `;
-            listHost.appendChild(card);
-          });
-        };
+        dynamic.evidence.forEach((item) => {
+          const card = document.createElement("article");
+          card.className = "evidence-item";
+          const sourceType = (item.sourceType || "article").toLowerCase();
+          const yearText = item.year ? ` (${item.year})` : "";
+          card.innerHTML = `
+            <span class="source-badge ${sourceType}">${sourceType}</span>
+            <h4><a class="req-link" href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>${yearText}</h4>
+            <p><strong>Rank score:</strong> ${Number(item.score).toFixed(2)}</p>
+            <p>${item.summary}</p>
+          `;
+          listHost.appendChild(card);
+        });
 
-        metricSelect.onchange = renderSelection;
-        monthSelect.onchange = renderSelection;
-        renderSelection();
+        supplemental.forEach((factor) => {
+          const card = document.createElement("article");
+          card.className = "evidence-item";
+          card.innerHTML = `
+            <span class="source-badge paper">fed factor</span>
+            <h4>${factor.label}</h4>
+            <p><strong>Outside stress score:</strong> ${factor.notInStressScore ? "yes" : "no"}</p>
+            <p>${factor.description}</p>
+            <p><a class="req-link" href="${factor.evidence?.[0]?.url || "#"}" target="_blank" rel="noopener noreferrer">Fed report and related references</a></p>
+          `;
+          listHost.appendChild(card);
+        });
+      }
+
+      function initializeEvidenceExplorer(supplementalPayload) {
+        renderEvidenceForSelection(supplementalPayload);
       }
 
       let phaseChart;
       let inputsChart;
       let volatilityChart;
       let timelinePayloadCache = null;
-      let evidencePayloadCache = null;
+      let supplementalPayloadCache = null;
 
       function destroyCharts() {
         if (phaseChart) phaseChart.destroy();
@@ -758,6 +1010,21 @@
           },
           plugins: [phaseBackgroundPlugin(PHASE_BANDS), eventOverlayPlugin(overlays)],
         });
+        phaseChart.canvas.onclick = (evt) => {
+          const pts = phaseChart.getElementsAtEventForMode(evt, "nearest", { intersect: true }, true);
+          if (!pts.length) return;
+          const p = pts[0];
+          const ds = phaseChart.data.datasets[p.datasetIndex];
+          const row = records[p.index];
+          if (!row) return;
+          const map = lineMetricMap();
+          selectedPointContext = {
+            metricKey: map[ds.label] || "creditSpreadProxyBAA10Y",
+            date: row.date,
+            datasetLabel: ds.label,
+          };
+          initializeEvidenceExplorer(supplementalPayloadCache);
+        };
 
         const input1 = toLine(records, "stressScore");
         const input2 = records
@@ -827,6 +1094,21 @@
           },
           plugins: [phaseBackgroundPlugin(PHASE_BANDS), eventOverlayPlugin(overlays)],
         });
+        inputsChart.canvas.onclick = (evt) => {
+          const pts = inputsChart.getElementsAtEventForMode(evt, "nearest", { intersect: true }, true);
+          if (!pts.length) return;
+          const p = pts[0];
+          const ds = inputsChart.data.datasets[p.datasetIndex];
+          const row = records[p.index];
+          if (!row) return;
+          const map = lineMetricMap();
+          selectedPointContext = {
+            metricKey: map[ds.label] || "creditSpreadProxyBAA10Y",
+            date: row.date,
+            datasetLabel: ds.label,
+          };
+          initializeEvidenceExplorer(supplementalPayloadCache);
+        };
 
         const stressVolSeries = buildVolatilitySeries(records, (r) => r.stressScore, 12);
         const phaseVolSeries = buildVolatilitySeries(records, (r) => r.phase, 12);
@@ -902,34 +1184,55 @@
           },
           plugins: [eventOverlayPlugin(overlays)],
         });
+        volatilityChart.canvas.onclick = (evt) => {
+          const pts = volatilityChart.getElementsAtEventForMode(evt, "nearest", { intersect: true }, true);
+          if (!pts.length) return;
+          const p = pts[0];
+          const ds = volatilityChart.data.datasets[p.datasetIndex];
+          const row = records[p.index];
+          if (!row) return;
+          const map = lineMetricMap();
+          selectedPointContext = {
+            metricKey: map[ds.label] || "creditSpreadProxyBAA10Y",
+            date: row.date,
+            datasetLabel: ds.label,
+          };
+          initializeEvidenceExplorer(supplementalPayloadCache);
+        };
       }
 
       async function init() {
-        const [payload, evidencePayload] = await Promise.all([
+        const [payload, supplementalPayload] = await Promise.all([
           loadData(),
-          loadEvidenceData().catch(() => null),
+          loadSupplementalData().catch(() => null),
         ]);
         timelinePayloadCache = payload;
-        evidencePayloadCache = evidencePayload;
+        supplementalPayloadCache = supplementalPayload;
         buildCharts(payload);
-        initializeEvidenceExplorer(evidencePayload);
+        renderPhaseMethod(payload.meta);
+        initializeEvidenceExplorer(supplementalPayload);
 
         document.getElementById("rangePreset").addEventListener("change", () => buildCharts(timelinePayloadCache));
         document.getElementById("scoreMode").addEventListener("change", () => buildCharts(timelinePayloadCache));
         document.getElementById("refreshBtn").addEventListener("click", async () => {
-          const [freshTimeline, freshEvidence] = await Promise.all([
+          const [freshTimeline, freshSupplemental] = await Promise.all([
             loadData(),
-            loadEvidenceData().catch(() => null),
+            loadSupplementalData().catch(() => null),
           ]);
           timelinePayloadCache = freshTimeline;
-          evidencePayloadCache = freshEvidence;
+          supplementalPayloadCache = freshSupplemental;
           buildCharts(freshTimeline);
-          initializeEvidenceExplorer(freshEvidence);
+          renderPhaseMethod(freshTimeline.meta);
+          initializeEvidenceExplorer(freshSupplemental);
         });
         document.getElementById("evidenceReloadBtn").addEventListener("click", async () => {
-          const freshEvidence = await loadEvidenceData().catch(() => null);
-          evidencePayloadCache = freshEvidence;
-          initializeEvidenceExplorer(freshEvidence);
+          const freshSupplemental = await loadSupplementalData().catch(() => null);
+          supplementalPayloadCache = freshSupplemental;
+          initializeEvidenceExplorer(freshSupplemental);
+        });
+        document.getElementById("clearSelectionBtn").addEventListener("click", () => {
+          selectedPointContext = null;
+          initializeEvidenceExplorer(supplementalPayloadCache);
         });
       }
 

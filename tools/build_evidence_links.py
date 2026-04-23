@@ -97,6 +97,66 @@ DATA_POINT_CONFIG = {
     },
 }
 
+SUPPLEMENTAL_FED_FACTORS = [
+    {
+        "factorId": "bank-lending-standards",
+        "label": "Bank lending standards (SLOOS channel)",
+        "description": (
+            "Tighter bank lending standards can slow credit growth even before headline stress "
+            "indicators spike."
+        ),
+        "reportUrl": "https://www.federalreserve.gov/publications/financial-stability-report.htm",
+        "queries": [
+            "Federal Reserve bank lending standards financial stability report",
+            "senior loan officer opinion survey lending standards recession",
+        ],
+        "relatedMetrics": ["creditSpreadProxyBAA10Y", "nfci", "unrate"],
+        "notInStressScore": True,
+    },
+    {
+        "factorId": "treasury-market-liquidity",
+        "label": "Treasury market liquidity and basis pressure",
+        "description": (
+            "Treasury liquidity disruptions can transmit stress rapidly across funding and risk assets."
+        ),
+        "reportUrl": "https://www.federalreserve.gov/publications/financial-stability-report.htm",
+        "queries": [
+            "Federal Reserve Treasury market liquidity vulnerabilities",
+            "Treasury basis trade leverage systemic risk report",
+        ],
+        "relatedMetrics": ["stlfsi", "vix", "termSpread10y3m"],
+        "notInStressScore": True,
+    },
+    {
+        "factorId": "private-credit-and-nonbank-leverage",
+        "label": "Private credit and nonbank leverage risk",
+        "description": (
+            "Leverage in nonbank finance can amplify shocks through refinancing and forced deleveraging."
+        ),
+        "reportUrl": "https://www.federalreserve.gov/publications/financial-stability-report.htm",
+        "queries": [
+            "Federal Reserve nonbank leverage private credit vulnerabilities",
+            "private credit refinancing risk macro financial stability",
+        ],
+        "relatedMetrics": ["creditSpreadProxyBAA10Y", "stlfsi", "nfci"],
+        "notInStressScore": True,
+    },
+    {
+        "factorId": "commercial-real-estate-refinancing",
+        "label": "Commercial real estate refinancing risk",
+        "description": (
+            "Commercial real estate valuation and refinancing pressure can weaken lender balance sheets."
+        ),
+        "reportUrl": "https://www.federalreserve.gov/publications/financial-stability-report.htm",
+        "queries": [
+            "Federal Reserve commercial real estate refinancing risk report",
+            "CRE refinancing risk bank balance sheet stress",
+        ],
+        "relatedMetrics": ["creditSpreadProxyBAA10Y", "unrate", "nfci"],
+        "notInStressScore": True,
+    },
+]
+
 
 @dataclass
 class EvidenceItem:
@@ -269,6 +329,11 @@ def build_evidence_for_metric(metric_key: str, cfg: dict) -> dict:
     ranked = sorted(best_by_key.values(), key=lambda x: x.score, reverse=True)[:6]
     paper_count = sum(1 for item in ranked if item.source_type == "paper")
     article_count = sum(1 for item in ranked if item.source_type == "article")
+    related_fed_factors = [
+        factor["factorId"]
+        for factor in SUPPLEMENTAL_FED_FACTORS
+        if metric_key in factor.get("relatedMetrics", [])
+    ]
 
     return {
         "metricKey": metric_key,
@@ -279,6 +344,7 @@ def build_evidence_for_metric(metric_key: str, cfg: dict) -> dict:
         "queryStatus": query_status,
         "paperCount": paper_count,
         "articleCount": article_count,
+        "relatedFedFactors": related_fed_factors,
         "evidence": [
             {
                 "sourceType": item.source_type,
@@ -312,6 +378,120 @@ def build_contextual_month_links(timeline: List[dict]) -> List[dict]:
     return out
 
 
+def build_supplemental_fed_factors() -> List[dict]:
+    now_year = dt.datetime.now(dt.timezone.utc).year
+    output: List[dict] = []
+
+    for factor in SUPPLEMENTAL_FED_FACTORS:
+        items: List[EvidenceItem] = []
+        query_status: List[dict] = []
+
+        # Include direct Fed report reference as a fixed anchor.
+        items.append(
+            EvidenceItem(
+                source_type="fed-report",
+                title=f"Federal Reserve reference: {factor['label']}",
+                url=factor["reportUrl"],
+                year=now_year,
+                abstract_or_excerpt=factor["description"],
+                score=9.0,
+                summary=factor["description"],
+            )
+        )
+
+        for query in factor["queries"]:
+            openalex_count = 0
+            crossref_count = 0
+
+            for rec in fetch_openalex(query, per_page=3):
+                title = (rec.get("display_name") or "").strip()
+                year = rec.get("publication_year")
+                doi = rec.get("doi")
+                rec_id = rec.get("id")
+                url = normalize_doi_url(doi) if doi else (rec_id or "")
+                abstract = invert_openalex_index(rec.get("abstract_inverted_index"))
+                if not title or not url:
+                    continue
+                combined = f"{title}. {abstract}".strip()
+                items.append(
+                    EvidenceItem(
+                        source_type="paper",
+                        title=title,
+                        url=url,
+                        year=year,
+                        abstract_or_excerpt=abstract[:1000],
+                        score=score_record(combined, query, year, now_year),
+                        summary=compact_summary(title, combined),
+                    )
+                )
+                openalex_count += 1
+
+            for rec in fetch_crossref(query, rows=3):
+                titles = rec.get("title", [])
+                title = (titles[0] if titles else "").strip()
+                year = None
+                issued = rec.get("issued", {}).get("date-parts", [])
+                if issued and issued[0]:
+                    year = issued[0][0]
+                url = rec.get("URL", "")
+                abstract = strip_html_tags(rec.get("abstract", "") or "")
+                container = (rec.get("container-title") or [""])[0]
+                excerpt = f"{container}. {abstract}".strip()
+                if not title or not url:
+                    continue
+                combined = f"{title}. {excerpt}".strip()
+                items.append(
+                    EvidenceItem(
+                        source_type="article",
+                        title=title,
+                        url=url,
+                        year=year,
+                        abstract_or_excerpt=excerpt[:1000],
+                        score=score_record(combined, query, year, now_year),
+                        summary=compact_summary(title, combined),
+                    )
+                )
+                crossref_count += 1
+
+            query_status.append(
+                {
+                    "query": query,
+                    "openalexResults": openalex_count,
+                    "crossrefResults": crossref_count,
+                }
+            )
+
+        dedup: Dict[str, EvidenceItem] = {}
+        for item in items:
+            key = (item.url or item.title).lower()
+            if key not in dedup or item.score > dedup[key].score:
+                dedup[key] = item
+        ranked = sorted(dedup.values(), key=lambda x: x.score, reverse=True)[:5]
+
+        output.append(
+            {
+                "factorId": factor["factorId"],
+                "label": factor["label"],
+                "description": factor["description"],
+                "notInStressScore": factor["notInStressScore"],
+                "relatedMetrics": factor["relatedMetrics"],
+                "queryStatus": query_status,
+                "evidence": [
+                    {
+                        "sourceType": item.source_type,
+                        "title": item.title,
+                        "url": item.url,
+                        "year": item.year,
+                        "score": round(item.score, 3),
+                        "summary": item.summary,
+                    }
+                    for item in ranked
+                ],
+            }
+        )
+    return output
+
+
 def build() -> None:
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     timeline_payload = json.loads(TIMELINE_FILE.read_text(encoding="utf-8"))
@@ -320,6 +500,7 @@ def build() -> None:
     metric_evidence = []
     for key, cfg in DATA_POINT_CONFIG.items():
         metric_evidence.append(build_evidence_for_metric(key, cfg))
+    supplemental_factors = build_supplemental_fed_factors()
 
     summary_stats = {
         "metrics": len(metric_evidence),
@@ -327,6 +508,7 @@ def build() -> None:
         "totalItems": sum(len(m.get("evidence", [])) for m in metric_evidence),
         "totalPapers": sum(m.get("paperCount", 0) for m in metric_evidence),
         "totalArticles": sum(m.get("articleCount", 0) for m in metric_evidence),
+        "supplementalFedFactors": len(supplemental_factors),
     }
 
     payload = {
@@ -342,6 +524,7 @@ def build() -> None:
         },
         "monthDataPointIndex": build_contextual_month_links(timeline),
         "metrics": metric_evidence,
+        "supplementalFactors": supplemental_factors,
     }
 
     OUTPUT_FILE.write_text(json.dumps(payload, indent=2), encoding="utf-8")

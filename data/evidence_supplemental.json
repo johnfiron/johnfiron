@@ -1,0 +1,273 @@
+{
+  "meta": {
+    "generatedAtUTC": "2026-04-23T00:28:48+00:00",
+    "description": "Supplemental Fed-related factors outside core stress-score inputs. Used as context and fallback references.",
+    "summaryMethod": "rule_based_summary_parser.py (deterministic, no ML)",
+    "stats": {
+      "supplementalFedFactors": 4,
+      "totalItems": 20
+    }
+  },
+  "supplementalFactors": [
+    {
+      "factorId": "bank-lending-standards",
+      "label": "Bank lending standards (SLOOS channel)",
+      "description": "Tighter bank lending standards can slow credit growth even before headline stress indicators spike.",
+      "notInStressScore": true,
+      "relatedMetrics": [
+        "creditSpreadProxyBAA10Y",
+        "nfci",
+        "unrate"
+      ],
+      "queryStatus": [
+        {
+          "query": "Federal Reserve bank lending standards financial stability report",
+          "openalexResults": 3,
+          "crossrefResults": 3
+        },
+        {
+          "query": "senior loan officer opinion survey lending standards recession",
+          "openalexResults": 3,
+          "crossrefResults": 3
+        }
+      ],
+      "evidence": [
+        {
+          "sourceType": "article",
+          "title": "Relation Between Levels and Changes in Lending Standards Reported by Banks in the Senior Loan Officer Opinion Survey on Bank Lending Practices",
+          "url": "https://doi.org/10.17016/2380-7172.1478",
+          "year": 2015,
+          "score": 14.45,
+          "summary": "This note uses bank-level answers to the Senior Loan Officer Opinion Survey on Bank Lending Practices SLOOS to investigate the relation between levels and changes in lending standards. We provide evidence that banks responses about levels and changes in standards are positively correlated, although this relationship is not clear in summary statistics."
+        },
+        {
+          "sourceType": "article",
+          "title": "Financial Stability Policies and Bank Lending: Quasi-Experimental Evidence from Federal Reserve Interventions in 1920-21",
+          "url": "https://doi.org/10.2139/ssrn.3742259",
+          "year": 2020,
+          "score": 12.7,
+          "summary": "Financial Stability Policies and Bank Lending: Quasi-Experimental Evidence from Federal Reserve Interventions in 1920-21."
+        },
+        {
+          "sourceType": "article",
+          "title": "Senior Loan Officer Opinion Survey on Bank Lending Practices, 1990-2011",
+          "url": "https://doi.org/10.1787/888932579246",
+          "year": null,
+          "score": 12.0,
+          "summary": "Senior Loan Officer Opinion Survey on Bank Lending Practices, 1990-2011."
+        },
+        {
+          "sourceType": "article",
+          "title": "Cyclical Lending Standards: A Structural Analysis",
+          "url": "https://doi.org/10.29338/wp2020-06",
+          "year": 2020,
+          "score": 10.7,
+          "summary": "Cyclical Lending Standards: A Structural Analysis. Federal Reserve Bank of Atlanta, Working Papers."
+        },
+        {
+          "sourceType": "article",
+          "title": "Financial Crisis and Bank Lending",
+          "url": "https://doi.org/10.24148/wp2010-11",
+          "year": 2010,
+          "score": 10.2,
+          "summary": "Financial Crisis and Bank Lending. In a cross section of banks, certain bank characteristics are found to have significant effects on loan prices, including loan portfolio quality, capital ratios, and the amount of."
+        }
+      ]
+    },
+    {
+      "factorId": "treasury-market-liquidity",
+      "label": "Treasury market liquidity and basis pressure",
+      "description": "Treasury liquidity disruptions can transmit stress rapidly across funding and risk assets.",
+      "notInStressScore": true,
+      "relatedMetrics": [
+        "stlfsi",
+        "vix",
+        "termSpread10y3m"
+      ],
+      "queryStatus": [
+        {
+          "query": "Federal Reserve Treasury market liquidity vulnerabilities",
+          "openalexResults": 3,
+          "crossrefResults": 3
+        },
+        {
+          "query": "Treasury basis trade leverage systemic risk report",
+          "openalexResults": 3,
+          "crossrefResults": 3
+        }
+      ],
+      "evidence": [
+        {
+          "sourceType": "paper",
+          "title": "Risk Topography",
+          "url": "https://doi.org/10.1086/663991",
+          "year": 2012,
+          "score": 12.3,
+          "summary": "It is imperative that we build an economy-wide risk topography, and submaps of different financial sectors of the economy. We discuss the use of data in modeling of systemic risk in Section VI.Like the construction of the National Income and Product Accounts, it will take a significant."
+        },
+        {
+          "sourceType": "article",
+          "title": "Treasury Market Liquidity Since April 2025",
+          "url": "https://doi.org/10.59576/lse.20260402",
+          "year": 2026,
+          "score": 11.0,
+          "summary": "Treasury market liquidity over the past year, which has witnessed myriad economic and political developments. Liquidity worsened markedly one year ago as volatility increased following the announcement of higher-than-expected tariffs."
+        },
+        {
+          "sourceType": "article",
+          "title": "How Has Treasury Market Liquidity Fared in 2025?",
+          "url": "https://doi.org/10.59576/lse.20251112",
+          "year": 2025,
+          "score": 10.95,
+          "summary": "How Has Treasury Market Liquidity Fared in 2025?. We find that liquidity briefly worsened around the April 2025 tariff announcements but that its relation to Treasury volatility has been similar to what it was in the."
+        },
+        {
+          "sourceType": "fed-report",
+          "title": "Federal Reserve reference: Treasury market liquidity and basis pressure",
+          "url": "https://www.federalreserve.gov/publications/financial-stability-report.htm",
+          "year": 2026,
+          "score": 9.0,
+          "summary": "Treasury liquidity disruptions can transmit stress rapidly across funding and risk assets."
+        },
+        {
+          "sourceType": "article",
+          "title": "The Treasury-Federal Reserve Study of the Government Securities Market",
+          "url": "https://doi.org/10.1017/9781108885386.022",
+          "year": 2021,
+          "score": 8.75,
+          "summary": "The Treasury-Federal Reserve Study of the Government Securities Market."
+        }
+      ]
+    },
+    {
+      "factorId": "private-credit-and-nonbank-leverage",
+      "label": "Private credit and nonbank leverage risk",
+      "description": "Leverage in nonbank finance can amplify shocks through refinancing and forced deleveraging.",
+      "notInStressScore": true,
+      "relatedMetrics": [
+        "creditSpreadProxyBAA10Y",
+        "stlfsi",
+        "nfci"
+      ],
+      "queryStatus": [
+        {
+          "query": "Federal Reserve nonbank leverage private credit vulnerabilities",
+          "openalexResults": 3,
+          "crossrefResults": 3
+        },
+        {
+          "query": "private credit refinancing risk macro financial stability",
+          "openalexResults": 3,
+          "crossrefResults": 3
+        }
+      ],
+      "evidence": [
+        {
+          "sourceType": "article",
+          "title": "Do Capital Inflows Relieve Banks\u2019 Credit Constraints and Boost Credit Growth? Evidence from Credit Conditions and Bank Credit Risk",
+          "url": "https://doi.org/10.1007/978-3-030-66340-7_3",
+          "year": 2021,
+          "score": 10.75,
+          "summary": "Do Capital Inflows Relieve Banks Credit Constraints and Boost Credit Growth? Achieving Price, Financial and Macro-Economic Stability in South Africa."
+        },
+        {
+          "sourceType": "article",
+          "title": "Macro stress testing of credit risk focused on the tails",
+          "url": "https://doi.org/10.1016/j.jfs.2011.10.003",
+          "year": 2012,
+          "score": 10.3,
+          "summary": "Macro stress testing of credit risk focused on the tails."
+        },
+        {
+          "sourceType": "fed-report",
+          "title": "Federal Reserve reference: Private credit and nonbank leverage risk",
+          "url": "https://www.federalreserve.gov/publications/financial-stability-report.htm",
+          "year": 2026,
+          "score": 9.0,
+          "summary": "Leverage in nonbank finance can amplify shocks through refinancing and forced deleveraging."
+        },
+        {
+          "sourceType": "article",
+          "title": "Financing Private Credit",
+          "url": "https://doi.org/10.59576/sr.1111",
+          "year": 2024,
+          "score": 8.9,
+          "summary": "Financing Private Credit. We document that the sectoral composition of lenders financing a credit expansion is a key determinant for subsequent real activity and crisis probability."
+        },
+        {
+          "sourceType": "article",
+          "title": "III. Private Credit Institutions Operating in the Fourth Federal Reserve District",
+          "url": "https://doi.org/10.7312/blas93454-005",
+          "year": 1942,
+          "score": 8.0,
+          "summary": "Private Credit Institutions Operating in the Fourth Federal Reserve District."
+        }
+      ]
+    },
+    {
+      "factorId": "commercial-real-estate-refinancing",
+      "label": "Commercial real estate refinancing risk",
+      "description": "Commercial real estate valuation and refinancing pressure can weaken lender balance sheets.",
+      "notInStressScore": true,
+      "relatedMetrics": [
+        "creditSpreadProxyBAA10Y",
+        "unrate",
+        "nfci"
+      ],
+      "queryStatus": [
+        {
+          "query": "Federal Reserve commercial real estate refinancing risk report",
+          "openalexResults": 3,
+          "crossrefResults": 3
+        },
+        {
+          "query": "CRE refinancing risk bank balance sheet stress",
+          "openalexResults": 3,
+          "crossrefResults": 3
+        }
+      ],
+      "evidence": [
+        {
+          "sourceType": "article",
+          "title": "Understanding the Exposure at Default Risk of Commercial Real Estate Construction and Land Development Loans",
+          "url": "https://doi.org/10.24149/wp2007",
+          "year": 2020,
+          "score": 12.7,
+          "summary": "Understanding the Exposure at Default Risk of Commercial Real Estate Construction and Land Development Loans. Federal Reserve Bank of Dallas, Working Papers."
+        },
+        {
+          "sourceType": "article",
+          "title": "The Other (Commercial) Real Estate Boom and Bust: The Effects of Risk Premia and Regulatory Capital Arbitrage",
+          "url": "https://doi.org/10.24149/wp1504",
+          "year": 2015,
+          "score": 12.45,
+          "summary": "Federal Reserve Bank of Dallas, Working Papers."
+        },
+        {
+          "sourceType": "article",
+          "title": "Safe Collateral, Arm\u2019s-Length Credit: Evidence from the Commercial Real Estate Market",
+          "url": "https://doi.org/10.24148/wp2017-19",
+          "year": 2017,
+          "score": 10.55,
+          "summary": "Federal Reserve Bank of San Francisco, Working Paper Series."
+        },
+        {
+          "sourceType": "article",
+          "title": "South Africa: Technical Assistance Report-Stress Testing the Central Bank Balance Sheet and Calibrating Risk-based Capital Buffers",
+          "url": "https://doi.org/10.5089/9798229009522.019.a001",
+          "year": null,
+          "score": 10.0,
+          "summary": "South Africa: Technical Assistance Report-Stress Testing the Central Bank Balance Sheet and Calibrating Risk-based Capital Buffers."
+        },
+        {
+          "sourceType": "fed-report",
+          "title": "Federal Reserve reference: Commercial real estate refinancing risk",
+          "url": "https://www.federalreserve.gov/publications/financial-stability-report.htm",
+          "year": 2026,
+          "score": 9.0,
+          "summary": "Commercial real estate valuation and refinancing pressure can weaken lender balance sheets."
+        }
+      ]
+    }
+  ]
+}
