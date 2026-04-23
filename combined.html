@@ -95,11 +95,15 @@
         background: #071021;
         padding: 8px;
         overflow: hidden;
-        min-height: 380px;
       }
-      canvas {
-        width: 100%;
-        height: 360px !important;
+      .chart-host {
+        position: relative;
+        height: 360px;
+      }
+      .chart-host canvas {
+        width: 100% !important;
+        height: 100% !important;
+        display: block;
       }
       .insight {
         margin-top: 10px;
@@ -224,8 +228,8 @@
         </div>
 
         <div class="grid">
-          <div class="canvas-wrap"><canvas id="macroSectorChart"></canvas></div>
-          <div class="canvas-wrap"><canvas id="phaseChart"></canvas></div>
+          <div class="canvas-wrap"><div class="chart-host"><canvas id="macroSectorChart"></canvas></div></div>
+          <div class="canvas-wrap"><div class="chart-host"><canvas id="phaseChart"></canvas></div></div>
         </div>
         <div class="insight"><p id="insightText">Click a point to inspect combined state.</p></div>
         <div class="evidence">

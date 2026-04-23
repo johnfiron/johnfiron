@@ -157,14 +157,21 @@
         border-radius: 12px;
         background: #071021;
         padding: 8px;
+        overflow: hidden;
       }
       .chart-host {
         height: 400px;
+        min-height: 400px;
+        max-height: 400px;
         position: relative;
+        overflow: hidden;
       }
       .chart-host canvas {
+        position: absolute;
+        inset: 0;
         width: 100% !important;
         height: 100% !important;
+        max-height: 100% !important;
         display: block;
       }
       .footnote {
