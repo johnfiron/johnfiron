@@ -13,12 +13,14 @@ Interactive timeline showing:
 
 ```bash
 python3 tools/build_timeline_data.py
-python3 tools/build_evidence_links.py
+python3 tools/build_sector_data.py
+python3 tools/build_evidence_supplemental.py
 ```
 
 This writes:
 - `data/timeline_data.json` from live FRED series
-- `data/evidence_data.json` from dynamic OpenAlex + Crossref searches
+- `data/sector_data.json` and `data/combined_data.json` for sector and combined dashboards
+- `data/evidence_supplemental.json` for supplemental Fed factor references
 
 ### 2) Open the chart
 
@@ -67,6 +69,13 @@ For this repository name, the site URL format is:
 - Hover any point to see the date, phase, stress score, and core inputs.
 - The dashboard now embeds a **data request status panel** showing every live source call, row counts, date coverage, and any fetch errors, so missing series are transparent and traceable.
 - The evidence explorer uses click-triggered **live** search for papers/articles from OpenAlex and Crossref, based on the clicked datapoint context (metric, value, phase, stress score, date).
+- Evidence retrieval now scans larger live result sets (OpenAlex + Crossref), then performs deterministic extraction per reference:
+  - extracted date mention (month/year where available),
+  - extracted numeric/value mention,
+  - extracted causal sentence (when present),
+  - deterministic sentiment label/score.
+- Evidence is cross-referenced across sources for corroboration signatures (shared date/value/causal terms/sentiment) and exposes consensus support counts per item.
+- References are bucketed into **Prior observation**, **Current information (as of point)**, and **Future analysis** on all dashboards.
 - Supplemental Fed report factor references are prebuilt in `data/evidence_supplemental.json` via `tools/build_evidence_supplemental.py`.
 - Phase is calculated (not manual) from weighted component scores with explicit phase transition rules; these rules are shown in the UI under **How phase is determined**.
 - Evidence is now interaction-driven: click any line data point on the charts to open ranked articles/papers and related Fed supplemental factors for that point.
