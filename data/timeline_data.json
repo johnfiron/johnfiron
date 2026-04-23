@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Collapse Cycle Phase Timeline",
-    "generatedAtUTC": "2026-04-23T00:23:07+00:00",
+    "generatedAtUTC": "2026-04-23T00:36:08+00:00",
     "description": "Monthly phase classification from historical and current macro-financial stress indicators. Early-history sections (including 1920s/1930s) are estimated due to limited high-frequency market microstructure data.",
     "series": {
       "BAA10Y": "Corporate bond spread proxy (BAA - 10Y Treasury, pct)",

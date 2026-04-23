@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sector Leadership Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+        background: radial-gradient(circle at top, #1e293b, #0b1022 55%);
+        color: #f8fafc;
+      }
+      .wrap {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 18px 14px 28px;
+      }
+      .panel {
+        margin-top: 12px;
+        padding: 14px;
+        border-radius: 12px;
+        border: 1px solid #334155;
+        background: rgba(2, 6, 23, 0.82);
+      }
+      .controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 10px;
+      }
+      select, button {
+        border: 1px solid #475569;
+        border-radius: 8px;
+        background: #0b1224;
+        color: #f8fafc;
+        padding: 8px 10px;
+      }
+      label {
+        color: #cbd5e1;
+        font-size: 0.84rem;
+        margin-bottom: 4px;
+        display: block;
+      }
+      .canvas-wrap {
+        border: 1px solid #334155;
+        border-radius: 12px;
+        background: #071021;
+        padding: 8px;
+        margin-top: 12px;
+      }
+      canvas { width: 100%; height: 360px; }
+      .evidence {
+        margin-top: 12px;
+        border: 1px solid #334155;
+        border-radius: 12px;
+        background: rgba(15, 23, 42, 0.62);
+        padding: 12px;
+      }
+      .evidence-list {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(280px, 1fr));
+        gap: 10px;
+      }
+      .item {
+        border: 1px solid #334155;
+        border-radius: 10px;
+        background: rgba(15, 23, 42, 0.72);
+        padding: 10px;
+      }
+      .item h4 { margin: 0 0 6px; font-size: 0.9rem; }
+      .item p { margin: 0; color: #cbd5e1; font-size: 0.8rem; line-height: 1.35; }
+      .hint { color: #cbd5e1; font-size: 0.85rem; margin-top: 8px; }
+      .nav {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+      }
+      .nav a {
+        color: #93c5fd;
+        text-decoration: none;
+        border: 1px solid #334155;
+        border-radius: 999px;
+        padding: 4px 10px;
+      }
+      .nav a:hover { text-decoration: underline; }
+      @media (max-width: 900px) {
+        .controls, .evidence-list { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="wrap">
+      <h1>Sector Leadership Dashboard</h1>
+      <p class="hint">
+        Click any plotted data point to fetch dynamic papers/articles for the selected market leadership regime.
+      </p>
+      <div class="nav">
+        <a href="./index.html">Macro Cycle</a>
+        <a href="./sectors.html">Sectors</a>
+        <a href="./combined.html">Combined View</a>
+      </div>
+      <section class="panel">
+        <div class="controls">
+          <div>
+            <label for="rangePreset">Timeline window</label>
+            <select id="rangePreset">
+              <option value="all">All history</option>
+              <option value="recent" selected>2008-present</option>
+              <option value="covid">2018-2022</option>
+            </select>
+          </div>
+          <div>
+            <label for="metricMode">Display mode</label>
+            <select id="metricMode">
+              <option value="relative12" selected>Relative 12m return vs S&P 500</option>
+              <option value="relative3">Relative 3m return vs S&P 500</option>
+            </select>
+          </div>
+          <div>
+            <label>Actions</label>
+            <button id="reloadBtn" type="button">Reload data</button>
+          </div>
+        </div>
+        <div class="canvas-wrap">
+          <canvas id="sectorChart"></canvas>
+        </div>
+        <div class="evidence">
+          <h3>Clicked point evidence (dynamic)</h3>
+          <p class="hint" id="evidenceMeta">Click any line point to fetch ranked references.</p>
+          <div class="evidence-list" id="evidenceList"></div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const metricQueries = {
+        NASDAQ100: ["technology sector leadership earnings concentration", "mega cap growth leadership macro cycle"],
+        NASDAQCOM: ["broad technology performance and macro conditions", "nasdaq outperformance recession cycle"],
+        DJIA: ["defensive large cap rotation during stress", "cyclical defensive sector rotation evidence"],
+        NASDAQNQUS500LCE: ["equal weight vs cap weight market breadth", "market breadth deterioration and concentration"],
+      };
+
+      function dateObj(v) { return new Date(v + "T00:00:00Z"); }
+      function stripHtmlTags(t) { return String(t || "").replace(/<[^>]+>/g, " ").replace(/\s{2,}/g, " ").trim(); }
+      function invertOpenAlexAbstract(indexObj) {
+        if (!indexObj || typeof indexObj !== "object") return "";
+        const pairs = [];
+        Object.entries(indexObj).forEach(([tok, pos]) => (pos || []).forEach((p) => pairs.push([p, tok])));
+        pairs.sort((a, b) => a[0] - b[0]);
+        return pairs.map((x) => x[1]).join(" ");
+      }
+      function normalizeDoiUrl(v) {
+        if (!v) return "";
+        if (String(v).startsWith("http://") || String(v).startsWith("https://")) return String(v);
+        if (String(v).toLowerCase().startsWith("doi.org/")) return `https://${v}`;
+        return `https://doi.org/${v}`;
+      }
+      function summarize(title, body) {
+        const txt = `${title}. ${body}`.replace(/https?:\/\/\S+/g, " ").replace(/\s{2,}/g, " ").trim();
+        const parts = txt.split(/(?<=[.!?])\s+/).map((s) => s.trim()).filter(Boolean);
+        const out = [];
+        for (const p of parts) {
+          const words = p.split(/\s+/);
+          if (words.length < 6) continue;
+          out.push(words.length > 34 ? words.slice(0, 34).join(" ") + "." : p);
+          if (out.length >= 3) break;
+        }
+        return out.length ? out.join(" ") : (title.endsWith(".") ? title : title + ".");
+      }
+      function score(text, query, year) {
+        const tset = new Set(String(text).toLowerCase().match(/[a-z0-9]+/g) || []);
+        const q = (String(query).toLowerCase().match(/[a-z0-9]+/g) || []).filter((x) => x.length > 2);
+        const overlap = q.reduce((n, tok) => n + (tset.has(tok) ? 1 : 0), 0);
+        let rec = 0;
+        if (Number.isFinite(year)) {
+          const now = new Date().getUTCFullYear();
+          rec = Math.max(0, 1 - Math.min(20, now - year) / 20);
+        }
+        return overlap * 2 + rec;
+      }
+      async function fetchOpenAlex(query) {
+        const url = "https://api.openalex.org/works?search=" + encodeURIComponent(query) + "&per-page=5&select=display_name,publication_year,doi,id,abstract_inverted_index";
+        try { const r = await fetch(url, { cache: "no-store" }); if (!r.ok) return []; return (await r.json()).results || []; } catch { return []; }
+      }
+      async function fetchCrossref(query) {
+        const url = "https://api.crossref.org/works?query=" + encodeURIComponent(query) + "&rows=5";
+        try { const r = await fetch(url, { cache: "no-store" }); if (!r.ok) return []; return (await r.json())?.message?.items || []; } catch { return []; }
+      }
+
+      let payloadCache = null;
+      let chart = null;
+
+      async function loadData() {
+        const res = await fetch("./data/sector_data.json?ts=" + Date.now(), { cache: "no-store" });
+        if (!res.ok) throw new Error("Failed loading sector_data.json");
+        return res.json();
+      }
+
+      function filterTimeline(rows, preset) {
+        if (preset === "all") return rows;
+        const windows = { recent: ["2008-01-01", "2100-01-01"], covid: ["2018-01-01", "2022-12-01"] };
+        const [s, e] = windows[preset] || windows.recent;
+        return rows.filter((r) => r.date >= s && r.date <= e);
+      }
+
+      function buildDatasets(rows, metricKey) {
+        const seriesIds = ["NASDAQ100", "NASDAQCOM", "DJIA", "NASDAQNQUS500LCE"];
+        const colors = { NASDAQ100: "#22d3ee", NASDAQCOM: "#2dd4bf", DJIA: "#facc15", NASDAQNQUS500LCE: "#f472b6" };
+        return seriesIds.map((sid) => ({
+          label: rows.find((r) => r.sectors?.[sid])?.sectors?.[sid]?.label || sid,
+          seriesId: sid,
+          borderColor: colors[sid],
+          borderWidth: 2,
+          pointRadius: 0,
+          tension: 0.15,
+          data: rows
+            .map((r) => ({ x: dateObj(r.date), y: r.sectors?.[sid]?.[metricKey] ?? null, date: r.date }))
+            .filter((p) => Number.isFinite(p.y)),
+        }));
+      }
+
+      async function renderEvidence(clickCtx) {
+        const meta = document.getElementById("evidenceMeta");
+        const list = document.getElementById("evidenceList");
+        list.innerHTML = "";
+        const queries = (metricQueries[clickCtx.seriesId] || ["market leadership macro cycle"]).map(
+          (q) => `${q} ${clickCtx.date} value ${clickCtx.value.toFixed(3)}`
+        );
+        meta.textContent = `Searching live references for ${clickCtx.label} on ${clickCtx.date} (${clickCtx.modeLabel}: ${clickCtx.value.toFixed(3)}).`;
+
+        const items = [];
+        for (const q of queries) {
+          const [oa, cr] = await Promise.all([fetchOpenAlex(q), fetchCrossref(q)]);
+          oa.forEach((rec) => {
+            const title = String(rec.display_name || "").trim();
+            const year = Number.isFinite(rec.publication_year) ? rec.publication_year : null;
+            const url = normalizeDoiUrl(rec.doi) || String(rec.id || "");
+            if (!title || !url) return;
+            const abs = invertOpenAlexAbstract(rec.abstract_inverted_index);
+            const txt = `${title}. ${abs}`;
+            items.push({ sourceType: "paper", title, year, url, score: score(txt, q, year), summary: summarize(title, abs) });
+          });
+          cr.forEach((rec) => {
+            const title = String((rec.title || [])[0] || "").trim();
+            const issued = rec?.issued?.["date-parts"] || [];
+            const year = issued[0] && Number.isFinite(issued[0][0]) ? issued[0][0] : null;
+            const url = String(rec.URL || "").trim();
+            if (!title || !url) return;
+            const c = String((rec["container-title"] || [])[0] || "").trim();
+            const abs = stripHtmlTags(rec.abstract || "");
+            const txt = `${title}. ${c}. ${abs}`;
+            items.push({ sourceType: "article", title, year, url, score: score(txt, q, year), summary: summarize(title, `${c}. ${abs}`) });
+          });
+        }
+
+        const dedup = new Map();
+        items.forEach((x) => {
+          const k = (x.url || x.title).toLowerCase();
+          if (!dedup.has(k) || x.score > dedup.get(k).score) dedup.set(k, x);
+        });
+        const ranked = Array.from(dedup.values()).sort((a, b) => b.score - a.score).slice(0, 8);
+        if (!ranked.length) {
+          list.innerHTML = `<article class="item"><p>No live evidence results found for this clicked context.</p></article>`;
+          return;
+        }
+        ranked.forEach((x) => {
+          const el = document.createElement("article");
+          el.className = "item";
+          const y = x.year ? ` (${x.year})` : "";
+          el.innerHTML = `<h4><a class="req-link" href="${x.url}" target="_blank" rel="noopener noreferrer">${x.title}</a>${y}</h4><p><strong>Rank score:</strong> ${x.score.toFixed(2)}</p><p>${x.summary}</p>`;
+          list.appendChild(el);
+        });
+      }
+
+      function render() {
+        const preset = document.getElementById("rangePreset").value;
+        const mode = document.getElementById("metricMode").value;
+        const modeLabel = mode === "relative12" ? "Relative 12m return vs S&P 500" : "Relative 3m return vs S&P 500";
+        const metricKey = mode === "relative12" ? "relative12mPct" : "relative3mPct";
+        const rows = filterTimeline(payloadCache.timeline || [], preset);
+        const datasets = buildDatasets(rows, metricKey);
+        if (chart) chart.destroy();
+        chart = new Chart(document.getElementById("sectorChart"), {
+          type: "line",
+          data: { datasets },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            interaction: { mode: "nearest", intersect: true },
+            scales: {
+              x: { type: "time", ticks: { color: "#dbeafe" }, grid: { color: "rgba(148,163,184,0.12)" } },
+              y: { ticks: { color: "#dbeafe" }, grid: { color: "rgba(148,163,184,0.12)" }, title: { display: true, text: modeLabel, color: "#bfdbfe" } },
+            },
+            plugins: {
+              legend: { labels: { color: "#e2e8f0" } },
+              tooltip: {
+                callbacks: {
+                  label: (ctx) => `${ctx.dataset.label}: ${ctx.parsed.y.toFixed(3)}%`,
+                },
+              },
+            },
+          },
+        });
+        chart.canvas.onclick = async (evt) => {
+          const pts = chart.getElementsAtEventForMode(evt, "nearest", { intersect: true }, true);
+          if (!pts.length) return;
+          const p = pts[0];
+          const ds = chart.data.datasets[p.datasetIndex];
+          const dp = ds.data[p.index];
+          await renderEvidence({
+            seriesId: ds.seriesId,
+            label: ds.label,
+            date: dp.date,
+            value: dp.y,
+            modeLabel,
+          });
+        };
+      }
+
+      async function init() {
+        payloadCache = await loadData();
+        render();
+        document.getElementById("rangePreset").addEventListener("change", render);
+        document.getElementById("metricMode").addEventListener("change", render);
+        document.getElementById("reloadBtn").addEventListener("click", async () => {
+          payloadCache = await loadData();
+          render();
+        });
+      }
+      init().catch((err) => {
+        document.getElementById("evidenceMeta").textContent = `Failed to initialize: ${err.message}`;
+      });
+    </script>
+  </body>
+</html>
