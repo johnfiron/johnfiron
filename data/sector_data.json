@@ -1,0 +1,5007 @@
+{
+  "meta": {
+    "generatedAtUTC": "2026-04-23T00:36:16+00:00",
+    "benchmarkSeries": "SP500",
+    "sectorSeries": {
+      "NASDAQ100": "Technology/Growth leadership proxy",
+      "NASDAQCOM": "Broader technology-heavy market proxy",
+      "DJIA": "Large-cap industrial/defensive proxy",
+      "NASDAQNQUS500LCE": "S&P-style equal-weight proxy"
+    },
+    "description": "Sector-style performance proxies and relative strength versus S&P 500. Uses available broad FRED market internals where direct sector families are unavailable."
+  },
+  "leadershipLatest": [
+    {
+      "seriesId": "NASDAQCOM",
+      "label": "Broader technology-heavy market proxy",
+      "relative12mPct": 10.884
+    },
+    {
+      "seriesId": "NASDAQ100",
+      "label": "Technology/Growth leadership proxy",
+      "relative12mPct": 7.129
+    },
+    {
+      "seriesId": "DJIA",
+      "label": "Large-cap industrial/defensive proxy",
+      "relative12mPct": -6.482
+    },
+    {
+      "seriesId": "NASDAQNQUS500LCE",
+      "label": "S&P-style equal-weight proxy",
+      "relative12mPct": -8.215
+    }
+  ],
+  "timeline": [
+    {
+      "date": "2016-04-01",
+      "sp500": {
+        "indexValue": 2065.3,
+        "ret3mPct": null,
+        "ret12mPct": null
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 4341.3,
+          "ret3mPct": null,
+          "ret12mPct": null,
+          "relative3mPct": null,
+          "relative12mPct": null
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 4775.36,
+          "ret3mPct": null,
+          "ret12mPct": null,
+          "relative3mPct": null,
+          "relative12mPct": null
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 17773.64,
+          "ret3mPct": null,
+          "ret12mPct": null,
+          "relative3mPct": null,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2016-05-01",
+      "sp500": {
+        "indexValue": 2096.96,
+        "ret3mPct": null,
+        "ret12mPct": null
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 4523.89,
+          "ret3mPct": null,
+          "ret12mPct": null,
+          "relative3mPct": null,
+          "relative12mPct": null
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 4948.05,
+          "ret3mPct": null,
+          "ret12mPct": null,
+          "relative3mPct": null,
+          "relative12mPct": null
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 17787.2,
+          "ret3mPct": null,
+          "ret12mPct": null,
+          "relative3mPct": null,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2016-06-01",
+      "sp500": {
+        "indexValue": 2098.86,
+        "ret3mPct": null,
+        "ret12mPct": null
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 4417.7,
+          "ret3mPct": null,
+          "ret12mPct": null,
+          "relative3mPct": null,
+          "relative12mPct": null
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 4842.67,
+          "ret3mPct": null,
+          "ret12mPct": null,
+          "relative3mPct": null,
+          "relative12mPct": null
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 17929.99,
+          "ret3mPct": null,
+          "ret12mPct": null,
+          "relative3mPct": null,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2016-07-01",
+      "sp500": {
+        "indexValue": 2173.6,
+        "ret3mPct": 5.244,
+        "ret12mPct": null
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 4730.23,
+          "ret3mPct": 8.959,
+          "ret12mPct": null,
+          "relative3mPct": 3.715,
+          "relative12mPct": null
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 5162.13,
+          "ret3mPct": 8.099,
+          "ret12mPct": null,
+          "relative3mPct": 2.855,
+          "relative12mPct": null
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 18432.24,
+          "ret3mPct": 3.705,
+          "ret12mPct": null,
+          "relative3mPct": -1.538,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2016-08-01",
+      "sp500": {
+        "indexValue": 2170.95,
+        "ret3mPct": 3.528,
+        "ret12mPct": null
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 4771.05,
+          "ret3mPct": 5.463,
+          "ret12mPct": null,
+          "relative3mPct": 1.935,
+          "relative12mPct": null
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 5213.22,
+          "ret3mPct": 5.359,
+          "ret12mPct": null,
+          "relative3mPct": 1.831,
+          "relative12mPct": null
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 18400.88,
+          "ret3mPct": 3.45,
+          "ret12mPct": null,
+          "relative3mPct": -0.078,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2016-09-01",
+      "sp500": {
+        "indexValue": 2168.27,
+        "ret3mPct": 3.307,
+        "ret12mPct": null
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 4875.7,
+          "ret3mPct": 10.367,
+          "ret12mPct": null,
+          "relative3mPct": 7.06,
+          "relative12mPct": null
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 5312.0,
+          "ret3mPct": 9.692,
+          "ret12mPct": null,
+          "relative3mPct": 6.385,
+          "relative12mPct": null
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 18308.15,
+          "ret3mPct": 2.109,
+          "ret12mPct": null,
+          "relative3mPct": -1.198,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2016-10-01",
+      "sp500": {
+        "indexValue": 2126.15,
+        "ret3mPct": -2.183,
+        "ret12mPct": null
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 4801.27,
+          "ret3mPct": 1.502,
+          "ret12mPct": null,
+          "relative3mPct": 3.685,
+          "relative12mPct": null
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 5189.13,
+          "ret3mPct": 0.523,
+          "ret12mPct": null,
+          "relative3mPct": 2.706,
+          "relative12mPct": null
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 18142.42,
+          "ret3mPct": -1.572,
+          "ret12mPct": null,
+          "relative3mPct": 0.611,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2016-11-01",
+      "sp500": {
+        "indexValue": 2198.81,
+        "ret3mPct": 1.283,
+        "ret12mPct": null
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 4810.81,
+          "ret3mPct": 0.833,
+          "ret12mPct": null,
+          "relative3mPct": -0.45,
+          "relative12mPct": null
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 5323.68,
+          "ret3mPct": 2.119,
+          "ret12mPct": null,
+          "relative3mPct": 0.836,
+          "relative12mPct": null
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 19123.58,
+          "ret3mPct": 3.928,
+          "ret12mPct": null,
+          "relative3mPct": 2.644,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2016-12-01",
+      "sp500": {
+        "indexValue": 2238.83,
+        "ret3mPct": 3.254,
+        "ret12mPct": null
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 4863.62,
+          "ret3mPct": -0.248,
+          "ret12mPct": null,
+          "relative3mPct": -3.502,
+          "relative12mPct": null
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 5383.12,
+          "ret3mPct": 1.339,
+          "ret12mPct": null,
+          "relative3mPct": -1.915,
+          "relative12mPct": null
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 19762.6,
+          "ret3mPct": 7.944,
+          "ret12mPct": null,
+          "relative3mPct": 4.69,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2017-01-01",
+      "sp500": {
+        "indexValue": 2278.87,
+        "ret3mPct": 7.183,
+        "ret12mPct": null
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 5116.77,
+          "ret3mPct": 6.571,
+          "ret12mPct": null,
+          "relative3mPct": -0.612,
+          "relative12mPct": null
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 5614.79,
+          "ret3mPct": 8.203,
+          "ret12mPct": null,
+          "relative3mPct": 1.02,
+          "relative12mPct": null
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 19864.09,
+          "ret3mPct": 9.49,
+          "ret12mPct": null,
+          "relative3mPct": 2.307,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2017-02-01",
+      "sp500": {
+        "indexValue": 2363.64,
+        "ret3mPct": 7.496,
+        "ret12mPct": null
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 5330.31,
+          "ret3mPct": 10.799,
+          "ret12mPct": null,
+          "relative3mPct": 3.302,
+          "relative12mPct": null
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 5825.44,
+          "ret3mPct": 9.425,
+          "ret12mPct": null,
+          "relative3mPct": 1.929,
+          "relative12mPct": null
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 20812.24,
+          "ret3mPct": 8.83,
+          "ret12mPct": null,
+          "relative3mPct": 1.334,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2017-03-01",
+      "sp500": {
+        "indexValue": 2362.72,
+        "ret3mPct": 5.534,
+        "ret12mPct": null
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 5436.23,
+          "ret3mPct": 11.773,
+          "ret12mPct": null,
+          "relative3mPct": 6.24,
+          "relative12mPct": null
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 5911.74,
+          "ret3mPct": 9.82,
+          "ret12mPct": null,
+          "relative3mPct": 4.286,
+          "relative12mPct": null
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 20663.22,
+          "ret3mPct": 4.557,
+          "ret12mPct": null,
+          "relative3mPct": -0.977,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2017-04-01",
+      "sp500": {
+        "indexValue": 2384.2,
+        "ret3mPct": 4.622,
+        "ret12mPct": 15.441
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 5583.53,
+          "ret3mPct": 9.122,
+          "ret12mPct": 28.614,
+          "relative3mPct": 4.5,
+          "relative12mPct": 13.173
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 6047.61,
+          "ret3mPct": 7.709,
+          "ret12mPct": 26.642,
+          "relative3mPct": 3.087,
+          "relative12mPct": 11.201
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 20940.51,
+          "ret3mPct": 5.419,
+          "ret12mPct": 17.818,
+          "relative3mPct": 0.797,
+          "relative12mPct": 2.377
+        }
+      }
+    },
+    {
+      "date": "2017-05-01",
+      "sp500": {
+        "indexValue": 2411.8,
+        "ret3mPct": 2.038,
+        "ret12mPct": 15.014
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 5788.8,
+          "ret3mPct": 8.602,
+          "ret12mPct": 27.961,
+          "relative3mPct": 6.564,
+          "relative12mPct": 12.947
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 6198.52,
+          "ret3mPct": 6.404,
+          "ret12mPct": 25.272,
+          "relative3mPct": 4.367,
+          "relative12mPct": 10.258
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 21008.65,
+          "ret3mPct": 0.944,
+          "ret12mPct": 18.111,
+          "relative3mPct": -1.094,
+          "relative12mPct": 3.097
+        }
+      }
+    },
+    {
+      "date": "2017-06-01",
+      "sp500": {
+        "indexValue": 2423.41,
+        "ret3mPct": 2.569,
+        "ret12mPct": 15.463
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 5646.92,
+          "ret3mPct": 3.876,
+          "ret12mPct": 27.825,
+          "relative3mPct": 1.307,
+          "relative12mPct": 12.362
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 6140.42,
+          "ret3mPct": 3.868,
+          "ret12mPct": 26.798,
+          "relative3mPct": 1.3,
+          "relative12mPct": 11.335
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 21349.63,
+          "ret3mPct": 3.322,
+          "ret12mPct": 19.072,
+          "relative3mPct": 0.753,
+          "relative12mPct": 3.609
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1000.25,
+          "ret3mPct": null,
+          "ret12mPct": null,
+          "relative3mPct": null,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2017-07-01",
+      "sp500": {
+        "indexValue": 2470.3,
+        "ret3mPct": 3.611,
+        "ret12mPct": 13.65
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 5880.33,
+          "ret3mPct": 5.316,
+          "ret12mPct": 24.314,
+          "relative3mPct": 1.704,
+          "relative12mPct": 10.664
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 6348.12,
+          "ret3mPct": 4.969,
+          "ret12mPct": 22.975,
+          "relative3mPct": 1.358,
+          "relative12mPct": 9.325
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 21891.12,
+          "ret3mPct": 4.54,
+          "ret12mPct": 18.765,
+          "relative3mPct": 0.928,
+          "relative12mPct": 5.115
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1015.24,
+          "ret3mPct": null,
+          "ret12mPct": null,
+          "relative3mPct": null,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2017-08-01",
+      "sp500": {
+        "indexValue": 2471.65,
+        "ret3mPct": 2.482,
+        "ret12mPct": 13.851
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 5988.6,
+          "ret3mPct": 3.451,
+          "ret12mPct": 25.52,
+          "relative3mPct": 0.97,
+          "relative12mPct": 11.668
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 6428.66,
+          "ret3mPct": 3.713,
+          "ret12mPct": 23.315,
+          "relative3mPct": 1.231,
+          "relative12mPct": 9.463
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 21948.1,
+          "ret3mPct": 4.472,
+          "ret12mPct": 19.277,
+          "relative3mPct": 1.99,
+          "relative12mPct": 5.426
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1005.29,
+          "ret3mPct": null,
+          "ret12mPct": null,
+          "relative3mPct": null,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2017-09-01",
+      "sp500": {
+        "indexValue": 2519.36,
+        "ret3mPct": 3.959,
+        "ret12mPct": 16.192
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 5979.3,
+          "ret3mPct": 5.886,
+          "ret12mPct": 22.635,
+          "relative3mPct": 1.927,
+          "relative12mPct": 6.443
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 6495.96,
+          "ret3mPct": 5.79,
+          "ret12mPct": 22.288,
+          "relative3mPct": 1.831,
+          "relative12mPct": 6.096
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 22405.09,
+          "ret3mPct": 4.944,
+          "ret12mPct": 22.378,
+          "relative3mPct": 0.984,
+          "relative12mPct": 6.186
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1030.73,
+          "ret3mPct": 3.047,
+          "ret12mPct": null,
+          "relative3mPct": -0.912,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2017-10-01",
+      "sp500": {
+        "indexValue": 2575.26,
+        "ret3mPct": 4.249,
+        "ret12mPct": 21.123
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 6248.56,
+          "ret3mPct": 6.262,
+          "ret12mPct": 30.144,
+          "relative3mPct": 2.013,
+          "relative12mPct": 9.021
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 6727.67,
+          "ret3mPct": 5.979,
+          "ret12mPct": 29.649,
+          "relative3mPct": 1.73,
+          "relative12mPct": 8.526
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 23377.24,
+          "ret3mPct": 6.789,
+          "ret12mPct": 28.854,
+          "relative3mPct": 2.54,
+          "relative12mPct": 7.731
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1047.25,
+          "ret3mPct": 3.153,
+          "ret12mPct": null,
+          "relative3mPct": -1.096,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2017-11-01",
+      "sp500": {
+        "indexValue": 2647.58,
+        "ret3mPct": 7.118,
+        "ret12mPct": 20.41
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 6365.56,
+          "ret3mPct": 6.295,
+          "ret12mPct": 32.318,
+          "relative3mPct": -0.823,
+          "relative12mPct": 11.908
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 6873.97,
+          "ret3mPct": 6.927,
+          "ret12mPct": 29.121,
+          "relative3mPct": -0.191,
+          "relative12mPct": 8.711
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 24272.35,
+          "ret3mPct": 10.59,
+          "ret12mPct": 26.924,
+          "relative3mPct": 3.472,
+          "relative12mPct": 6.514
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1083.29,
+          "ret3mPct": 7.759,
+          "ret12mPct": null,
+          "relative3mPct": 0.641,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2017-12-01",
+      "sp500": {
+        "indexValue": 2673.61,
+        "ret3mPct": 6.123,
+        "ret12mPct": 19.42
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 6396.42,
+          "ret3mPct": 6.976,
+          "ret12mPct": 31.516,
+          "relative3mPct": 0.853,
+          "relative12mPct": 12.096
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 6903.39,
+          "ret3mPct": 6.272,
+          "ret12mPct": 28.241,
+          "relative3mPct": 0.149,
+          "relative12mPct": 8.821
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 24719.22,
+          "ret3mPct": 10.329,
+          "ret12mPct": 25.081,
+          "relative3mPct": 4.206,
+          "relative12mPct": 5.661
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1093.98,
+          "ret3mPct": 6.136,
+          "ret12mPct": null,
+          "relative3mPct": 0.014,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2018-01-01",
+      "sp500": {
+        "indexValue": 2823.81,
+        "ret3mPct": 9.651,
+        "ret12mPct": 23.913
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 6949.99,
+          "ret3mPct": 11.225,
+          "ret12mPct": 35.828,
+          "relative3mPct": 1.574,
+          "relative12mPct": 11.915
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 7411.48,
+          "ret3mPct": 10.164,
+          "ret12mPct": 31.999,
+          "relative3mPct": 0.513,
+          "relative12mPct": 8.087
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 26149.39,
+          "ret3mPct": 11.858,
+          "ret12mPct": 31.642,
+          "relative3mPct": 2.207,
+          "relative12mPct": 7.729
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1144.49,
+          "ret3mPct": 9.285,
+          "ret12mPct": null,
+          "relative3mPct": -0.366,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2018-02-01",
+      "sp500": {
+        "indexValue": 2713.83,
+        "ret3mPct": 2.502,
+        "ret12mPct": 14.816
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 6854.42,
+          "ret3mPct": 7.68,
+          "ret12mPct": 28.593,
+          "relative3mPct": 5.177,
+          "relative12mPct": 13.778
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 7273.01,
+          "ret3mPct": 5.805,
+          "ret12mPct": 24.849,
+          "relative3mPct": 3.303,
+          "relative12mPct": 10.033
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 25029.2,
+          "ret3mPct": 3.118,
+          "ret12mPct": 20.262,
+          "relative3mPct": 0.616,
+          "relative12mPct": 5.446
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1096.06,
+          "ret3mPct": 1.179,
+          "ret12mPct": null,
+          "relative3mPct": -1.323,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2018-03-01",
+      "sp500": {
+        "indexValue": 2640.87,
+        "ret3mPct": -1.225,
+        "ret12mPct": 11.772
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 6581.13,
+          "ret3mPct": 2.888,
+          "ret12mPct": 21.061,
+          "relative3mPct": 4.112,
+          "relative12mPct": 9.288
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 7063.44,
+          "ret3mPct": 2.318,
+          "ret12mPct": 19.482,
+          "relative3mPct": 3.543,
+          "relative12mPct": 7.709
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 24103.11,
+          "ret3mPct": -2.492,
+          "ret12mPct": 16.647,
+          "relative3mPct": -1.268,
+          "relative12mPct": 4.875
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1084.16,
+          "ret3mPct": -0.898,
+          "ret12mPct": null,
+          "relative3mPct": 0.327,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2018-04-01",
+      "sp500": {
+        "indexValue": 2648.05,
+        "ret3mPct": -6.224,
+        "ret12mPct": 11.067
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 6605.57,
+          "ret3mPct": -4.956,
+          "ret12mPct": 18.305,
+          "relative3mPct": 1.269,
+          "relative12mPct": 7.238
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 7066.27,
+          "ret3mPct": -4.658,
+          "ret12mPct": 16.844,
+          "relative3mPct": 1.566,
+          "relative12mPct": 5.777
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 24163.15,
+          "ret3mPct": -7.596,
+          "ret12mPct": 15.39,
+          "relative3mPct": -1.372,
+          "relative12mPct": 4.323
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1082.0,
+          "ret3mPct": -5.46,
+          "ret12mPct": null,
+          "relative3mPct": 0.764,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2018-05-01",
+      "sp500": {
+        "indexValue": 2705.27,
+        "ret3mPct": -0.315,
+        "ret12mPct": 12.168
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 6967.73,
+          "ret3mPct": 1.653,
+          "ret12mPct": 20.366,
+          "relative3mPct": 1.969,
+          "relative12mPct": 8.198
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 7442.12,
+          "ret3mPct": 2.325,
+          "ret12mPct": 20.063,
+          "relative3mPct": 2.641,
+          "relative12mPct": 7.895
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 24415.84,
+          "ret3mPct": -2.451,
+          "ret12mPct": 16.218,
+          "relative3mPct": -2.135,
+          "relative12mPct": 4.05
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1096.24,
+          "ret3mPct": 0.016,
+          "ret12mPct": null,
+          "relative3mPct": 0.332,
+          "relative12mPct": null
+        }
+      }
+    },
+    {
+      "date": "2018-06-01",
+      "sp500": {
+        "indexValue": 2718.37,
+        "ret3mPct": 2.935,
+        "ret12mPct": 12.171
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 7040.8,
+          "ret3mPct": 6.985,
+          "ret12mPct": 24.684,
+          "relative3mPct": 4.05,
+          "relative12mPct": 12.513
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 7510.3,
+          "ret3mPct": 6.326,
+          "ret12mPct": 22.309,
+          "relative3mPct": 3.392,
+          "relative12mPct": 10.138
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 24271.41,
+          "ret3mPct": 0.698,
+          "ret12mPct": 13.685,
+          "relative3mPct": -2.236,
+          "relative12mPct": 1.514
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1102.1,
+          "ret3mPct": 1.655,
+          "ret12mPct": 10.182,
+          "relative3mPct": -1.28,
+          "relative12mPct": -1.989
+        }
+      }
+    },
+    {
+      "date": "2018-07-01",
+      "sp500": {
+        "indexValue": 2816.29,
+        "ret3mPct": 6.353,
+        "ret12mPct": 14.006
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 7231.98,
+          "ret3mPct": 9.483,
+          "ret12mPct": 22.986,
+          "relative3mPct": 3.13,
+          "relative12mPct": 8.98
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 7671.79,
+          "ret3mPct": 8.569,
+          "ret12mPct": 20.851,
+          "relative3mPct": 2.216,
+          "relative12mPct": 6.845
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 25415.19,
+          "ret3mPct": 5.182,
+          "ret12mPct": 16.098,
+          "relative3mPct": -1.172,
+          "relative12mPct": 2.092
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1136.76,
+          "ret3mPct": 5.061,
+          "ret12mPct": 11.97,
+          "relative3mPct": -1.292,
+          "relative12mPct": -2.036
+        }
+      }
+    },
+    {
+      "date": "2018-08-01",
+      "sp500": {
+        "indexValue": 2901.52,
+        "ret3mPct": 7.254,
+        "ret12mPct": 17.392
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 7654.55,
+          "ret3mPct": 9.857,
+          "ret12mPct": 27.819,
+          "relative3mPct": 2.603,
+          "relative12mPct": 10.427
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 8109.54,
+          "ret3mPct": 8.968,
+          "ret12mPct": 26.147,
+          "relative3mPct": 1.714,
+          "relative12mPct": 8.755
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 25964.82,
+          "ret3mPct": 6.344,
+          "ret12mPct": 18.301,
+          "relative3mPct": -0.91,
+          "relative12mPct": 0.909
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1159.8,
+          "ret3mPct": 5.798,
+          "ret12mPct": 15.37,
+          "relative3mPct": -1.456,
+          "relative12mPct": -2.022
+        }
+      }
+    },
+    {
+      "date": "2018-09-01",
+      "sp500": {
+        "indexValue": 2913.98,
+        "ret3mPct": 7.196,
+        "ret12mPct": 15.664
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 7627.65,
+          "ret3mPct": 8.335,
+          "ret12mPct": 27.568,
+          "relative3mPct": 1.139,
+          "relative12mPct": 11.904
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 8046.35,
+          "ret3mPct": 7.138,
+          "ret12mPct": 23.867,
+          "relative3mPct": -0.058,
+          "relative12mPct": 8.203
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 26458.31,
+          "ret3mPct": 9.01,
+          "ret12mPct": 18.091,
+          "relative3mPct": 1.814,
+          "relative12mPct": 2.427
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1158.93,
+          "ret3mPct": 5.157,
+          "ret12mPct": 12.438,
+          "relative3mPct": -2.039,
+          "relative12mPct": -3.226
+        }
+      }
+    },
+    {
+      "date": "2018-10-01",
+      "sp500": {
+        "indexValue": 2711.74,
+        "ret3mPct": -3.712,
+        "ret12mPct": 5.3
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 6967.1,
+          "ret3mPct": -3.663,
+          "ret12mPct": 11.499,
+          "relative3mPct": 0.05,
+          "relative12mPct": 6.2
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 7305.9,
+          "ret3mPct": -4.769,
+          "ret12mPct": 8.595,
+          "relative3mPct": -1.057,
+          "relative12mPct": 3.295
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 25115.76,
+          "ret3mPct": -1.178,
+          "ret12mPct": 7.437,
+          "relative3mPct": 2.534,
+          "relative12mPct": 2.137
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1070.32,
+          "ret3mPct": -5.845,
+          "ret12mPct": 2.203,
+          "relative3mPct": -2.132,
+          "relative12mPct": -3.097
+        }
+      }
+    },
+    {
+      "date": "2018-11-01",
+      "sp500": {
+        "indexValue": 2760.17,
+        "ret3mPct": -4.872,
+        "ret12mPct": 4.253
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 6949.01,
+          "ret3mPct": -9.217,
+          "ret12mPct": 9.166,
+          "relative3mPct": -4.346,
+          "relative12mPct": 4.913
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 7330.54,
+          "ret3mPct": -9.606,
+          "ret12mPct": 6.642,
+          "relative3mPct": -4.734,
+          "relative12mPct": 2.389
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 25538.46,
+          "ret3mPct": -1.642,
+          "ret12mPct": 5.216,
+          "relative3mPct": 3.23,
+          "relative12mPct": 0.964
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1093.81,
+          "ret3mPct": -5.69,
+          "ret12mPct": 0.971,
+          "relative3mPct": -0.818,
+          "relative12mPct": -3.281
+        }
+      }
+    },
+    {
+      "date": "2018-12-01",
+      "sp500": {
+        "indexValue": 2506.85,
+        "ret3mPct": -13.972,
+        "ret12mPct": -6.237
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 6329.96,
+          "ret3mPct": -17.013,
+          "ret12mPct": -1.039,
+          "relative3mPct": -3.041,
+          "relative12mPct": 5.198
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 6635.28,
+          "ret3mPct": -17.537,
+          "ret12mPct": -3.884,
+          "relative3mPct": -3.565,
+          "relative12mPct": 2.354
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 23327.46,
+          "ret3mPct": -11.833,
+          "ret12mPct": -5.63,
+          "relative3mPct": 2.138,
+          "relative12mPct": 0.607
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 990.82,
+          "ret3mPct": -14.506,
+          "ret12mPct": -9.43,
+          "relative3mPct": -0.534,
+          "relative12mPct": -3.193
+        }
+      }
+    },
+    {
+      "date": "2019-01-01",
+      "sp500": {
+        "indexValue": 2704.1,
+        "ret3mPct": -0.282,
+        "ret12mPct": -4.239
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 6906.84,
+          "ret3mPct": -0.865,
+          "ret12mPct": -0.621,
+          "relative3mPct": -0.583,
+          "relative12mPct": 3.618
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 7281.74,
+          "ret3mPct": -0.331,
+          "ret12mPct": -1.751,
+          "relative3mPct": -0.049,
+          "relative12mPct": 2.489
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 24999.67,
+          "ret3mPct": -0.462,
+          "ret12mPct": -4.397,
+          "relative3mPct": -0.18,
+          "relative12mPct": -0.157
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1087.44,
+          "ret3mPct": 1.6,
+          "ret12mPct": -4.985,
+          "relative3mPct": 1.881,
+          "relative12mPct": -0.745
+        }
+      }
+    },
+    {
+      "date": "2019-02-01",
+      "sp500": {
+        "indexValue": 2784.49,
+        "ret3mPct": 0.881,
+        "ret12mPct": 2.604
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 7097.53,
+          "ret3mPct": 2.137,
+          "ret12mPct": 3.547,
+          "relative3mPct": 1.256,
+          "relative12mPct": 0.943
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 7532.53,
+          "ret3mPct": 2.755,
+          "ret12mPct": 3.568,
+          "relative3mPct": 1.874,
+          "relative12mPct": 0.965
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 25916.0,
+          "ret3mPct": 1.478,
+          "ret12mPct": 3.543,
+          "relative3mPct": 0.597,
+          "relative12mPct": 0.939
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1126.9,
+          "ret3mPct": 3.025,
+          "ret12mPct": 2.814,
+          "relative3mPct": 2.144,
+          "relative12mPct": 0.21
+        }
+      }
+    },
+    {
+      "date": "2019-03-01",
+      "sp500": {
+        "indexValue": 2834.4,
+        "ret3mPct": 13.066,
+        "ret12mPct": 7.328
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 7378.77,
+          "ret3mPct": 16.569,
+          "ret12mPct": 12.12,
+          "relative3mPct": 3.503,
+          "relative12mPct": 4.792
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 7729.32,
+          "ret3mPct": 16.488,
+          "ret12mPct": 9.427,
+          "relative3mPct": 3.422,
+          "relative12mPct": 2.099
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 25928.68,
+          "ret3mPct": 11.151,
+          "ret12mPct": 7.574,
+          "relative3mPct": -1.915,
+          "relative12mPct": 0.246
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1136.42,
+          "ret3mPct": 14.695,
+          "ret12mPct": 4.82,
+          "relative3mPct": 1.629,
+          "relative12mPct": -2.508
+        }
+      }
+    },
+    {
+      "date": "2019-04-01",
+      "sp500": {
+        "indexValue": 2945.83,
+        "ret3mPct": 8.939,
+        "ret12mPct": 11.245
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 7781.46,
+          "ret3mPct": 12.663,
+          "ret12mPct": 17.801,
+          "relative3mPct": 3.724,
+          "relative12mPct": 6.556
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 8095.39,
+          "ret3mPct": 11.174,
+          "ret12mPct": 14.564,
+          "relative3mPct": 2.234,
+          "relative12mPct": 3.319
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 26592.91,
+          "ret3mPct": 6.373,
+          "ret12mPct": 10.056,
+          "relative3mPct": -2.566,
+          "relative12mPct": -1.19
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1178.24,
+          "ret3mPct": 8.35,
+          "ret12mPct": 8.895,
+          "relative3mPct": -0.59,
+          "relative12mPct": -2.351
+        }
+      }
+    },
+    {
+      "date": "2019-05-01",
+      "sp500": {
+        "indexValue": 2752.06,
+        "ret3mPct": -1.165,
+        "ret12mPct": 1.73
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 7127.96,
+          "ret3mPct": 0.429,
+          "ret12mPct": 2.3,
+          "relative3mPct": 1.593,
+          "relative12mPct": 0.57
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 7453.15,
+          "ret3mPct": -1.054,
+          "ret12mPct": 0.148,
+          "relative3mPct": 0.111,
+          "relative12mPct": -1.581
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 24815.04,
+          "ret3mPct": -4.248,
+          "ret12mPct": 1.635,
+          "relative3mPct": -3.084,
+          "relative12mPct": -0.095
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1102.26,
+          "ret3mPct": -2.187,
+          "ret12mPct": 0.549,
+          "relative3mPct": -1.022,
+          "relative12mPct": -1.18
+        }
+      }
+    },
+    {
+      "date": "2019-06-01",
+      "sp500": {
+        "indexValue": 2941.76,
+        "ret3mPct": 3.788,
+        "ret12mPct": 8.218
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 7671.07,
+          "ret3mPct": 3.961,
+          "ret12mPct": 8.952,
+          "relative3mPct": 0.174,
+          "relative12mPct": 0.734
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 8006.24,
+          "ret3mPct": 3.583,
+          "ret12mPct": 6.603,
+          "relative3mPct": -0.205,
+          "relative12mPct": -1.614
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 26599.96,
+          "ret3mPct": 2.589,
+          "ret12mPct": 9.594,
+          "relative3mPct": -1.199,
+          "relative12mPct": 1.376
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1180.85,
+          "ret3mPct": 3.91,
+          "ret12mPct": 7.145,
+          "relative3mPct": 0.122,
+          "relative12mPct": -1.072
+        }
+      }
+    },
+    {
+      "date": "2019-07-01",
+      "sp500": {
+        "indexValue": 2980.38,
+        "ret3mPct": 1.173,
+        "ret12mPct": 5.826
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 7848.78,
+          "ret3mPct": 0.865,
+          "ret12mPct": 8.529,
+          "relative3mPct": -0.308,
+          "relative12mPct": 2.702
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 8175.42,
+          "ret3mPct": 0.989,
+          "ret12mPct": 6.565,
+          "relative3mPct": -0.184,
+          "relative12mPct": 0.738
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 26864.27,
+          "ret3mPct": 1.02,
+          "ret12mPct": 5.702,
+          "relative3mPct": -0.152,
+          "relative12mPct": -0.125
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1195.37,
+          "ret3mPct": 1.454,
+          "ret12mPct": 5.156,
+          "relative3mPct": 0.281,
+          "relative12mPct": -0.671
+        }
+      }
+    },
+    {
+      "date": "2019-08-01",
+      "sp500": {
+        "indexValue": 2926.46,
+        "ret3mPct": 6.337,
+        "ret12mPct": 0.86
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 7691.0,
+          "ret3mPct": 7.899,
+          "ret12mPct": 0.476,
+          "relative3mPct": 1.562,
+          "relative12mPct": -0.383
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 7962.88,
+          "ret3mPct": 6.839,
+          "ret12mPct": -1.808,
+          "relative3mPct": 0.502,
+          "relative12mPct": -2.668
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 26403.28,
+          "ret3mPct": 6.4,
+          "ret12mPct": 1.689,
+          "relative3mPct": 0.063,
+          "relative12mPct": 0.829
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1162.86,
+          "ret3mPct": 5.498,
+          "ret12mPct": 0.264,
+          "relative3mPct": -0.839,
+          "relative12mPct": -0.596
+        }
+      }
+    },
+    {
+      "date": "2019-09-01",
+      "sp500": {
+        "indexValue": 2976.74,
+        "ret3mPct": 1.189,
+        "ret12mPct": 2.154
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 7749.45,
+          "ret3mPct": 1.022,
+          "ret12mPct": 1.597,
+          "relative3mPct": -0.167,
+          "relative12mPct": -0.557
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 7999.33,
+          "ret3mPct": -0.086,
+          "ret12mPct": -0.584,
+          "relative3mPct": -1.275,
+          "relative12mPct": -2.738
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 26916.83,
+          "ret3mPct": 1.191,
+          "ret12mPct": 1.733,
+          "relative3mPct": 0.002,
+          "relative12mPct": -0.421
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1185.85,
+          "ret3mPct": 0.423,
+          "ret12mPct": 2.323,
+          "relative3mPct": -0.766,
+          "relative12mPct": 0.169
+        }
+      }
+    },
+    {
+      "date": "2019-10-01",
+      "sp500": {
+        "indexValue": 3037.56,
+        "ret3mPct": 1.919,
+        "ret12mPct": 12.015
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 8083.83,
+          "ret3mPct": 2.995,
+          "ret12mPct": 16.029,
+          "relative3mPct": 1.076,
+          "relative12mPct": 4.013
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 8292.36,
+          "ret3mPct": 1.43,
+          "ret12mPct": 13.502,
+          "relative3mPct": -0.488,
+          "relative12mPct": 1.487
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 27046.23,
+          "ret3mPct": 0.677,
+          "ret12mPct": 7.686,
+          "relative3mPct": -1.241,
+          "relative12mPct": -4.329
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1201.37,
+          "ret3mPct": 0.502,
+          "ret12mPct": 12.244,
+          "relative3mPct": -1.417,
+          "relative12mPct": 0.229
+        }
+      }
+    },
+    {
+      "date": "2019-11-01",
+      "sp500": {
+        "indexValue": 3140.98,
+        "ret3mPct": 7.33,
+        "ret12mPct": 13.797
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 8403.68,
+          "ret3mPct": 9.266,
+          "ret12mPct": 20.933,
+          "relative3mPct": 1.936,
+          "relative12mPct": 7.137
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 8665.47,
+          "ret3mPct": 8.823,
+          "ret12mPct": 18.211,
+          "relative3mPct": 1.493,
+          "relative12mPct": 4.414
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 28051.41,
+          "ret3mPct": 6.242,
+          "ret12mPct": 9.84,
+          "relative3mPct": -1.088,
+          "relative12mPct": -3.957
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1247.56,
+          "ret3mPct": 7.284,
+          "ret12mPct": 14.056,
+          "relative3mPct": -0.047,
+          "relative12mPct": 0.26
+        }
+      }
+    },
+    {
+      "date": "2019-12-01",
+      "sp500": {
+        "indexValue": 3230.78,
+        "ret3mPct": 8.534,
+        "ret12mPct": 28.878
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 8733.07,
+          "ret3mPct": 12.693,
+          "ret12mPct": 37.964,
+          "relative3mPct": 4.159,
+          "relative12mPct": 9.086
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 8972.6,
+          "ret3mPct": 12.167,
+          "ret12mPct": 35.226,
+          "relative3mPct": 3.633,
+          "relative12mPct": 6.348
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 28538.44,
+          "ret3mPct": 6.025,
+          "ret12mPct": 22.338,
+          "relative3mPct": -2.51,
+          "relative12mPct": -6.54
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1275.12,
+          "ret3mPct": 7.528,
+          "ret12mPct": 28.693,
+          "relative3mPct": -1.006,
+          "relative12mPct": -0.185
+        }
+      }
+    },
+    {
+      "date": "2020-01-01",
+      "sp500": {
+        "indexValue": 3225.52,
+        "ret3mPct": 6.188,
+        "ret12mPct": 19.283
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 8991.51,
+          "ret3mPct": 11.228,
+          "ret12mPct": 30.183,
+          "relative3mPct": 5.04,
+          "relative12mPct": 10.9
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 9150.94,
+          "ret3mPct": 10.354,
+          "ret12mPct": 25.67,
+          "relative3mPct": 4.166,
+          "relative12mPct": 6.387
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 28256.03,
+          "ret3mPct": 4.473,
+          "ret12mPct": 13.026,
+          "relative3mPct": -1.715,
+          "relative12mPct": -6.257
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1268.46,
+          "ret3mPct": 5.584,
+          "ret12mPct": 16.646,
+          "relative3mPct": -0.603,
+          "relative12mPct": -2.636
+        }
+      }
+    },
+    {
+      "date": "2020-02-01",
+      "sp500": {
+        "indexValue": 2954.22,
+        "ret3mPct": -5.946,
+        "ret12mPct": 6.096
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 8461.83,
+          "ret3mPct": 0.692,
+          "ret12mPct": 19.222,
+          "relative3mPct": 6.638,
+          "relative12mPct": 13.127
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 8567.37,
+          "ret3mPct": -1.132,
+          "ret12mPct": 13.738,
+          "relative3mPct": 4.814,
+          "relative12mPct": 7.643
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 25409.36,
+          "ret3mPct": -9.419,
+          "ret12mPct": -1.955,
+          "relative3mPct": -3.473,
+          "relative12mPct": -8.05
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1159.08,
+          "ret3mPct": -7.092,
+          "ret12mPct": 2.856,
+          "relative3mPct": -1.146,
+          "relative12mPct": -3.24
+        }
+      }
+    },
+    {
+      "date": "2020-03-01",
+      "sp500": {
+        "indexValue": 2584.59,
+        "ret3mPct": -20.001,
+        "ret12mPct": -8.814
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 7813.5,
+          "ret3mPct": -10.53,
+          "ret12mPct": 5.892,
+          "relative3mPct": 9.471,
+          "relative12mPct": 14.705
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 7700.1,
+          "ret3mPct": -14.182,
+          "ret12mPct": -0.378,
+          "relative3mPct": 5.819,
+          "relative12mPct": 8.435
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 21917.16,
+          "ret3mPct": -23.201,
+          "ret12mPct": -15.471,
+          "relative3mPct": -3.2,
+          "relative12mPct": -6.658
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 974.74,
+          "ret3mPct": -23.557,
+          "ret12mPct": -14.227,
+          "relative3mPct": -3.556,
+          "relative12mPct": -5.414
+        }
+      }
+    },
+    {
+      "date": "2020-04-01",
+      "sp500": {
+        "indexValue": 2912.43,
+        "ret3mPct": -9.707,
+        "ret12mPct": -1.134
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 9000.51,
+          "ret3mPct": 0.1,
+          "ret12mPct": 15.666,
+          "relative3mPct": 9.807,
+          "relative12mPct": 16.8
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 8889.55,
+          "ret3mPct": -2.856,
+          "ret12mPct": 9.81,
+          "relative3mPct": 6.85,
+          "relative12mPct": 10.944
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 24345.72,
+          "ret3mPct": -13.839,
+          "ret12mPct": -8.45,
+          "relative3mPct": -4.132,
+          "relative12mPct": -7.317
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1113.99,
+          "ret3mPct": -12.178,
+          "ret12mPct": -5.453,
+          "relative3mPct": -2.471,
+          "relative12mPct": -4.319
+        }
+      }
+    },
+    {
+      "date": "2020-05-01",
+      "sp500": {
+        "indexValue": 3044.31,
+        "ret3mPct": 3.05,
+        "ret12mPct": 10.619
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 9555.52,
+          "ret3mPct": 12.925,
+          "ret12mPct": 34.057,
+          "relative3mPct": 9.875,
+          "relative12mPct": 23.438
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 9489.87,
+          "ret3mPct": 10.768,
+          "ret12mPct": 27.327,
+          "relative3mPct": 7.718,
+          "relative12mPct": 16.708
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 25383.11,
+          "ret3mPct": -0.103,
+          "ret12mPct": 2.289,
+          "relative3mPct": -3.153,
+          "relative12mPct": -8.33
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1179.04,
+          "ret3mPct": 1.722,
+          "ret12mPct": 6.966,
+          "relative3mPct": -1.327,
+          "relative12mPct": -3.654
+        }
+      }
+    },
+    {
+      "date": "2020-06-01",
+      "sp500": {
+        "indexValue": 3100.29,
+        "ret3mPct": 19.953,
+        "ret12mPct": 5.389
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 10156.85,
+          "ret3mPct": 29.991,
+          "ret12mPct": 32.405,
+          "relative3mPct": 10.038,
+          "relative12mPct": 27.016
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 10058.77,
+          "ret3mPct": 30.632,
+          "ret12mPct": 25.637,
+          "relative3mPct": 10.679,
+          "relative12mPct": 20.248
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 25812.88,
+          "ret3mPct": 17.775,
+          "ret12mPct": -2.959,
+          "relative3mPct": -2.178,
+          "relative12mPct": -8.348
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1197.98,
+          "ret3mPct": 22.903,
+          "ret12mPct": 1.451,
+          "relative3mPct": 2.95,
+          "relative12mPct": -3.938
+        }
+      }
+    },
+    {
+      "date": "2020-07-01",
+      "sp500": {
+        "indexValue": 3271.12,
+        "ret3mPct": 12.316,
+        "ret12mPct": 9.755
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 10905.88,
+          "ret3mPct": 21.17,
+          "ret12mPct": 38.95,
+          "relative3mPct": 8.854,
+          "relative12mPct": 29.195
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 10745.27,
+          "ret3mPct": 20.875,
+          "ret12mPct": 31.434,
+          "relative3mPct": 8.559,
+          "relative12mPct": 21.679
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 26428.32,
+          "ret3mPct": 8.554,
+          "ret12mPct": -1.623,
+          "relative3mPct": -3.762,
+          "relative12mPct": -11.378
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1256.9,
+          "ret3mPct": 12.829,
+          "ret12mPct": 5.147,
+          "relative3mPct": 0.513,
+          "relative12mPct": -4.608
+        }
+      }
+    },
+    {
+      "date": "2020-08-01",
+      "sp500": {
+        "indexValue": 3500.31,
+        "ret3mPct": 14.979,
+        "ret12mPct": 19.609
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 12110.7,
+          "ret3mPct": 26.74,
+          "ret12mPct": 57.466,
+          "relative3mPct": 11.762,
+          "relative12mPct": 37.857
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 11775.46,
+          "ret3mPct": 24.085,
+          "ret12mPct": 47.879,
+          "relative3mPct": 9.106,
+          "relative12mPct": 28.27
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 28430.05,
+          "ret3mPct": 12.004,
+          "ret12mPct": 7.676,
+          "relative3mPct": -2.975,
+          "relative12mPct": -11.933
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1310.43,
+          "ret3mPct": 11.144,
+          "ret12mPct": 12.69,
+          "relative3mPct": -3.835,
+          "relative12mPct": -6.919
+        }
+      }
+    },
+    {
+      "date": "2020-09-01",
+      "sp500": {
+        "indexValue": 3363.0,
+        "ret3mPct": 8.474,
+        "ret12mPct": 12.976
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 11418.06,
+          "ret3mPct": 12.417,
+          "ret12mPct": 47.34,
+          "relative3mPct": 3.944,
+          "relative12mPct": 34.364
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 11167.68,
+          "ret3mPct": 11.024,
+          "ret12mPct": 39.608,
+          "relative3mPct": 2.551,
+          "relative12mPct": 26.632
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 27781.7,
+          "ret3mPct": 7.627,
+          "ret12mPct": 3.213,
+          "relative3mPct": -0.846,
+          "relative12mPct": -9.763
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1285.9,
+          "ret3mPct": 7.339,
+          "ret12mPct": 8.437,
+          "relative3mPct": -1.135,
+          "relative12mPct": -4.539
+        }
+      }
+    },
+    {
+      "date": "2020-10-01",
+      "sp500": {
+        "indexValue": 3269.96,
+        "ret3mPct": -0.035,
+        "ret12mPct": 7.651
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 11052.95,
+          "ret3mPct": 1.349,
+          "ret12mPct": 36.729,
+          "relative3mPct": 1.384,
+          "relative12mPct": 29.078
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 10911.59,
+          "ret3mPct": 1.548,
+          "ret12mPct": 31.586,
+          "relative3mPct": 1.583,
+          "relative12mPct": 23.935
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 26501.6,
+          "ret3mPct": 0.277,
+          "ret12mPct": -2.014,
+          "relative3mPct": 0.313,
+          "relative12mPct": -9.665
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1270.58,
+          "ret3mPct": 1.088,
+          "ret12mPct": 5.761,
+          "relative3mPct": 1.124,
+          "relative12mPct": -1.89
+        }
+      }
+    },
+    {
+      "date": "2020-11-01",
+      "sp500": {
+        "indexValue": 3621.63,
+        "ret3mPct": 3.466,
+        "ret12mPct": 15.303
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 12268.32,
+          "ret3mPct": 1.301,
+          "ret12mPct": 45.987,
+          "relative3mPct": -2.164,
+          "relative12mPct": 30.685
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 12198.74,
+          "ret3mPct": 3.595,
+          "ret12mPct": 40.774,
+          "relative3mPct": 0.129,
+          "relative12mPct": 25.472
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 29638.64,
+          "ret3mPct": 4.251,
+          "ret12mPct": 5.658,
+          "relative3mPct": 0.785,
+          "relative12mPct": -9.644
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1435.36,
+          "ret3mPct": 9.534,
+          "ret12mPct": 15.053,
+          "relative3mPct": 6.068,
+          "relative12mPct": -0.249
+        }
+      }
+    },
+    {
+      "date": "2020-12-01",
+      "sp500": {
+        "indexValue": 3756.07,
+        "ret3mPct": 11.688,
+        "ret12mPct": 16.259
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 12888.28,
+          "ret3mPct": 12.876,
+          "ret12mPct": 47.58,
+          "relative3mPct": 1.188,
+          "relative12mPct": 31.321
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 12888.28,
+          "ret3mPct": 15.407,
+          "ret12mPct": 43.64,
+          "relative3mPct": 3.719,
+          "relative12mPct": 27.381
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 30606.48,
+          "ret3mPct": 10.168,
+          "ret12mPct": 7.247,
+          "relative3mPct": -1.52,
+          "relative12mPct": -9.012
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1492.98,
+          "ret3mPct": 16.104,
+          "ret12mPct": 17.085,
+          "relative3mPct": 4.416,
+          "relative12mPct": 0.827
+        }
+      }
+    },
+    {
+      "date": "2021-01-01",
+      "sp500": {
+        "indexValue": 3714.24,
+        "ret3mPct": 13.587,
+        "ret12mPct": 15.152
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 12925.38,
+          "ret3mPct": 16.941,
+          "ret12mPct": 43.751,
+          "relative3mPct": 3.354,
+          "relative12mPct": 28.599
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 13070.69,
+          "ret3mPct": 19.787,
+          "ret12mPct": 42.834,
+          "relative3mPct": 6.201,
+          "relative12mPct": 27.683
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 29982.62,
+          "ret3mPct": 13.135,
+          "ret12mPct": 6.111,
+          "relative3mPct": -0.452,
+          "relative12mPct": -9.041
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1476.81,
+          "ret3mPct": 16.231,
+          "ret12mPct": 16.425,
+          "relative3mPct": 2.644,
+          "relative12mPct": 1.274
+        }
+      }
+    },
+    {
+      "date": "2021-02-01",
+      "sp500": {
+        "indexValue": 3811.15,
+        "ret3mPct": 5.233,
+        "ret12mPct": 29.007
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 12909.44,
+          "ret3mPct": 5.226,
+          "ret12mPct": 52.561,
+          "relative3mPct": -0.007,
+          "relative12mPct": 23.554
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 13192.35,
+          "ret3mPct": 8.145,
+          "ret12mPct": 53.984,
+          "relative3mPct": 2.912,
+          "relative12mPct": 24.977
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 30932.37,
+          "ret3mPct": 4.365,
+          "ret12mPct": 21.736,
+          "relative3mPct": -0.868,
+          "relative12mPct": -7.271
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1540.62,
+          "ret3mPct": 7.333,
+          "ret12mPct": 32.917,
+          "relative3mPct": 2.1,
+          "relative12mPct": 3.911
+        }
+      }
+    },
+    {
+      "date": "2021-03-01",
+      "sp500": {
+        "indexValue": 3972.89,
+        "ret3mPct": 5.773,
+        "ret12mPct": 53.715
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 13091.44,
+          "ret3mPct": 1.576,
+          "ret12mPct": 67.549,
+          "relative3mPct": -4.196,
+          "relative12mPct": 13.834
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 13246.87,
+          "ret3mPct": 2.782,
+          "ret12mPct": 72.035,
+          "relative3mPct": -2.99,
+          "relative12mPct": 18.321
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 32981.55,
+          "ret3mPct": 7.76,
+          "ret12mPct": 50.483,
+          "relative3mPct": 1.988,
+          "relative12mPct": -3.232
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1600.26,
+          "ret3mPct": 7.186,
+          "ret12mPct": 64.173,
+          "relative3mPct": 1.413,
+          "relative12mPct": 10.458
+        }
+      }
+    },
+    {
+      "date": "2021-04-01",
+      "sp500": {
+        "indexValue": 4181.17,
+        "ret3mPct": 12.571,
+        "ret12mPct": 43.563
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 13860.76,
+          "ret3mPct": 7.237,
+          "ret12mPct": 54.0,
+          "relative3mPct": -5.335,
+          "relative12mPct": 10.437
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 13962.68,
+          "ret3mPct": 6.824,
+          "ret12mPct": 57.068,
+          "relative3mPct": -5.747,
+          "relative12mPct": 13.506
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 33874.85,
+          "ret3mPct": 12.982,
+          "ret12mPct": 39.141,
+          "relative3mPct": 0.41,
+          "relative12mPct": -4.422
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1676.85,
+          "ret3mPct": 13.545,
+          "ret12mPct": 50.526,
+          "relative3mPct": 0.974,
+          "relative12mPct": 6.964
+        }
+      }
+    },
+    {
+      "date": "2021-05-01",
+      "sp500": {
+        "indexValue": 4204.11,
+        "ret3mPct": 10.311,
+        "ret12mPct": 38.097
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 13686.51,
+          "ret3mPct": 6.019,
+          "ret12mPct": 43.231,
+          "relative3mPct": -4.291,
+          "relative12mPct": 5.134
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 13748.74,
+          "ret3mPct": 4.218,
+          "ret12mPct": 44.878,
+          "relative3mPct": -6.093,
+          "relative12mPct": 6.781
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 34529.45,
+          "ret3mPct": 11.629,
+          "ret12mPct": 36.033,
+          "relative3mPct": 1.318,
+          "relative12mPct": -2.064
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1692.91,
+          "ret3mPct": 9.885,
+          "ret12mPct": 43.584,
+          "relative3mPct": -0.426,
+          "relative12mPct": 5.486
+        }
+      }
+    },
+    {
+      "date": "2021-06-01",
+      "sp500": {
+        "indexValue": 4297.5,
+        "ret3mPct": 8.171,
+        "ret12mPct": 38.616
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 14554.8,
+          "ret3mPct": 11.178,
+          "ret12mPct": 43.3,
+          "relative3mPct": 3.007,
+          "relative12mPct": 4.684
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 14503.95,
+          "ret3mPct": 9.49,
+          "ret12mPct": 44.192,
+          "relative3mPct": 1.319,
+          "relative12mPct": 5.576
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 34502.51,
+          "ret3mPct": 4.612,
+          "ret12mPct": 33.664,
+          "relative3mPct": -3.559,
+          "relative12mPct": -4.952
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1724.58,
+          "ret3mPct": 7.769,
+          "ret12mPct": 43.957,
+          "relative3mPct": -0.402,
+          "relative12mPct": 5.341
+        }
+      }
+    },
+    {
+      "date": "2021-07-01",
+      "sp500": {
+        "indexValue": 4395.26,
+        "ret3mPct": 5.12,
+        "ret12mPct": 34.366
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 14959.9,
+          "ret3mPct": 7.93,
+          "ret12mPct": 37.173,
+          "relative3mPct": 2.81,
+          "relative12mPct": 2.807
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 14672.68,
+          "ret3mPct": 5.085,
+          "ret12mPct": 36.55,
+          "relative3mPct": -0.035,
+          "relative12mPct": 2.185
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 34935.47,
+          "ret3mPct": 3.131,
+          "ret12mPct": 32.19,
+          "relative3mPct": -1.989,
+          "relative12mPct": -2.176
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1745.66,
+          "ret3mPct": 4.104,
+          "ret12mPct": 38.886,
+          "relative3mPct": -1.017,
+          "relative12mPct": 4.521
+        }
+      }
+    },
+    {
+      "date": "2021-08-01",
+      "sp500": {
+        "indexValue": 4522.68,
+        "ret3mPct": 7.578,
+        "ret12mPct": 29.208
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 15582.51,
+          "ret3mPct": 13.853,
+          "ret12mPct": 28.667,
+          "relative3mPct": 6.275,
+          "relative12mPct": -0.541
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 15259.24,
+          "ret3mPct": 10.986,
+          "ret12mPct": 29.585,
+          "relative3mPct": 3.409,
+          "relative12mPct": 0.377
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 35360.73,
+          "ret3mPct": 2.407,
+          "ret12mPct": 24.378,
+          "relative3mPct": -5.17,
+          "relative12mPct": -4.83
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1786.97,
+          "ret3mPct": 5.556,
+          "ret12mPct": 36.365,
+          "relative3mPct": -2.021,
+          "relative12mPct": 7.157
+        }
+      }
+    },
+    {
+      "date": "2021-09-01",
+      "sp500": {
+        "indexValue": 4307.54,
+        "ret3mPct": 0.234,
+        "ret12mPct": 28.086
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 14689.62,
+          "ret3mPct": 0.926,
+          "ret12mPct": 28.653,
+          "relative3mPct": 0.693,
+          "relative12mPct": 0.566
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 14448.58,
+          "ret3mPct": -0.382,
+          "ret12mPct": 29.379,
+          "relative3mPct": -0.615,
+          "relative12mPct": 1.292
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 33843.92,
+          "ret3mPct": -1.909,
+          "ret12mPct": 21.821,
+          "relative3mPct": -2.142,
+          "relative12mPct": -6.265
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1709.58,
+          "ret3mPct": -0.87,
+          "ret12mPct": 32.948,
+          "relative3mPct": -1.103,
+          "relative12mPct": 4.862
+        }
+      }
+    },
+    {
+      "date": "2021-10-01",
+      "sp500": {
+        "indexValue": 4605.38,
+        "ret3mPct": 4.781,
+        "ret12mPct": 40.839
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 15850.47,
+          "ret3mPct": 5.953,
+          "ret12mPct": 43.405,
+          "relative3mPct": 1.172,
+          "relative12mPct": 2.566
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 15498.39,
+          "ret3mPct": 5.628,
+          "ret12mPct": 42.036,
+          "relative3mPct": 0.847,
+          "relative12mPct": 1.197
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 35819.56,
+          "ret3mPct": 2.531,
+          "ret12mPct": 35.16,
+          "relative3mPct": -2.25,
+          "relative12mPct": -5.679
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1810.69,
+          "ret3mPct": 3.725,
+          "ret12mPct": 42.509,
+          "relative3mPct": -1.055,
+          "relative12mPct": 1.67
+        }
+      }
+    },
+    {
+      "date": "2021-11-01",
+      "sp500": {
+        "indexValue": 4567.0,
+        "ret3mPct": 0.98,
+        "ret12mPct": 26.103
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 16135.92,
+          "ret3mPct": 3.551,
+          "ret12mPct": 31.525,
+          "relative3mPct": 2.572,
+          "relative12mPct": 5.422
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 15537.69,
+          "ret3mPct": 1.825,
+          "ret12mPct": 27.371,
+          "relative3mPct": 0.845,
+          "relative12mPct": 1.268
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 34483.72,
+          "ret3mPct": -2.48,
+          "ret12mPct": 16.347,
+          "relative3mPct": -3.46,
+          "relative12mPct": -9.756
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1756.21,
+          "ret3mPct": -1.721,
+          "ret12mPct": 22.353,
+          "relative3mPct": -2.701,
+          "relative12mPct": -3.75
+        }
+      }
+    },
+    {
+      "date": "2021-12-01",
+      "sp500": {
+        "indexValue": 4766.18,
+        "ret3mPct": 10.647,
+        "ret12mPct": 26.893
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 16320.08,
+          "ret3mPct": 11.099,
+          "ret12mPct": 26.627,
+          "relative3mPct": 0.452,
+          "relative12mPct": -0.265
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 15644.97,
+          "ret3mPct": 8.28,
+          "ret12mPct": 21.389,
+          "relative3mPct": -2.367,
+          "relative12mPct": -5.504
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 36338.3,
+          "ret3mPct": 7.37,
+          "ret12mPct": 18.727,
+          "relative3mPct": -3.277,
+          "relative12mPct": -8.165
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1833.24,
+          "ret3mPct": 7.233,
+          "ret12mPct": 22.791,
+          "relative3mPct": -3.414,
+          "relative12mPct": -4.102
+        }
+      }
+    },
+    {
+      "date": "2022-01-01",
+      "sp500": {
+        "indexValue": 4515.55,
+        "ret3mPct": -1.951,
+        "ret12mPct": 21.574
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 14930.05,
+          "ret3mPct": -5.807,
+          "ret12mPct": 15.51,
+          "relative3mPct": -3.856,
+          "relative12mPct": -6.064
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 14239.88,
+          "ret3mPct": -8.12,
+          "ret12mPct": 8.945,
+          "relative3mPct": -6.17,
+          "relative12mPct": -12.629
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 35131.86,
+          "ret3mPct": -1.92,
+          "ret12mPct": 17.174,
+          "relative3mPct": 0.031,
+          "relative12mPct": -4.4
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1716.03,
+          "ret3mPct": -5.228,
+          "ret12mPct": 16.198,
+          "relative3mPct": -3.277,
+          "relative12mPct": -5.376
+        }
+      }
+    },
+    {
+      "date": "2022-02-01",
+      "sp500": {
+        "indexValue": 4373.94,
+        "ret3mPct": -4.227,
+        "ret12mPct": 14.767
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 14237.81,
+          "ret3mPct": -11.763,
+          "ret12mPct": 10.29,
+          "relative3mPct": -7.536,
+          "relative12mPct": -4.477
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 13751.4,
+          "ret3mPct": -11.496,
+          "ret12mPct": 4.238,
+          "relative3mPct": -7.269,
+          "relative12mPct": -10.529
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 33892.6,
+          "ret3mPct": -1.714,
+          "ret12mPct": 9.57,
+          "relative3mPct": 2.513,
+          "relative12mPct": -5.197
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1688.49,
+          "ret3mPct": -3.856,
+          "ret12mPct": 9.598,
+          "relative3mPct": 0.371,
+          "relative12mPct": -5.169
+        }
+      }
+    },
+    {
+      "date": "2022-03-01",
+      "sp500": {
+        "indexValue": 4530.41,
+        "ret3mPct": -4.947,
+        "ret12mPct": 14.033
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 14838.49,
+          "ret3mPct": -9.078,
+          "ret12mPct": 13.345,
+          "relative3mPct": -4.132,
+          "relative12mPct": -0.688
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 14220.52,
+          "ret3mPct": -9.105,
+          "ret12mPct": 7.35,
+          "relative3mPct": -4.158,
+          "relative12mPct": -6.683
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 34678.35,
+          "ret3mPct": -4.568,
+          "ret12mPct": 5.145,
+          "relative3mPct": 0.379,
+          "relative12mPct": -8.888
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1726.71,
+          "ret3mPct": -5.811,
+          "ret12mPct": 7.902,
+          "relative3mPct": -0.864,
+          "relative12mPct": -6.131
+        }
+      }
+    },
+    {
+      "date": "2022-04-01",
+      "sp500": {
+        "indexValue": 4131.93,
+        "ret3mPct": -8.496,
+        "ret12mPct": -1.178
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 12854.8,
+          "ret3mPct": -13.9,
+          "ret12mPct": -7.258,
+          "relative3mPct": -5.404,
+          "relative12mPct": -6.08
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 12334.64,
+          "ret3mPct": -13.38,
+          "ret12mPct": -11.66,
+          "relative3mPct": -4.884,
+          "relative12mPct": -10.482
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 32977.21,
+          "ret3mPct": -6.133,
+          "ret12mPct": -2.65,
+          "relative3mPct": 2.362,
+          "relative12mPct": -1.472
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1592.46,
+          "ret3mPct": -7.201,
+          "ret12mPct": -5.033,
+          "relative3mPct": 1.295,
+          "relative12mPct": -3.855
+        }
+      }
+    },
+    {
+      "date": "2022-05-01",
+      "sp500": {
+        "indexValue": 4132.15,
+        "ret3mPct": -5.528,
+        "ret12mPct": -1.712
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 12642.1,
+          "ret3mPct": -11.208,
+          "ret12mPct": -7.631,
+          "relative3mPct": -5.68,
+          "relative12mPct": -5.919
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 12081.39,
+          "ret3mPct": -12.144,
+          "ret12mPct": -12.127,
+          "relative3mPct": -6.616,
+          "relative12mPct": -10.416
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 32990.12,
+          "ret3mPct": -2.663,
+          "ret12mPct": -4.458,
+          "relative3mPct": 2.865,
+          "relative12mPct": -2.746
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1592.05,
+          "ret3mPct": -5.712,
+          "ret12mPct": -5.958,
+          "relative3mPct": -0.184,
+          "relative12mPct": -4.246
+        }
+      }
+    },
+    {
+      "date": "2022-06-01",
+      "sp500": {
+        "indexValue": 3785.38,
+        "ret3mPct": -16.445,
+        "ret12mPct": -11.917
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 11503.72,
+          "ret3mPct": -22.474,
+          "ret12mPct": -20.963,
+          "relative3mPct": -6.029,
+          "relative12mPct": -9.046
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 11028.74,
+          "ret3mPct": -22.445,
+          "ret12mPct": -23.96,
+          "relative3mPct": -6.0,
+          "relative12mPct": -12.044
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 30775.43,
+          "ret3mPct": -11.255,
+          "ret12mPct": -10.802,
+          "relative3mPct": 5.19,
+          "relative12mPct": 1.114
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1445.17,
+          "ret3mPct": -16.305,
+          "ret12mPct": -16.202,
+          "relative3mPct": 0.14,
+          "relative12mPct": -4.285
+        }
+      }
+    },
+    {
+      "date": "2022-07-01",
+      "sp500": {
+        "indexValue": 4130.29,
+        "ret3mPct": -0.04,
+        "ret12mPct": -6.029
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 12947.97,
+          "ret3mPct": 0.725,
+          "ret12mPct": -13.449,
+          "relative3mPct": 0.764,
+          "relative12mPct": -7.42
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 12390.69,
+          "ret3mPct": 0.454,
+          "ret12mPct": -15.553,
+          "relative3mPct": 0.494,
+          "relative12mPct": -9.524
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 32845.13,
+          "ret3mPct": -0.401,
+          "ret12mPct": -5.983,
+          "relative3mPct": -0.361,
+          "relative12mPct": 0.045
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1572.36,
+          "ret3mPct": -1.262,
+          "ret12mPct": -9.927,
+          "relative3mPct": -1.223,
+          "relative12mPct": -3.899
+        }
+      }
+    },
+    {
+      "date": "2022-08-01",
+      "sp500": {
+        "indexValue": 3955.0,
+        "ret3mPct": -4.287,
+        "ret12mPct": -12.552
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 12272.03,
+          "ret3mPct": -2.927,
+          "ret12mPct": -21.245,
+          "relative3mPct": 1.36,
+          "relative12mPct": -8.693
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 11816.2,
+          "ret3mPct": -2.195,
+          "ret12mPct": -22.564,
+          "relative3mPct": 2.092,
+          "relative12mPct": -10.012
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 31510.43,
+          "ret3mPct": -4.485,
+          "ret12mPct": -10.889,
+          "relative3mPct": -0.198,
+          "relative12mPct": 1.663
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1520.31,
+          "ret3mPct": -4.506,
+          "ret12mPct": -14.922,
+          "relative3mPct": -0.219,
+          "relative12mPct": -2.371
+        }
+      }
+    },
+    {
+      "date": "2022-09-01",
+      "sp500": {
+        "indexValue": 3585.62,
+        "ret3mPct": -5.277,
+        "ret12mPct": -16.759
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 10971.22,
+          "ret3mPct": -4.629,
+          "ret12mPct": -25.313,
+          "relative3mPct": 0.648,
+          "relative12mPct": -8.554
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 10575.62,
+          "ret3mPct": -4.109,
+          "ret12mPct": -26.805,
+          "relative3mPct": 1.169,
+          "relative12mPct": -10.046
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 28725.51,
+          "ret3mPct": -6.661,
+          "ret12mPct": -15.124,
+          "relative3mPct": -1.384,
+          "relative12mPct": 1.636
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1378.2,
+          "ret3mPct": -4.634,
+          "ret12mPct": -19.384,
+          "relative3mPct": 0.643,
+          "relative12mPct": -2.624
+        }
+      }
+    },
+    {
+      "date": "2022-10-01",
+      "sp500": {
+        "indexValue": 3871.98,
+        "ret3mPct": -6.254,
+        "ret12mPct": -15.925
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 11405.57,
+          "ret3mPct": -11.912,
+          "ret12mPct": -28.043,
+          "relative3mPct": -5.658,
+          "relative12mPct": -12.118
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 10988.15,
+          "ret3mPct": -11.319,
+          "ret12mPct": -29.101,
+          "relative3mPct": -5.065,
+          "relative12mPct": -13.176
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 32732.95,
+          "ret3mPct": -0.342,
+          "ret12mPct": -8.617,
+          "relative3mPct": 5.912,
+          "relative12mPct": 7.308
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1501.03,
+          "ret3mPct": -4.536,
+          "ret12mPct": -17.102,
+          "relative3mPct": 1.718,
+          "relative12mPct": -1.177
+        }
+      }
+    },
+    {
+      "date": "2022-11-01",
+      "sp500": {
+        "indexValue": 4080.11,
+        "ret3mPct": 3.163,
+        "ret12mPct": -10.661
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 12030.06,
+          "ret3mPct": -1.972,
+          "ret12mPct": -25.445,
+          "relative3mPct": -5.135,
+          "relative12mPct": -14.784
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 11468.0,
+          "ret3mPct": -2.947,
+          "ret12mPct": -26.192,
+          "relative3mPct": -6.11,
+          "relative12mPct": -15.531
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 34589.77,
+          "ret3mPct": 9.772,
+          "ret12mPct": 0.308,
+          "relative3mPct": 6.609,
+          "relative12mPct": 10.969
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1589.03,
+          "ret3mPct": 4.52,
+          "ret12mPct": -9.519,
+          "relative3mPct": 1.357,
+          "relative12mPct": 1.142
+        }
+      }
+    },
+    {
+      "date": "2022-12-01",
+      "sp500": {
+        "indexValue": 3839.5,
+        "ret3mPct": 7.081,
+        "ret12mPct": -19.443
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 10939.76,
+          "ret3mPct": -0.287,
+          "ret12mPct": -32.967,
+          "relative3mPct": -7.367,
+          "relative12mPct": -13.525
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 10466.48,
+          "ret3mPct": -1.032,
+          "ret12mPct": -33.1,
+          "relative3mPct": -8.113,
+          "relative12mPct": -13.657
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 33147.25,
+          "ret3mPct": 15.393,
+          "ret12mPct": -8.782,
+          "relative3mPct": 8.313,
+          "relative12mPct": 10.661
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1508.7,
+          "ret3mPct": 9.469,
+          "ret12mPct": -17.703,
+          "relative3mPct": 2.388,
+          "relative12mPct": 1.74
+        }
+      }
+    },
+    {
+      "date": "2023-01-01",
+      "sp500": {
+        "indexValue": 4076.6,
+        "ret3mPct": 5.285,
+        "ret12mPct": -9.721
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 12101.93,
+          "ret3mPct": 6.105,
+          "ret12mPct": -18.942,
+          "relative3mPct": 0.821,
+          "relative12mPct": -9.222
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 11584.55,
+          "ret3mPct": 5.428,
+          "ret12mPct": -18.647,
+          "relative3mPct": 0.143,
+          "relative12mPct": -8.926
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 34086.04,
+          "ret3mPct": 4.134,
+          "ret12mPct": -2.977,
+          "relative3mPct": -1.151,
+          "relative12mPct": 6.744
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1621.05,
+          "ret3mPct": 7.996,
+          "ret12mPct": -5.535,
+          "relative3mPct": 2.711,
+          "relative12mPct": 4.186
+        }
+      }
+    },
+    {
+      "date": "2023-02-01",
+      "sp500": {
+        "indexValue": 3970.15,
+        "ret3mPct": -2.695,
+        "ret12mPct": -9.232
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 12042.12,
+          "ret3mPct": 0.1,
+          "ret12mPct": -15.422,
+          "relative3mPct": 2.795,
+          "relative12mPct": -6.19
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 11455.54,
+          "ret3mPct": -0.109,
+          "ret12mPct": -16.695,
+          "relative3mPct": 2.586,
+          "relative12mPct": -7.464
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 32656.7,
+          "ret3mPct": -5.589,
+          "ret12mPct": -3.647,
+          "relative3mPct": -2.894,
+          "relative12mPct": 5.585
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1571.49,
+          "ret3mPct": -1.104,
+          "ret12mPct": -6.929,
+          "relative3mPct": 1.591,
+          "relative12mPct": 2.302
+        }
+      }
+    },
+    {
+      "date": "2023-03-01",
+      "sp500": {
+        "indexValue": 4109.31,
+        "ret3mPct": 7.027,
+        "ret12mPct": -9.295
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 13181.35,
+          "ret3mPct": 20.49,
+          "ret12mPct": -11.168,
+          "relative3mPct": 13.463,
+          "relative12mPct": -1.873
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 12221.91,
+          "ret3mPct": 16.772,
+          "ret12mPct": -14.054,
+          "relative3mPct": 9.745,
+          "relative12mPct": -4.759
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 33274.15,
+          "ret3mPct": 0.383,
+          "ret12mPct": -4.049,
+          "relative3mPct": -6.644,
+          "relative12mPct": 5.246
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1564.41,
+          "ret3mPct": 3.693,
+          "ret12mPct": -9.399,
+          "relative3mPct": -3.335,
+          "relative12mPct": -0.104
+        }
+      }
+    },
+    {
+      "date": "2023-04-01",
+      "sp500": {
+        "indexValue": 4169.48,
+        "ret3mPct": 2.278,
+        "ret12mPct": 0.909
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 13245.99,
+          "ret3mPct": 9.454,
+          "ret12mPct": 3.043,
+          "relative3mPct": 7.175,
+          "relative12mPct": 2.134
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 12226.58,
+          "ret3mPct": 5.542,
+          "ret12mPct": -0.876,
+          "relative3mPct": 3.264,
+          "relative12mPct": -1.785
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 34098.16,
+          "ret3mPct": 0.036,
+          "ret12mPct": 3.399,
+          "relative3mPct": -2.243,
+          "relative12mPct": 2.49
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1558.67,
+          "ret3mPct": -3.848,
+          "ret12mPct": -2.122,
+          "relative3mPct": -6.126,
+          "relative12mPct": -3.031
+        }
+      }
+    },
+    {
+      "date": "2023-05-01",
+      "sp500": {
+        "indexValue": 4179.83,
+        "ret3mPct": 5.281,
+        "ret12mPct": 1.154
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 14254.09,
+          "ret3mPct": 18.369,
+          "ret12mPct": 12.751,
+          "relative3mPct": 13.087,
+          "relative12mPct": 11.597
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 12935.29,
+          "ret3mPct": 12.917,
+          "ret12mPct": 7.068,
+          "relative3mPct": 7.636,
+          "relative12mPct": 5.914
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 32908.27,
+          "ret3mPct": 0.77,
+          "ret12mPct": -0.248,
+          "relative3mPct": -4.511,
+          "relative12mPct": -1.402
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1515.93,
+          "ret3mPct": -3.535,
+          "ret12mPct": -4.781,
+          "relative3mPct": -8.817,
+          "relative12mPct": -5.935
+        }
+      }
+    },
+    {
+      "date": "2023-06-01",
+      "sp500": {
+        "indexValue": 4450.38,
+        "ret3mPct": 8.3,
+        "ret12mPct": 17.568
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 15179.21,
+          "ret3mPct": 15.157,
+          "ret12mPct": 31.95,
+          "relative3mPct": 6.857,
+          "relative12mPct": 14.383
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 13787.92,
+          "ret3mPct": 12.813,
+          "ret12mPct": 25.018,
+          "relative3mPct": 4.513,
+          "relative12mPct": 7.451
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 34407.6,
+          "ret3mPct": 3.406,
+          "ret12mPct": 11.802,
+          "relative3mPct": -4.894,
+          "relative12mPct": -5.765
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1626.05,
+          "ret3mPct": 3.94,
+          "ret12mPct": 12.516,
+          "relative3mPct": -4.36,
+          "relative12mPct": -5.051
+        }
+      }
+    },
+    {
+      "date": "2023-07-01",
+      "sp500": {
+        "indexValue": 4588.96,
+        "ret3mPct": 10.061,
+        "ret12mPct": 11.105
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 15757.0,
+          "ret3mPct": 18.957,
+          "ret12mPct": 21.695,
+          "relative3mPct": 8.896,
+          "relative12mPct": 10.59
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 14346.02,
+          "ret3mPct": 17.335,
+          "ret12mPct": 15.781,
+          "relative3mPct": 7.274,
+          "relative12mPct": 4.676
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 35559.53,
+          "ret3mPct": 4.286,
+          "ret12mPct": 8.264,
+          "relative3mPct": -5.775,
+          "relative12mPct": -2.841
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1689.03,
+          "ret3mPct": 8.364,
+          "ret12mPct": 7.42,
+          "relative3mPct": -1.697,
+          "relative12mPct": -3.685
+        }
+      }
+    },
+    {
+      "date": "2023-08-01",
+      "sp500": {
+        "indexValue": 4507.66,
+        "ret3mPct": 7.843,
+        "ret12mPct": 13.974
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 15501.07,
+          "ret3mPct": 8.748,
+          "ret12mPct": 26.312,
+          "relative3mPct": 0.905,
+          "relative12mPct": 12.338
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 14034.97,
+          "ret3mPct": 8.501,
+          "ret12mPct": 18.777,
+          "relative3mPct": 0.658,
+          "relative12mPct": 4.804
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 34721.91,
+          "ret3mPct": 5.511,
+          "ret12mPct": 10.192,
+          "relative3mPct": -2.332,
+          "relative12mPct": -3.782
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1634.32,
+          "ret3mPct": 7.81,
+          "ret12mPct": 7.499,
+          "relative3mPct": -0.033,
+          "relative12mPct": -6.475
+        }
+      }
+    },
+    {
+      "date": "2023-09-01",
+      "sp500": {
+        "indexValue": 4288.05,
+        "ret3mPct": -3.648,
+        "ret12mPct": 19.59
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 14715.24,
+          "ret3mPct": -3.057,
+          "ret12mPct": 34.126,
+          "relative3mPct": 0.591,
+          "relative12mPct": 14.536
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 13219.32,
+          "ret3mPct": -4.124,
+          "ret12mPct": 24.998,
+          "relative3mPct": -0.476,
+          "relative12mPct": 5.408
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 33507.5,
+          "ret3mPct": -2.616,
+          "ret12mPct": 16.647,
+          "relative3mPct": 1.032,
+          "relative12mPct": -2.943
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1557.26,
+          "ret3mPct": -4.23,
+          "ret12mPct": 12.992,
+          "relative3mPct": -0.583,
+          "relative12mPct": -6.598
+        }
+      }
+    },
+    {
+      "date": "2023-10-01",
+      "sp500": {
+        "indexValue": 4193.8,
+        "ret3mPct": -8.611,
+        "ret12mPct": 8.312
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 14409.78,
+          "ret3mPct": -8.55,
+          "ret12mPct": 26.34,
+          "relative3mPct": 0.061,
+          "relative12mPct": 18.028
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 12851.24,
+          "ret3mPct": -10.419,
+          "ret12mPct": 16.955,
+          "relative3mPct": -1.808,
+          "relative12mPct": 8.644
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 33052.87,
+          "ret3mPct": -7.049,
+          "ret12mPct": 0.977,
+          "relative3mPct": 1.562,
+          "relative12mPct": -7.334
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1496.23,
+          "ret3mPct": -11.415,
+          "ret12mPct": -0.32,
+          "relative3mPct": -2.804,
+          "relative12mPct": -8.631
+        }
+      }
+    },
+    {
+      "date": "2023-11-01",
+      "sp500": {
+        "indexValue": 4567.8,
+        "ret3mPct": 1.334,
+        "ret12mPct": 11.953
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 15947.87,
+          "ret3mPct": 2.882,
+          "ret12mPct": 32.567,
+          "relative3mPct": 1.548,
+          "relative12mPct": 20.614
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 14226.22,
+          "ret3mPct": 1.363,
+          "ret12mPct": 24.051,
+          "relative3mPct": 0.028,
+          "relative12mPct": 12.099
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 35950.89,
+          "ret3mPct": 3.539,
+          "ret12mPct": 3.935,
+          "relative3mPct": 2.205,
+          "relative12mPct": -8.018
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1638.57,
+          "ret3mPct": 0.26,
+          "ret12mPct": 3.118,
+          "relative3mPct": -1.074,
+          "relative12mPct": -8.835
+        }
+      }
+    },
+    {
+      "date": "2023-12-01",
+      "sp500": {
+        "indexValue": 4769.83,
+        "ret3mPct": 11.235,
+        "ret12mPct": 24.23
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 16825.93,
+          "ret3mPct": 14.344,
+          "ret12mPct": 53.805,
+          "relative3mPct": 3.108,
+          "relative12mPct": 29.575
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 15011.35,
+          "ret3mPct": 13.556,
+          "ret12mPct": 43.423,
+          "relative3mPct": 2.321,
+          "relative12mPct": 19.193
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 37689.54,
+          "ret3mPct": 12.481,
+          "ret12mPct": 13.703,
+          "relative3mPct": 1.245,
+          "relative12mPct": -10.527
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1744.15,
+          "ret3mPct": 12.001,
+          "ret12mPct": 15.606,
+          "relative3mPct": 0.766,
+          "relative12mPct": -8.624
+        }
+      }
+    },
+    {
+      "date": "2024-01-01",
+      "sp500": {
+        "indexValue": 4845.65,
+        "ret3mPct": 15.543,
+        "ret12mPct": 18.865
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 17137.24,
+          "ret3mPct": 18.928,
+          "ret12mPct": 41.607,
+          "relative3mPct": 3.385,
+          "relative12mPct": 22.743
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 15164.01,
+          "ret3mPct": 17.996,
+          "ret12mPct": 30.899,
+          "relative3mPct": 2.453,
+          "relative12mPct": 12.034
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 38150.3,
+          "ret3mPct": 15.422,
+          "ret12mPct": 11.924,
+          "relative3mPct": -0.121,
+          "relative12mPct": -6.941
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1734.04,
+          "ret3mPct": 15.894,
+          "ret12mPct": 6.97,
+          "relative3mPct": 0.351,
+          "relative12mPct": -11.895
+        }
+      }
+    },
+    {
+      "date": "2024-02-01",
+      "sp500": {
+        "indexValue": 5096.27,
+        "ret3mPct": 11.569,
+        "ret12mPct": 28.365
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 18043.85,
+          "ret3mPct": 13.143,
+          "ret12mPct": 49.839,
+          "relative3mPct": 1.573,
+          "relative12mPct": 21.475
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 16091.92,
+          "ret3mPct": 13.115,
+          "ret12mPct": 40.473,
+          "relative3mPct": 1.545,
+          "relative12mPct": 12.108
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 38996.39,
+          "ret3mPct": 8.471,
+          "ret12mPct": 19.413,
+          "relative3mPct": -3.098,
+          "relative12mPct": -8.952
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1812.26,
+          "ret3mPct": 10.6,
+          "ret12mPct": 15.321,
+          "relative3mPct": -0.969,
+          "relative12mPct": -13.044
+        }
+      }
+    },
+    {
+      "date": "2024-03-01",
+      "sp500": {
+        "indexValue": 5254.35,
+        "ret3mPct": 10.158,
+        "ret12mPct": 27.865
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 18254.69,
+          "ret3mPct": 8.491,
+          "ret12mPct": 38.489,
+          "relative3mPct": -1.667,
+          "relative12mPct": 10.624
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 16379.46,
+          "ret3mPct": 9.114,
+          "ret12mPct": 34.017,
+          "relative3mPct": -1.044,
+          "relative12mPct": 6.153
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 39807.37,
+          "ret3mPct": 5.619,
+          "ret12mPct": 19.635,
+          "relative3mPct": -4.539,
+          "relative12mPct": -8.23
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1883.8,
+          "ret3mPct": 8.007,
+          "ret12mPct": 20.416,
+          "relative3mPct": -2.151,
+          "relative12mPct": -7.449
+        }
+      }
+    },
+    {
+      "date": "2024-04-01",
+      "sp500": {
+        "indexValue": 5035.69,
+        "ret3mPct": 3.922,
+        "ret12mPct": 20.775
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 17440.69,
+          "ret3mPct": 1.771,
+          "ret12mPct": 31.668,
+          "relative3mPct": -2.151,
+          "relative12mPct": 10.893
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 15657.82,
+          "ret3mPct": 3.256,
+          "ret12mPct": 28.064,
+          "relative3mPct": -0.665,
+          "relative12mPct": 7.289
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 37815.92,
+          "ret3mPct": -0.876,
+          "ret12mPct": 10.903,
+          "relative3mPct": -4.798,
+          "relative12mPct": -9.872
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1796.11,
+          "ret3mPct": 3.58,
+          "ret12mPct": 15.234,
+          "relative3mPct": -0.342,
+          "relative12mPct": -5.542
+        }
+      }
+    },
+    {
+      "date": "2024-05-01",
+      "sp500": {
+        "indexValue": 5277.51,
+        "ret3mPct": 3.556,
+        "ret12mPct": 26.261
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 18536.65,
+          "ret3mPct": 2.731,
+          "ret12mPct": 30.044,
+          "relative3mPct": -0.825,
+          "relative12mPct": 3.783
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 16735.02,
+          "ret3mPct": 3.996,
+          "ret12mPct": 29.375,
+          "relative3mPct": 0.44,
+          "relative12mPct": 3.114
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 38686.32,
+          "ret3mPct": -0.795,
+          "ret12mPct": 17.558,
+          "relative3mPct": -4.351,
+          "relative12mPct": -8.703
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1840.83,
+          "ret3mPct": 1.576,
+          "ret12mPct": 21.432,
+          "relative3mPct": -1.98,
+          "relative12mPct": -4.829
+        }
+      }
+    },
+    {
+      "date": "2024-06-01",
+      "sp500": {
+        "indexValue": 5460.48,
+        "ret3mPct": 3.923,
+        "ret12mPct": 22.697
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 19682.87,
+          "ret3mPct": 7.824,
+          "ret12mPct": 29.67,
+          "relative3mPct": 3.901,
+          "relative12mPct": 6.973
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 17732.6,
+          "ret3mPct": 8.261,
+          "ret12mPct": 28.61,
+          "relative3mPct": 4.338,
+          "relative12mPct": 5.913
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 39118.86,
+          "ret3mPct": -1.73,
+          "ret12mPct": 13.692,
+          "relative3mPct": -5.653,
+          "relative12mPct": -9.004
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1843.0,
+          "ret3mPct": -2.166,
+          "ret12mPct": 13.342,
+          "relative3mPct": -6.089,
+          "relative12mPct": -9.355
+        }
+      }
+    },
+    {
+      "date": "2024-07-01",
+      "sp500": {
+        "indexValue": 5522.3,
+        "ret3mPct": 9.663,
+        "ret12mPct": 20.339
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 19362.43,
+          "ret3mPct": 11.019,
+          "ret12mPct": 22.881,
+          "relative3mPct": 1.355,
+          "relative12mPct": 2.543
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 17599.4,
+          "ret3mPct": 12.4,
+          "ret12mPct": 22.678,
+          "relative3mPct": 2.737,
+          "relative12mPct": 2.339
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 40842.79,
+          "ret3mPct": 8.004,
+          "ret12mPct": 14.858,
+          "relative3mPct": -1.659,
+          "relative12mPct": -5.481
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1911.01,
+          "ret3mPct": 6.397,
+          "ret12mPct": 13.142,
+          "relative3mPct": -3.266,
+          "relative12mPct": -7.196
+        }
+      }
+    },
+    {
+      "date": "2024-08-01",
+      "sp500": {
+        "indexValue": 5648.4,
+        "ret3mPct": 7.028,
+        "ret12mPct": 25.307
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 19574.64,
+          "ret3mPct": 5.6,
+          "ret12mPct": 26.279,
+          "relative3mPct": -1.428,
+          "relative12mPct": 0.973
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 17713.62,
+          "ret3mPct": 5.848,
+          "ret12mPct": 26.211,
+          "relative3mPct": -1.18,
+          "relative12mPct": 0.904
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 41563.08,
+          "ret3mPct": 7.436,
+          "ret12mPct": 19.703,
+          "relative3mPct": 0.408,
+          "relative12mPct": -5.604
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1957.55,
+          "ret3mPct": 6.341,
+          "ret12mPct": 19.778,
+          "relative3mPct": -0.687,
+          "relative12mPct": -5.529
+        }
+      }
+    },
+    {
+      "date": "2024-09-01",
+      "sp500": {
+        "indexValue": 5762.48,
+        "ret3mPct": 5.531,
+        "ret12mPct": 34.385
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 20060.69,
+          "ret3mPct": 1.92,
+          "ret12mPct": 36.326,
+          "relative3mPct": -3.611,
+          "relative12mPct": 1.941
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 18189.17,
+          "ret3mPct": 2.575,
+          "ret12mPct": 37.595,
+          "relative3mPct": -2.956,
+          "relative12mPct": 3.211
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 42330.15,
+          "ret3mPct": 8.209,
+          "ret12mPct": 26.33,
+          "relative3mPct": 2.678,
+          "relative12mPct": -8.054
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1994.66,
+          "ret3mPct": 8.229,
+          "ret12mPct": 28.088,
+          "relative3mPct": 2.698,
+          "relative12mPct": -6.297
+        }
+      }
+    },
+    {
+      "date": "2024-10-01",
+      "sp500": {
+        "indexValue": 5705.45,
+        "ret3mPct": 3.317,
+        "ret12mPct": 36.045
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 19890.42,
+          "ret3mPct": 2.727,
+          "ret12mPct": 38.034,
+          "relative3mPct": -0.59,
+          "relative12mPct": 1.989
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 18095.15,
+          "ret3mPct": 2.817,
+          "ret12mPct": 40.805,
+          "relative3mPct": -0.5,
+          "relative12mPct": 4.76
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 41763.46,
+          "ret3mPct": 2.254,
+          "ret12mPct": 26.354,
+          "relative3mPct": -1.062,
+          "relative12mPct": -9.691
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1973.96,
+          "ret3mPct": 3.294,
+          "ret12mPct": 31.929,
+          "relative3mPct": -0.022,
+          "relative12mPct": -4.116
+        }
+      }
+    },
+    {
+      "date": "2024-11-01",
+      "sp500": {
+        "indexValue": 6032.38,
+        "ret3mPct": 6.798,
+        "ret12mPct": 32.063
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 20930.37,
+          "ret3mPct": 6.926,
+          "ret12mPct": 31.242,
+          "relative3mPct": 0.128,
+          "relative12mPct": -0.821
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 19218.17,
+          "ret3mPct": 8.494,
+          "ret12mPct": 35.09,
+          "relative3mPct": 1.696,
+          "relative12mPct": 3.027
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 44910.65,
+          "ret3mPct": 8.054,
+          "ret12mPct": 24.922,
+          "relative3mPct": 1.256,
+          "relative12mPct": -7.141
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 2121.82,
+          "ret3mPct": 8.392,
+          "ret12mPct": 29.492,
+          "relative3mPct": 1.594,
+          "relative12mPct": -2.571
+        }
+      }
+    },
+    {
+      "date": "2024-12-01",
+      "sp500": {
+        "indexValue": 5881.63,
+        "ret3mPct": 2.068,
+        "ret12mPct": 23.309
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 21012.17,
+          "ret3mPct": 4.743,
+          "ret12mPct": 24.88,
+          "relative3mPct": 2.675,
+          "relative12mPct": 1.571
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 19310.79,
+          "ret3mPct": 6.166,
+          "ret12mPct": 28.641,
+          "relative3mPct": 4.099,
+          "relative12mPct": 5.332
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 42544.22,
+          "ret3mPct": 0.506,
+          "ret12mPct": 12.881,
+          "relative3mPct": -1.562,
+          "relative12mPct": -10.428
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1984.55,
+          "ret3mPct": -0.507,
+          "ret12mPct": 13.783,
+          "relative3mPct": -2.575,
+          "relative12mPct": -9.526
+        }
+      }
+    },
+    {
+      "date": "2025-01-01",
+      "sp500": {
+        "indexValue": 6040.53,
+        "ret3mPct": 5.873,
+        "ret12mPct": 24.659
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 21478.05,
+          "ret3mPct": 7.982,
+          "ret12mPct": 25.33,
+          "relative3mPct": 2.109,
+          "relative12mPct": 0.671
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 19627.44,
+          "ret3mPct": 8.468,
+          "ret12mPct": 29.434,
+          "relative3mPct": 2.595,
+          "relative12mPct": 4.776
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 44544.66,
+          "ret3mPct": 6.659,
+          "ret12mPct": 16.761,
+          "relative3mPct": 0.786,
+          "relative12mPct": -7.898
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 2063.78,
+          "ret3mPct": 4.55,
+          "ret12mPct": 19.016,
+          "relative3mPct": -1.323,
+          "relative12mPct": -5.643
+        }
+      }
+    },
+    {
+      "date": "2025-02-01",
+      "sp500": {
+        "indexValue": 5954.5,
+        "ret3mPct": -1.291,
+        "ret12mPct": 16.84
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 20884.41,
+          "ret3mPct": -0.22,
+          "ret12mPct": 15.743,
+          "relative3mPct": 1.071,
+          "relative12mPct": -1.098
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 18847.28,
+          "ret3mPct": -1.93,
+          "ret12mPct": 17.123,
+          "relative3mPct": -0.639,
+          "relative12mPct": 0.282
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 43840.91,
+          "ret3mPct": -2.382,
+          "ret12mPct": 12.423,
+          "relative3mPct": -1.091,
+          "relative12mPct": -4.417
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 2036.58,
+          "ret3mPct": -4.017,
+          "ret12mPct": 12.378,
+          "relative3mPct": -2.726,
+          "relative12mPct": -4.462
+        }
+      }
+    },
+    {
+      "date": "2025-03-01",
+      "sp500": {
+        "indexValue": 5611.85,
+        "ret3mPct": -4.587,
+        "ret12mPct": 6.804
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 19278.45,
+          "ret3mPct": -8.251,
+          "ret12mPct": 5.608,
+          "relative3mPct": -3.664,
+          "relative12mPct": -1.196
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 17299.29,
+          "ret3mPct": -10.416,
+          "ret12mPct": 5.616,
+          "relative3mPct": -5.83,
+          "relative12mPct": -1.188
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 42001.76,
+          "ret3mPct": -1.275,
+          "ret12mPct": 5.513,
+          "relative3mPct": 3.312,
+          "relative12mPct": -1.291
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1947.65,
+          "ret3mPct": -1.859,
+          "ret12mPct": 3.389,
+          "relative3mPct": 2.727,
+          "relative12mPct": -3.414
+        }
+      }
+    },
+    {
+      "date": "2025-04-01",
+      "sp500": {
+        "indexValue": 5569.06,
+        "ret3mPct": -7.805,
+        "ret12mPct": 10.592
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 19571.02,
+          "ret3mPct": -8.879,
+          "ret12mPct": 12.215,
+          "relative3mPct": -1.074,
+          "relative12mPct": 1.623
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 17446.34,
+          "ret3mPct": -11.113,
+          "ret12mPct": 11.423,
+          "relative3mPct": -3.307,
+          "relative12mPct": 0.831
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 40669.36,
+          "ret3mPct": -8.7,
+          "ret12mPct": 7.546,
+          "relative3mPct": -0.895,
+          "relative12mPct": -3.046
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 1921.72,
+          "ret3mPct": -6.883,
+          "ret12mPct": 6.993,
+          "relative3mPct": 0.922,
+          "relative12mPct": -3.598
+        }
+      }
+    },
+    {
+      "date": "2025-05-01",
+      "sp500": {
+        "indexValue": 5911.69,
+        "ret3mPct": -0.719,
+        "ret12mPct": 12.017
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 21340.99,
+          "ret3mPct": 2.186,
+          "ret12mPct": 15.129,
+          "relative3mPct": 2.905,
+          "relative12mPct": 3.112
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 19113.77,
+          "ret3mPct": 1.414,
+          "ret12mPct": 14.214,
+          "relative3mPct": 2.133,
+          "relative12mPct": 2.198
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 42270.07,
+          "ret3mPct": -3.583,
+          "ret12mPct": 9.264,
+          "relative3mPct": -2.864,
+          "relative12mPct": -2.753
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 2019.19,
+          "ret3mPct": -0.854,
+          "ret12mPct": 9.689,
+          "relative3mPct": -0.135,
+          "relative12mPct": -2.328
+        }
+      }
+    },
+    {
+      "date": "2025-06-01",
+      "sp500": {
+        "indexValue": 6204.95,
+        "ret3mPct": 10.569,
+        "ret12mPct": 13.634
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 22679.01,
+          "ret3mPct": 17.639,
+          "ret12mPct": 15.222,
+          "relative3mPct": 7.07,
+          "relative12mPct": 1.588
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 20369.73,
+          "ret3mPct": 17.749,
+          "ret12mPct": 14.872,
+          "relative3mPct": 7.18,
+          "relative12mPct": 1.238
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 44094.77,
+          "ret3mPct": 4.983,
+          "ret12mPct": 12.72,
+          "relative3mPct": -5.586,
+          "relative12mPct": -0.914
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 2101.22,
+          "ret3mPct": 7.885,
+          "ret12mPct": 14.011,
+          "relative3mPct": -2.684,
+          "relative12mPct": 0.377
+        }
+      }
+    },
+    {
+      "date": "2025-07-01",
+      "sp500": {
+        "indexValue": 6339.39,
+        "ret3mPct": 13.832,
+        "ret12mPct": 14.796
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 23218.12,
+          "ret3mPct": 18.635,
+          "ret12mPct": 19.913,
+          "relative3mPct": 4.803,
+          "relative12mPct": 5.117
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 21122.45,
+          "ret3mPct": 21.071,
+          "ret12mPct": 20.018,
+          "relative3mPct": 7.239,
+          "relative12mPct": 5.222
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 44130.98,
+          "ret3mPct": 8.512,
+          "ret12mPct": 8.051,
+          "relative3mPct": -5.321,
+          "relative12mPct": -6.745
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 2126.71,
+          "ret3mPct": 10.667,
+          "ret12mPct": 11.287,
+          "relative3mPct": -3.165,
+          "relative12mPct": -3.509
+        }
+      }
+    },
+    {
+      "date": "2025-08-01",
+      "sp500": {
+        "indexValue": 6460.26,
+        "ret3mPct": 9.279,
+        "ret12mPct": 14.373
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 23415.42,
+          "ret3mPct": 9.72,
+          "ret12mPct": 19.621,
+          "relative3mPct": 0.441,
+          "relative12mPct": 5.248
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 21455.55,
+          "ret3mPct": 12.252,
+          "ret12mPct": 21.125,
+          "relative3mPct": 2.972,
+          "relative12mPct": 6.751
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 45544.88,
+          "ret3mPct": 7.747,
+          "ret12mPct": 9.58,
+          "relative3mPct": -1.532,
+          "relative12mPct": -4.793
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 2171.15,
+          "ret3mPct": 7.526,
+          "ret12mPct": 10.912,
+          "relative3mPct": -1.754,
+          "relative12mPct": -3.462
+        }
+      }
+    },
+    {
+      "date": "2025-09-01",
+      "sp500": {
+        "indexValue": 6688.46,
+        "ret3mPct": 7.792,
+        "ret12mPct": 16.069
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 24679.99,
+          "ret3mPct": 8.823,
+          "ret12mPct": 23.027,
+          "relative3mPct": 1.031,
+          "relative12mPct": 6.958
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 22660.01,
+          "ret3mPct": 11.244,
+          "ret12mPct": 24.58,
+          "relative3mPct": 3.451,
+          "relative12mPct": 8.511
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 46397.89,
+          "ret3mPct": 5.223,
+          "ret12mPct": 9.61,
+          "relative3mPct": -2.569,
+          "relative12mPct": -6.46
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 2195.24,
+          "ret3mPct": 4.475,
+          "ret12mPct": 10.056,
+          "relative3mPct": -3.318,
+          "relative12mPct": -6.013
+        }
+      }
+    },
+    {
+      "date": "2025-10-01",
+      "sp500": {
+        "indexValue": 6840.2,
+        "ret3mPct": 7.9,
+        "ret12mPct": 19.889
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 25858.13,
+          "ret3mPct": 11.37,
+          "ret12mPct": 30.003,
+          "relative3mPct": 3.471,
+          "relative12mPct": 10.114
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 23724.96,
+          "ret3mPct": 12.321,
+          "ret12mPct": 31.112,
+          "relative3mPct": 4.421,
+          "relative12mPct": 11.223
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 47562.87,
+          "ret3mPct": 7.777,
+          "ret12mPct": 13.886,
+          "relative3mPct": -0.123,
+          "relative12mPct": -6.003
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 2184.66,
+          "ret3mPct": 2.725,
+          "ret12mPct": 10.674,
+          "relative3mPct": -5.175,
+          "relative12mPct": -9.215
+        }
+      }
+    },
+    {
+      "date": "2025-11-01",
+      "sp500": {
+        "indexValue": 6849.09,
+        "ret3mPct": 6.019,
+        "ret12mPct": 13.539
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 25434.89,
+          "ret3mPct": 8.625,
+          "ret12mPct": 21.521,
+          "relative3mPct": 2.606,
+          "relative12mPct": 7.983
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 23365.69,
+          "ret3mPct": 8.903,
+          "ret12mPct": 21.581,
+          "relative3mPct": 2.884,
+          "relative12mPct": 8.042
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 47716.42,
+          "ret3mPct": 4.768,
+          "ret12mPct": 6.247,
+          "relative3mPct": -1.251,
+          "relative12mPct": -7.291
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 2199.23,
+          "ret3mPct": 1.293,
+          "ret12mPct": 3.648,
+          "relative3mPct": -4.725,
+          "relative12mPct": -9.89
+        }
+      }
+    },
+    {
+      "date": "2025-12-01",
+      "sp500": {
+        "indexValue": 6845.5,
+        "ret3mPct": 2.348,
+        "ret12mPct": 16.388
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 25249.85,
+          "ret3mPct": 2.309,
+          "ret12mPct": 20.168,
+          "relative3mPct": -0.039,
+          "relative12mPct": 3.78
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 23241.99,
+          "ret3mPct": 2.568,
+          "ret12mPct": 20.358,
+          "relative3mPct": 0.22,
+          "relative12mPct": 3.97
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 48063.29,
+          "ret3mPct": 3.589,
+          "ret12mPct": 12.973,
+          "relative3mPct": 1.241,
+          "relative12mPct": -3.415
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 2200.12,
+          "ret3mPct": 0.222,
+          "ret12mPct": 10.862,
+          "relative3mPct": -2.126,
+          "relative12mPct": -5.525
+        }
+      }
+    },
+    {
+      "date": "2026-01-01",
+      "sp500": {
+        "indexValue": 6939.03,
+        "ret3mPct": 1.445,
+        "ret12mPct": 14.875
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 25552.39,
+          "ret3mPct": -1.182,
+          "ret12mPct": 18.97,
+          "relative3mPct": -2.627,
+          "relative12mPct": 4.095
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 23461.82,
+          "ret3mPct": -1.109,
+          "ret12mPct": 19.536,
+          "relative3mPct": -2.554,
+          "relative12mPct": 4.661
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 48892.47,
+          "ret3mPct": 2.795,
+          "ret12mPct": 9.761,
+          "relative3mPct": 1.351,
+          "relative12mPct": -5.114
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 2241.72,
+          "ret3mPct": 2.612,
+          "ret12mPct": 8.622,
+          "relative3mPct": 1.167,
+          "relative12mPct": -6.252
+        }
+      }
+    },
+    {
+      "date": "2026-02-01",
+      "sp500": {
+        "indexValue": 6878.88,
+        "ret3mPct": 0.435,
+        "ret12mPct": 15.524
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 24960.04,
+          "ret3mPct": -1.867,
+          "ret12mPct": 19.515,
+          "relative3mPct": -2.302,
+          "relative12mPct": 3.991
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 22668.21,
+          "ret3mPct": -2.985,
+          "ret12mPct": 20.273,
+          "relative3mPct": -3.42,
+          "relative12mPct": 4.749
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 48977.92,
+          "ret3mPct": 2.644,
+          "ret12mPct": 11.717,
+          "relative3mPct": 2.209,
+          "relative12mPct": -3.807
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 2298.55,
+          "ret3mPct": 4.516,
+          "ret12mPct": 12.863,
+          "relative3mPct": 4.081,
+          "relative12mPct": -2.661
+        }
+      }
+    },
+    {
+      "date": "2026-03-01",
+      "sp500": {
+        "indexValue": 6528.52,
+        "ret3mPct": -4.63,
+        "ret12mPct": 16.335
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 23740.19,
+          "ret3mPct": -5.979,
+          "ret12mPct": 23.144,
+          "relative3mPct": -1.348,
+          "relative12mPct": 6.809
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 21590.63,
+          "ret3mPct": -7.105,
+          "ret12mPct": 24.806,
+          "relative3mPct": -2.475,
+          "relative12mPct": 8.472
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 46341.51,
+          "ret3mPct": -3.582,
+          "ret12mPct": 10.332,
+          "relative3mPct": 1.048,
+          "relative12mPct": -6.002
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 2168.51,
+          "ret3mPct": -1.437,
+          "ret12mPct": 11.34,
+          "relative3mPct": 3.194,
+          "relative12mPct": -4.995
+        }
+      }
+    },
+    {
+      "date": "2026-04-01",
+      "sp500": {
+        "indexValue": 7137.9,
+        "ret3mPct": 2.866,
+        "ret12mPct": 28.171
+      },
+      "sectors": {
+        "NASDAQ100": {
+          "label": "Technology/Growth leadership proxy",
+          "indexValue": 26479.47,
+          "ret3mPct": 3.628,
+          "ret12mPct": 35.299,
+          "relative3mPct": 0.762,
+          "relative12mPct": 7.129
+        },
+        "NASDAQCOM": {
+          "label": "Broader technology-heavy market proxy",
+          "indexValue": 24259.96,
+          "ret3mPct": 3.402,
+          "ret12mPct": 39.055,
+          "relative3mPct": 0.536,
+          "relative12mPct": 10.884
+        },
+        "DJIA": {
+          "label": "Large-cap industrial/defensive proxy",
+          "indexValue": 49490.03,
+          "ret3mPct": 1.222,
+          "ret12mPct": 21.689,
+          "relative3mPct": -1.644,
+          "relative12mPct": -6.482
+        },
+        "NASDAQNQUS500LCE": {
+          "label": "S&P-style equal-weight proxy",
+          "indexValue": 2305.22,
+          "ret3mPct": 2.833,
+          "ret12mPct": 19.956,
+          "relative3mPct": -0.033,
+          "relative12mPct": -8.215
+        }
+      }
+    }
+  ]
+}

@@ -32,6 +32,10 @@ Then visit:
 
 `http://localhost:8000/index.html`
 
+Additional pages:
+- `http://localhost:8000/sectors.html` (sector proxy dashboard)
+- `http://localhost:8000/combined.html` (macro + sector combined view)
+
 ## Deploy to GitHub Pages
 
 This repo includes `.github/workflows/deploy-pages.yml` to publish the dashboard.
@@ -46,9 +50,10 @@ In GitHub:
 
 - On every push to `main`, GitHub Actions will:
   1. run `python3 tools/build_timeline_data.py`
-  2. run `python3 tools/build_evidence_links.py`
-  3. package `index.html` + `data/`
-  4. deploy to GitHub Pages
+  2. run `python3 tools/build_sector_data.py`
+  3. run `python3 tools/build_evidence_supplemental.py`
+  4. package `index.html` + `sectors.html` + `combined.html` + `data/`
+  5. deploy to GitHub Pages
 
 ### Site URL
 
@@ -61,6 +66,7 @@ For this repository name, the site URL format is:
 - The Great Depression window is intentionally labeled **estimated** because high-frequency modern market stress inputs are not available for that period.
 - Hover any point to see the date, phase, stress score, and core inputs.
 - The dashboard now embeds a **data request status panel** showing every live source call, row counts, date coverage, and any fetch errors, so missing series are transparent and traceable.
-- The evidence explorer links each metric to dynamically searched papers/articles, then summarizes each source with the deterministic rule parser (`tools/rule_based_summary_parser.py`).
+- The evidence explorer uses click-triggered **live** search for papers/articles from OpenAlex and Crossref, based on the clicked datapoint context (metric, value, phase, stress score, date).
+- Supplemental Fed report factor references are prebuilt in `data/evidence_supplemental.json` via `tools/build_evidence_supplemental.py`.
 - Phase is calculated (not manual) from weighted component scores with explicit phase transition rules; these rules are shown in the UI under **How phase is determined**.
 - Evidence is now interaction-driven: click any line data point on the charts to open ranked articles/papers and related Fed supplemental factors for that point.

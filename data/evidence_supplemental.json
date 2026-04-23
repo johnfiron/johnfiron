@@ -1,6 +1,6 @@
 {
   "meta": {
-    "generatedAtUTC": "2026-04-23T00:28:48+00:00",
+    "generatedAtUTC": "2026-04-23T00:36:12+00:00",
     "description": "Supplemental Fed-related factors outside core stress-score inputs. Used as context and fallback references.",
     "summaryMethod": "rule_based_summary_parser.py (deterministic, no ML)",
     "stats": {
