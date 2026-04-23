@@ -172,6 +172,23 @@
         color: var(--muted);
         border-bottom: 1px solid rgba(51, 65, 85, 0.8);
       }
+      .method-box {
+        margin-top: 12px;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        background: rgba(15, 23, 42, 0.58);
+        padding: 10px 12px;
+      }
+      .method-box h3 {
+        margin: 0 0 6px;
+        font-size: 0.92rem;
+      }
+      .method-box p {
+        margin: 0;
+        font-size: 0.8rem;
+        color: var(--muted);
+        line-height: 1.35;
+      }
       .evidence-list {
         display: grid;
         grid-template-columns: repeat(2, minmax(280px, 1fr));
@@ -353,20 +370,26 @@
           <h3>Cause and effect evidence explorer (papers + articles)</h3>
           <div class="controls evidence-controls">
             <div class="control">
-              <label for="evidenceMetric">Data point</label>
-              <select id="evidenceMetric"></select>
-            </div>
-            <div class="control">
-              <label for="evidenceMonth">Month context</label>
-              <select id="evidenceMonth"></select>
+              <label>Interaction</label>
+              <select id="evidenceMode">
+                <option value="click" selected>Click a line data point on any chart to view ranked evidence</option>
+              </select>
             </div>
             <div class="control">
               <label>Evidence source</label>
               <button id="evidenceReloadBtn" type="button">Reload evidence index</button>
             </div>
+            <div class="control">
+              <label>Context</label>
+              <button id="clearSelectionBtn" type="button">Clear point selection</button>
+            </div>
           </div>
           <div class="evidence-meta" id="evidenceMeta"></div>
           <div class="evidence-list" id="evidenceList"></div>
+        </section>
+        <section class="method-box">
+          <h3>How phase is determined (calculated, not manual)</h3>
+          <p id="phaseMethodText"></p>
         </section>
 
         <p class="footnote" id="footnote"></p>
@@ -555,9 +578,48 @@
           `Key limitation: ${meta.method.limitations.join(" ")}`;
       }
 
-      function initializeEvidenceExplorer(evidencePayload) {
-        const metricSelect = document.getElementById("evidenceMetric");
-        const monthSelect = document.getElementById("evidenceMonth");
+      let selectedPointContext = null;
+
+      function metricLabel(metric) {
+        return metric?.label || metric?.metricKey || "Unknown metric";
+      }
+
+      function lineMetricMap() {
+        return {
+          "Composite stress score": "creditSpreadProxyBAA10Y",
+          "Normalized phase level": "creditSpreadProxyBAA10Y",
+          "Composite stress (reference)": "creditSpreadProxyBAA10Y",
+          "Credit spread proxy (normalized)": "creditSpreadProxyBAA10Y",
+          "Unemployment (normalized)": "unrate",
+          "Stress score volatility (12-month rolling stdev)": "creditSpreadProxyBAA10Y",
+          "Phase volatility (12-month rolling stdev)": "termSpread10y3m",
+        };
+      }
+
+      function renderPhaseMethod(meta) {
+        const host = document.getElementById("phaseMethodText");
+        if (!meta?.method) {
+          host.textContent = "Method details unavailable.";
+          return;
+        }
+        const weights = meta.method.componentWeights || {};
+        const rules = meta.method.phaseRules || {};
+        host.textContent =
+          `Phase is computed monthly from weighted components: credit ${weights.creditScore ?? "?"}, volatility ${weights.volatilityScore ?? "?"}, liquidity ${weights.liquidityScore ?? "?"}, labor ${weights.laborScore ?? "?"}, growth ${weights.growthScore ?? "?"}, and curve ${weights.curveScore ?? "?"}. ` +
+          `Phase 2 rule: ${rules.phase2Stress || "n/a"}. ` +
+          `Phase 3 rule: ${rules.phase3Trigger || "n/a"}. ` +
+          `Phase 4 rule: ${rules.phase4Cascade || "n/a"}.`;
+      }
+
+      function findMetricByKey(evidencePayload, key) {
+        return (evidencePayload?.metrics || []).find((m) => m.metricKey === key);
+      }
+
+      function collectSupplementalForMetric(evidencePayload, key) {
+        return (evidencePayload?.supplementalFactors || []).filter((f) => (f.relatedMetrics || []).includes(key));
+      }
+
+      function renderEvidenceForSelection(evidencePayload) {
         const metaHost = document.getElementById("evidenceMeta");
         const listHost = document.getElementById("evidenceList");
 
@@ -565,74 +627,71 @@
         metaHost.textContent = "";
 
         if (!evidencePayload || !Array.isArray(evidencePayload.metrics) || !evidencePayload.metrics.length) {
-          metricSelect.innerHTML = `<option value="">No evidence index available</option>`;
-          monthSelect.innerHTML = `<option value="">No month mapping available</option>`;
           metaHost.textContent = "Evidence index could not be loaded. Run tools/build_evidence_links.py to generate it.";
           return;
         }
 
-        const previousMetric = metricSelect.value;
-        const previousMonth = monthSelect.value;
-        metricSelect.innerHTML = evidencePayload.metrics
-          .map((m) => `<option value="${m.metricKey}">${m.label}</option>`)
-          .join("");
         const monthRows = evidencePayload.monthDataPointIndex || [];
-        monthSelect.innerHTML = monthRows
-          .slice()
-          .reverse()
-          .map((m) => `<option value="${m.date}">${m.date} | Phase ${m.phase} | Stress ${Number(m.stressScore).toFixed(3)}</option>`)
-          .join("");
-
-        if (previousMetric && Array.from(metricSelect.options).some((o) => o.value === previousMetric)) {
-          metricSelect.value = previousMetric;
-        }
-        if (previousMonth && Array.from(monthSelect.options).some((o) => o.value === previousMonth)) {
-          monthSelect.value = previousMonth;
+        if (!selectedPointContext) {
+          metaHost.textContent = "Click any data point on a chart line to view ranked evidence and related Fed factors.";
+          return;
         }
 
-        const renderSelection = () => {
-          const metric = evidencePayload.metrics.find((m) => m.metricKey === metricSelect.value) || evidencePayload.metrics[0];
-          const month = monthRows.find((m) => m.date === monthSelect.value) || monthRows[monthRows.length - 1];
-          const available = month?.availableDataPoints || [];
-          const isAvailable = metric ? available.includes(metric.metricKey) : false;
+        const metricKey = selectedPointContext.metricKey;
+        const metric = findMetricByKey(evidencePayload, metricKey);
+        const month = monthRows.find((m) => m.date === selectedPointContext.date) || monthRows[monthRows.length - 1];
+        const available = month?.availableDataPoints || [];
+        const isAvailable = metric ? available.includes(metric.metricKey) : false;
+        const queryStatusText = (metric?.queryStatus || [])
+          .map((q) => `${q.query} (papers ${q.openalexResults}, articles ${q.crossrefResults})`)
+          .join(" | ");
 
-          const queryStatusText = (metric?.queryStatus || [])
-            .map((q) => `${q.query} (papers ${q.openalexResults}, articles ${q.crossrefResults})`)
-            .join(" | ");
+        metaHost.textContent = metric
+          ? `Selected line: ${selectedPointContext.datasetLabel} | Date: ${selectedPointContext.date}. Data point: ${metricLabel(metric)}. Cause: ${metric.causeHint}. Effect: ${metric.effectHint}. ${
+              isAvailable
+                ? `Selected month includes this data point.`
+                : `Selected month does not include this data point (available: ${available.join(", ") || "none"}).`
+            } Query coverage: ${queryStatusText || "n/a"}.`
+          : `Selected line: ${selectedPointContext.datasetLabel} | Date: ${selectedPointContext.date}. No direct metric mapping found.`;
 
-          metaHost.textContent = metric
-            ? `Cause: ${metric.causeHint}. Effect: ${metric.effectHint}. ${
-                isAvailable
-                  ? `Selected month includes this data point.`
-                  : `Selected month does not include this data point (available: ${available.join(", ") || "none"}).`
-              } Query coverage: ${queryStatusText || "n/a"}.`
-            : "No metric selected.";
+        listHost.innerHTML = "";
+        const evidence = metric?.evidence || [];
+        const supplemental = metric ? collectSupplementalForMetric(evidencePayload, metric.metricKey) : [];
+        if (!evidence.length && !supplemental.length) {
+          listHost.innerHTML = `<article class="evidence-item"><p>No evidence results found for this selection.</p></article>`;
+          return;
+        }
 
-          listHost.innerHTML = "";
-          const evidence = metric?.evidence || [];
-          if (!evidence.length) {
-            listHost.innerHTML = `<article class="evidence-item"><p>No evidence results found for this data point.</p></article>`;
-            return;
-          }
+        evidence.forEach((item) => {
+          const card = document.createElement("article");
+          card.className = "evidence-item";
+          const sourceType = (item.sourceType || "article").toLowerCase();
+          const yearText = item.year ? ` (${item.year})` : "";
+          card.innerHTML = `
+            <span class="source-badge ${sourceType}">${sourceType}</span>
+            <h4><a class="req-link" href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>${yearText}</h4>
+            <p><strong>Rank score:</strong> ${Number(item.score).toFixed(2)}</p>
+            <p>${item.summary}</p>
+          `;
+          listHost.appendChild(card);
+        });
 
-          evidence.forEach((item) => {
-            const card = document.createElement("article");
-            card.className = "evidence-item";
-            const sourceType = (item.sourceType || "article").toLowerCase();
-            const yearText = item.year ? ` (${item.year})` : "";
-            card.innerHTML = `
-              <span class="source-badge ${sourceType}">${sourceType}</span>
-              <h4><a class="req-link" href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>${yearText}</h4>
-              <p><strong>Score:</strong> ${Number(item.score).toFixed(2)}</p>
-              <p>${item.summary}</p>
-            `;
-            listHost.appendChild(card);
-          });
-        };
+        supplemental.forEach((factor) => {
+          const card = document.createElement("article");
+          card.className = "evidence-item";
+          card.innerHTML = `
+            <span class="source-badge paper">fed factor</span>
+            <h4>${factor.label}</h4>
+            <p><strong>Outside stress score:</strong> ${factor.notInStressScore ? "yes" : "no"}</p>
+            <p>${factor.description}</p>
+            <p><a class="req-link" href="${factor.evidence?.[0]?.url || "#"}" target="_blank" rel="noopener noreferrer">Fed report and related references</a></p>
+          `;
+          listHost.appendChild(card);
+        });
+      }
 
-        metricSelect.onchange = renderSelection;
-        monthSelect.onchange = renderSelection;
-        renderSelection();
+      function initializeEvidenceExplorer(evidencePayload) {
+        renderEvidenceForSelection(evidencePayload);
       }
 
       let phaseChart;
@@ -758,6 +817,21 @@
           },
           plugins: [phaseBackgroundPlugin(PHASE_BANDS), eventOverlayPlugin(overlays)],
         });
+        phaseChart.canvas.onclick = (evt) => {
+          const pts = phaseChart.getElementsAtEventForMode(evt, "nearest", { intersect: true }, true);
+          if (!pts.length) return;
+          const p = pts[0];
+          const ds = phaseChart.data.datasets[p.datasetIndex];
+          const row = records[p.index];
+          if (!row) return;
+          const map = lineMetricMap();
+          selectedPointContext = {
+            metricKey: map[ds.label] || "creditSpreadProxyBAA10Y",
+            date: row.date,
+            datasetLabel: ds.label,
+          };
+          initializeEvidenceExplorer(evidencePayloadCache);
+        };
 
         const input1 = toLine(records, "stressScore");
         const input2 = records
@@ -827,6 +901,21 @@
           },
           plugins: [phaseBackgroundPlugin(PHASE_BANDS), eventOverlayPlugin(overlays)],
         });
+        inputsChart.canvas.onclick = (evt) => {
+          const pts = inputsChart.getElementsAtEventForMode(evt, "nearest", { intersect: true }, true);
+          if (!pts.length) return;
+          const p = pts[0];
+          const ds = inputsChart.data.datasets[p.datasetIndex];
+          const row = records[p.index];
+          if (!row) return;
+          const map = lineMetricMap();
+          selectedPointContext = {
+            metricKey: map[ds.label] || "creditSpreadProxyBAA10Y",
+            date: row.date,
+            datasetLabel: ds.label,
+          };
+          initializeEvidenceExplorer(evidencePayloadCache);
+        };
 
         const stressVolSeries = buildVolatilitySeries(records, (r) => r.stressScore, 12);
         const phaseVolSeries = buildVolatilitySeries(records, (r) => r.phase, 12);
@@ -902,6 +991,21 @@
           },
           plugins: [eventOverlayPlugin(overlays)],
         });
+        volatilityChart.canvas.onclick = (evt) => {
+          const pts = volatilityChart.getElementsAtEventForMode(evt, "nearest", { intersect: true }, true);
+          if (!pts.length) return;
+          const p = pts[0];
+          const ds = volatilityChart.data.datasets[p.datasetIndex];
+          const row = records[p.index];
+          if (!row) return;
+          const map = lineMetricMap();
+          selectedPointContext = {
+            metricKey: map[ds.label] || "creditSpreadProxyBAA10Y",
+            date: row.date,
+            datasetLabel: ds.label,
+          };
+          initializeEvidenceExplorer(evidencePayloadCache);
+        };
       }
 
       async function init() {
@@ -912,6 +1016,7 @@
         timelinePayloadCache = payload;
         evidencePayloadCache = evidencePayload;
         buildCharts(payload);
+        renderPhaseMethod(payload.meta);
         initializeEvidenceExplorer(evidencePayload);
 
         document.getElementById("rangePreset").addEventListener("change", () => buildCharts(timelinePayloadCache));
@@ -924,12 +1029,17 @@
           timelinePayloadCache = freshTimeline;
           evidencePayloadCache = freshEvidence;
           buildCharts(freshTimeline);
+          renderPhaseMethod(freshTimeline.meta);
           initializeEvidenceExplorer(freshEvidence);
         });
         document.getElementById("evidenceReloadBtn").addEventListener("click", async () => {
           const freshEvidence = await loadEvidenceData().catch(() => null);
           evidencePayloadCache = freshEvidence;
           initializeEvidenceExplorer(freshEvidence);
+        });
+        document.getElementById("clearSelectionBtn").addEventListener("click", () => {
+          selectedPointContext = null;
+          initializeEvidenceExplorer(evidencePayloadCache);
         });
       }
 

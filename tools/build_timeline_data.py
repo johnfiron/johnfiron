@@ -370,6 +370,32 @@ def build() -> None:
             "phaseInfo": PHASE_INFO,
             "method": {
                 "name": "Convergence model (proxy implementation)",
+                "componentWeights": {
+                    "creditScore": 0.28,
+                    "volatilityScore": 0.20,
+                    "liquidityScore": 0.20,
+                    "laborScore": 0.15,
+                    "growthScore": 0.10,
+                    "curveScore": 0.07,
+                },
+                "phaseRules": {
+                    "phase2Stress": (
+                        "stress_score >= 0.58 OR "
+                        "(credit_score >= 0.70 AND (liquidity_score >= 0.70 OR volatility_score >= 0.70))"
+                    ),
+                    "phase3Trigger": (
+                        "phase >= 2 AND recession == 1 AND "
+                        "(stress_score >= 0.66 OR growth_score >= 0.75)"
+                    ),
+                    "phase4Cascade": (
+                        "recession == 1 AND (stress_score >= 0.75 OR growth_score == 1.0 OR "
+                        "(volatility_score >= 0.90 AND credit_score >= 0.80))"
+                    ),
+                    "hysteresis": [
+                        "if prior phase >= 2 and current falls to phase 1 while stress_score >= 0.50, keep phase 2",
+                        "if prior phase >= 3 and current falls to phase 2 while stress_score >= 0.68, keep phase 3",
+                    ],
+                },
                 "logicSummary": [
                     "Phase 1: low composite stress and no broad recession confirmation.",
                     "Phase 2: multiple stress components elevated simultaneously.",

@@ -62,3 +62,5 @@ For this repository name, the site URL format is:
 - Hover any point to see the date, phase, stress score, and core inputs.
 - The dashboard now embeds a **data request status panel** showing every live source call, row counts, date coverage, and any fetch errors, so missing series are transparent and traceable.
 - The evidence explorer links each metric to dynamically searched papers/articles, then summarizes each source with the deterministic rule parser (`tools/rule_based_summary_parser.py`).
+- Phase is calculated (not manual) from weighted component scores with explicit phase transition rules; these rules are shown in the UI under **How phase is determined**.
+- Evidence is now interaction-driven: click any line data point on the charts to open ranked articles/papers and related Fed supplemental factors for that point.
