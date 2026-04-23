@@ -155,6 +155,16 @@
       .evidence {
         margin-top: 12px;
       }
+      .inline-evidence {
+        margin-top: 10px;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        background: rgba(15, 23, 42, 0.58);
+        overflow: hidden;
+      }
+      .inline-evidence.hidden {
+        display: none;
+      }
       .requests h3 {
         margin: 0;
         padding: 10px 12px;
@@ -171,6 +181,24 @@
         font-size: 0.83rem;
         color: var(--muted);
         border-bottom: 1px solid rgba(51, 65, 85, 0.8);
+      }
+      .selection-card {
+        border: 1px solid #334155;
+        border-radius: 10px;
+        background: rgba(15, 23, 42, 0.62);
+        padding: 10px;
+      }
+      .selection-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(200px, 1fr));
+        gap: 8px 12px;
+      }
+      .selection-row {
+        font-size: 0.8rem;
+        color: #cbd5e1;
+      }
+      .selection-row strong {
+        color: #e2e8f0;
       }
       .method-box {
         margin-top: 12px;
@@ -358,12 +386,27 @@
         <div class="chart-grid">
           <div class="canvas-wrap">
             <canvas id="phaseChart"></canvas>
+            <div class="inline-evidence hidden" id="phaseEvidenceContainer">
+              <h3>Point evidence (phase chart)</h3>
+              <div class="evidence-meta"></div>
+              <div class="evidence-list"></div>
+            </div>
           </div>
           <div class="canvas-wrap">
             <canvas id="inputsChart"></canvas>
+            <div class="inline-evidence hidden" id="inputsEvidenceContainer">
+              <h3>Point evidence (inputs chart)</h3>
+              <div class="evidence-meta"></div>
+              <div class="evidence-list"></div>
+            </div>
           </div>
           <div class="canvas-wrap">
             <canvas id="volatilityChart"></canvas>
+            <div class="inline-evidence hidden" id="volEvidenceContainer">
+              <h3>Point evidence (volatility chart)</h3>
+              <div class="evidence-meta"></div>
+              <div class="evidence-list"></div>
+            </div>
           </div>
         </div>
 
@@ -371,27 +414,6 @@
         <section class="requests">
           <h3>Embedded data request status (live source calls)</h3>
           <div class="request-list" id="requestList"></div>
-        </section>
-        <section class="requests evidence">
-          <h3>Cause and effect evidence explorer (papers + articles)</h3>
-          <div class="controls evidence-controls">
-            <div class="control">
-              <label>Interaction</label>
-              <select id="evidenceMode">
-                <option value="click" selected>Click a line data point on any chart to view ranked evidence</option>
-              </select>
-            </div>
-            <div class="control">
-              <label>Evidence source</label>
-              <button id="evidenceReloadBtn" type="button">Reload evidence index</button>
-            </div>
-            <div class="control">
-              <label>Context</label>
-              <button id="clearSelectionBtn" type="button">Clear point selection</button>
-            </div>
-          </div>
-          <div class="evidence-meta" id="evidenceMeta"></div>
-          <div class="evidence-list" id="evidenceList"></div>
         </section>
         <section class="method-box">
           <h3>How phase is determined (calculated, not manual)</h3>
@@ -776,12 +798,16 @@
       async function searchDynamicEvidence(context) {
         const { metricCfg, queries } = buildDynamicQueries(context);
         const combined = [];
+        const targetYear = Number(String(context.date).slice(0, 4));
+        const yearFloor = Math.max(1900, targetYear - 2);
+        const yearCeil = targetYear + 1;
         for (const query of queries) {
           const [openalex, crossref] = await Promise.all([fetchOpenAlex(query), fetchCrossref(query)]);
 
           openalex.forEach((rec) => {
             const title = String(rec.display_name || "").trim();
             const year = Number.isFinite(rec.publication_year) ? rec.publication_year : null;
+            if (Number.isFinite(year) && (year < yearFloor || year > yearCeil)) return;
             const doiUrl = normalizeDoiUrl(rec.doi);
             const url = doiUrl || String(rec.id || "");
             if (!title || !url) return;
@@ -801,6 +827,7 @@
             const title = String((rec.title || [])[0] || "").trim();
             const issued = rec?.issued?.["date-parts"] || [];
             const year = issued[0] && Number.isFinite(issued[0][0]) ? issued[0][0] : null;
+            if (Number.isFinite(year) && (year < yearFloor || year > yearCeil)) return;
             const url = String(rec.URL || "").trim();
             if (!title || !url) return;
             const container = String((rec["container-title"] || [])[0] || "").trim();
@@ -825,17 +852,29 @@
         const ranked = Array.from(dedup.values())
           .sort((a, b) => b.score - a.score)
           .slice(0, 8);
-        return { metricCfg, queries, evidence: ranked };
+        return { metricCfg, queries, evidence: ranked, yearWindow: [yearFloor, yearCeil] };
       }
 
-      async function renderEvidenceForSelection(supplementalPayload) {
-        const metaHost = document.getElementById("evidenceMeta");
-        const listHost = document.getElementById("evidenceList");
+      function activateEvidenceContainer(targetContainerId) {
+        ["phaseEvidenceContainer", "inputsEvidenceContainer", "volEvidenceContainer"].forEach((id) => {
+          const node = document.getElementById(id);
+          if (!node) return;
+          if (id === targetContainerId) node.classList.remove("hidden");
+          else node.classList.add("hidden");
+        });
+      }
 
+      async function renderEvidenceForSelection(supplementalPayload, targetContainerId = "phaseEvidenceContainer") {
+        const container = document.getElementById(targetContainerId);
+        if (!container) return;
+        const metaHost = container.querySelector(".evidence-meta");
+        const listHost = container.querySelector(".evidence-list");
+
+        activateEvidenceContainer(targetContainerId);
         listHost.innerHTML = "";
-        metaHost.textContent = "";
+        metaHost.innerHTML = "";
         if (!selectedPointContext) {
-          metaHost.textContent = "Click any data point on a chart line to view ranked evidence and related Fed factors.";
+          metaHost.textContent = "Click a data point in this chart to view ranked evidence.";
           return;
         }
 
@@ -845,16 +884,28 @@
           return;
         }
 
-        metaHost.textContent =
-          `Searching live sources for ${context.metricKey} on ${context.date} (phase ${context.phase}, stress ${Number(context.stressScore).toFixed(3)}).`;
+        metaHost.textContent = `Searching live sources for ${context.metricKey} on ${context.date}...`;
 
         const dynamic = await searchDynamicEvidence(context);
         const metricCfg = dynamic.metricCfg;
         const supplemental = collectSupplementalForMetric(supplementalPayload, context.metricKey);
 
-        metaHost.textContent =
-          `Selected line: ${selectedPointContext.datasetLabel} | Date: ${context.date}. Data point: ${metricCfg.label}. Cause: ${metricCfg.cause}. Effect: ${metricCfg.effect}. ` +
-          `Live queries: ${dynamic.queries.join(" | ")}.`;
+        metaHost.innerHTML = `
+          <div class="selection-card">
+            <div class="selection-grid">
+              <div class="selection-row"><strong>Selected line:</strong> ${selectedPointContext.datasetLabel}</div>
+              <div class="selection-row"><strong>Date:</strong> ${context.date}</div>
+              <div class="selection-row"><strong>Data point:</strong> ${metricCfg.label}</div>
+              <div class="selection-row"><strong>Value:</strong> ${
+                Number.isFinite(context.metricValue) ? Number(context.metricValue).toFixed(3) : "n/a"
+              }</div>
+              <div class="selection-row"><strong>Phase / Stress:</strong> ${context.phase} / ${Number(context.stressScore).toFixed(3)}</div>
+              <div class="selection-row"><strong>Cause -> Effect:</strong> ${metricCfg.cause} -> ${metricCfg.effect}</div>
+              <div class="selection-row"><strong>Publication window:</strong> ${dynamic.yearWindow[0]} to ${dynamic.yearWindow[1]}</div>
+              <div class="selection-row"><strong>Live queries:</strong> ${dynamic.queries.length}</div>
+            </div>
+          </div>
+        `;
 
         if (!dynamic.evidence.length && !supplemental.length) {
           listHost.innerHTML = `<article class="evidence-item"><p>No live evidence results found for this clicked context.</p></article>`;
@@ -889,9 +940,11 @@
         });
       }
 
-      function initializeEvidenceExplorer(supplementalPayload) {
-        renderEvidenceForSelection(supplementalPayload);
+      function initializeEvidenceExplorer(supplementalPayload, targetContainerId = "phaseEvidenceContainer") {
+        renderEvidenceForSelection(supplementalPayload, targetContainerId);
       }
+
+      activateEvidenceContainer("phaseEvidenceContainer");
 
       let phaseChart;
       let inputsChart;
@@ -1025,7 +1078,7 @@
           if (!row) return;
           const map = lineMetricMap();
           selectedPointContext = {
-            metricKey: map[ds.label] || "creditSpreadProxyBAA10Y",
+            metricKey: map[ds.label] || "vix",
             date: row.date,
             datasetLabel: ds.label,
           };
@@ -1109,7 +1162,7 @@
           if (!row) return;
           const map = lineMetricMap();
           selectedPointContext = {
-            metricKey: map[ds.label] || "creditSpreadProxyBAA10Y",
+            metricKey: map[ds.label] || "vix",
             date: row.date,
             datasetLabel: ds.label,
           };
@@ -1199,7 +1252,7 @@
           if (!row) return;
           const map = lineMetricMap();
           selectedPointContext = {
-            metricKey: map[ds.label] || "creditSpreadProxyBAA10Y",
+            metricKey: map[ds.label] || "vix",
             date: row.date,
             datasetLabel: ds.label,
           };
@@ -1230,15 +1283,6 @@
           buildCharts(freshTimeline);
           renderPhaseMethod(freshTimeline.meta);
           initializeEvidenceExplorer(freshSupplemental);
-        });
-        document.getElementById("evidenceReloadBtn").addEventListener("click", async () => {
-          const freshSupplemental = await loadSupplementalData().catch(() => null);
-          supplementalPayloadCache = freshSupplemental;
-          initializeEvidenceExplorer(freshSupplemental);
-        });
-        document.getElementById("clearSelectionBtn").addEventListener("click", () => {
-          selectedPointContext = null;
-          initializeEvidenceExplorer(supplementalPayloadCache);
         });
       }
 

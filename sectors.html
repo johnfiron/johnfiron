@@ -58,6 +58,25 @@
         background: rgba(15, 23, 42, 0.62);
         padding: 12px;
       }
+      .selection-card {
+        border: 1px solid #334155;
+        border-radius: 10px;
+        background: rgba(15, 23, 42, 0.72);
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      .selection-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(220px, 1fr));
+        gap: 8px 12px;
+      }
+      .selection-row {
+        font-size: 0.8rem;
+        color: #cbd5e1;
+      }
+      .selection-row strong {
+        color: #e2e8f0;
+      }
       .evidence-list {
         display: grid;
         grid-template-columns: repeat(2, minmax(280px, 1fr));
@@ -86,7 +105,7 @@
       }
       .nav a:hover { text-decoration: underline; }
       @media (max-width: 900px) {
-        .controls, .evidence-list { grid-template-columns: 1fr; }
+        .controls, .evidence-list, .selection-grid { grid-template-columns: 1fr; }
       }
     </style>
   </head>
@@ -225,10 +244,13 @@
         const meta = document.getElementById("evidenceMeta");
         const list = document.getElementById("evidenceList");
         list.innerHTML = "";
+        const targetYear = Number.parseInt(String(clickCtx.date).slice(0, 4), 10);
+        const yearFloor = Math.max(1900, targetYear - 2);
+        const yearCeil = targetYear + 1;
         const queries = (metricQueries[clickCtx.seriesId] || ["market leadership macro cycle"]).map(
           (q) => `${q} ${clickCtx.date} value ${clickCtx.value.toFixed(3)}`
         );
-        meta.textContent = `Searching live references for ${clickCtx.label} on ${clickCtx.date} (${clickCtx.modeLabel}: ${clickCtx.value.toFixed(3)}).`;
+        meta.textContent = `Searching live references for ${clickCtx.label} on ${clickCtx.date}...`;
 
         const items = [];
         for (const q of queries) {
@@ -236,6 +258,7 @@
           oa.forEach((rec) => {
             const title = String(rec.display_name || "").trim();
             const year = Number.isFinite(rec.publication_year) ? rec.publication_year : null;
+            if (Number.isFinite(year) && (year < yearFloor || year > yearCeil)) return;
             const url = normalizeDoiUrl(rec.doi) || String(rec.id || "");
             if (!title || !url) return;
             const abs = invertOpenAlexAbstract(rec.abstract_inverted_index);
@@ -246,6 +269,7 @@
             const title = String((rec.title || [])[0] || "").trim();
             const issued = rec?.issued?.["date-parts"] || [];
             const year = issued[0] && Number.isFinite(issued[0][0]) ? issued[0][0] : null;
+            if (Number.isFinite(year) && (year < yearFloor || year > yearCeil)) return;
             const url = String(rec.URL || "").trim();
             if (!title || !url) return;
             const c = String((rec["container-title"] || [])[0] || "").trim();
@@ -261,6 +285,18 @@
           if (!dedup.has(k) || x.score > dedup.get(k).score) dedup.set(k, x);
         });
         const ranked = Array.from(dedup.values()).sort((a, b) => b.score - a.score).slice(0, 8);
+        meta.innerHTML = `
+          <div class="selection-card">
+            <div class="selection-grid">
+              <div class="selection-row"><strong>Selected line:</strong> ${clickCtx.label}</div>
+              <div class="selection-row"><strong>Date:</strong> ${clickCtx.date}</div>
+              <div class="selection-row"><strong>Metric:</strong> ${clickCtx.modeLabel}</div>
+              <div class="selection-row"><strong>Value:</strong> ${clickCtx.value.toFixed(3)}%</div>
+              <div class="selection-row"><strong>Publication window:</strong> ${yearFloor} to ${yearCeil}</div>
+              <div class="selection-row"><strong>Live queries:</strong> ${queries.length}</div>
+            </div>
+          </div>
+        `;
         if (!ranked.length) {
           list.innerHTML = `<article class="item"><p>No live evidence results found for this clicked context.</p></article>`;
           return;
