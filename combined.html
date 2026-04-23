@@ -94,10 +94,12 @@
         border-radius: 12px;
         background: #071021;
         padding: 8px;
+        overflow: hidden;
+        min-height: 380px;
       }
       canvas {
         width: 100%;
-        height: 360px;
+        height: 360px !important;
       }
       .insight {
         margin-top: 10px;
@@ -284,6 +286,12 @@
         const monthMatch = monthMentionScore(text, targetDate);
         return temporal * 10 + monthMatch * 8 + overlap * 1.5;
       }
+      function classifyTemporalBucket(year, targetYear) {
+        if (!Number.isFinite(year)) return "unknown";
+        if (year < targetYear) return "prior";
+        if (year === targetYear) return "current";
+        return "future";
+      }
       async function fetchOpenAlex(query) {
         const url = "https://api.openalex.org/works?search=" + encodeURIComponent(query) + "&per-page=5&select=display_name,publication_year,doi,id,abstract_inverted_index";
         try { const r = await fetch(url, { cache: "no-store" }); if (!r.ok) return []; return (await r.json()).results || []; } catch { return []; }
@@ -367,19 +375,37 @@
         });
         const ranked = Array.from(dedup.values())
           .filter((x) => x.monthMatched || Number.isFinite(x.year))
-          .sort((a, b) => b.score - a.score)
-          .slice(0, 8);
-        if (!ranked.length) {
+          .sort((a, b) => b.score - a.score);
+        const buckets = { prior: [], current: [], future: [] };
+        ranked.forEach((x) => {
+          const bucket = classifyTemporalBucket(x.year, targetYear);
+          if (bucket in buckets) buckets[bucket].push(x);
+        });
+        const finalRanked = [
+          ...buckets.prior.slice(0, 3),
+          ...buckets.current.slice(0, 3),
+          ...buckets.future.slice(0, 3),
+        ];
+        if (!finalRanked.length) {
           list.innerHTML = `<article class="item"><p>No live evidence results found for this clicked context.</p></article>`;
           return;
         }
-        ranked.forEach((x) => {
+        [["Prior observation", buckets.prior], ["Current information", buckets.current], ["Future analysis", buckets.future]]
+          .forEach(([heading, rows]) => {
+            if (!rows.length) return;
+            const h = document.createElement("article");
+            h.className = "item";
+            h.innerHTML = `<h4>${heading}</h4><p>${rows.length} matching references.</p>`;
+            list.appendChild(h);
+            rows.slice(0, 3).forEach((x) => {
           const el = document.createElement("article");
           el.className = "item";
           const y = x.year ? ` (${x.year})` : "";
-          el.innerHTML = `<h4><a style="color:#93c5fd" href="${x.url}" target="_blank" rel="noopener noreferrer">${x.title}</a>${y}</h4><p><strong>Rank score:</strong> ${x.score.toFixed(2)}</p><p>${x.summary}</p>`;
+          const tag = x.monthMatched ? "month-aligned" : "year-aligned";
+          el.innerHTML = `<h4><a style="color:#93c5fd" href="${x.url}" target="_blank" rel="noopener noreferrer">${x.title}</a>${y}</h4><p><strong>Rank score:</strong> ${x.score.toFixed(2)} | <strong>Alignment:</strong> ${tag}</p><p>${x.summary}</p>`;
           list.appendChild(el);
-        });
+            });
+          });
       }
 
       function filterRange(data, preset) {

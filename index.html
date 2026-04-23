@@ -158,9 +158,14 @@
         background: #071021;
         padding: 8px;
       }
-      canvas {
-        width: 100%;
+      .chart-host {
         height: 400px;
+        position: relative;
+      }
+      .chart-host canvas {
+        width: 100% !important;
+        height: 100% !important;
+        display: block;
       }
       .footnote {
         margin-top: 12px;
@@ -414,7 +419,7 @@
 
         <div class="chart-grid">
           <div class="canvas-wrap">
-            <canvas id="phaseChart"></canvas>
+            <div class="chart-host"><canvas id="phaseChart"></canvas></div>
             <div class="inline-evidence hidden" id="phaseEvidenceContainer">
               <h3>Point evidence (phase chart)</h3>
               <div class="evidence-meta"></div>
@@ -422,7 +427,7 @@
             </div>
           </div>
           <div class="canvas-wrap">
-            <canvas id="inputsChart"></canvas>
+            <div class="chart-host"><canvas id="inputsChart"></canvas></div>
             <div class="inline-evidence hidden" id="inputsEvidenceContainer">
               <h3>Point evidence (inputs chart)</h3>
               <div class="evidence-meta"></div>
@@ -430,7 +435,7 @@
             </div>
           </div>
           <div class="canvas-wrap">
-            <canvas id="volatilityChart"></canvas>
+            <div class="chart-host"><canvas id="volatilityChart"></canvas></div>
             <div class="inline-evidence hidden" id="volEvidenceContainer">
               <h3>Point evidence (volatility chart)</h3>
               <div class="evidence-meta"></div>
@@ -825,7 +830,22 @@
         return 0;
       }
 
-      function scoreResult(text, query, year, targetDate) {
+      function relationSignal(text, metricCfg) {
+        const t = String(text || "").toLowerCase();
+        const causeTerms = String(metricCfg?.cause || "")
+          .toLowerCase()
+          .match(/[a-z0-9]+/g) || [];
+        const effectTerms = String(metricCfg?.effect || "")
+          .toLowerCase()
+          .match(/[a-z0-9]+/g) || [];
+        const cueTerms = ["because", "due to", "led to", "results in", "caused", "therefore", "as a result"];
+        const causeHit = causeTerms.some((w) => w.length > 3 && t.includes(w));
+        const effectHit = effectTerms.some((w) => w.length > 3 && t.includes(w));
+        const cueHit = cueTerms.some((w) => t.includes(w));
+        return { causeHit, effectHit, cueHit, strong: causeHit && effectHit && cueHit };
+      }
+
+      function scoreResult(text, query, year, targetDate, metricCfg) {
         const textTokens = new Set(String(text).toLowerCase().match(/[a-z0-9]+/g) || []);
         const qTokens = (String(query).toLowerCase().match(/[a-z0-9]+/g) || []).filter((t) => t.length > 2);
         const overlap = qTokens.reduce((n, t) => n + (textTokens.has(t) ? 1 : 0), 0);
@@ -835,8 +855,9 @@
           temporal = Math.max(0, 1 - Math.min(20, Math.abs(year - targetYear)) / 20);
         }
         const explicitMonthMatch = monthMentionScore(text, targetDate);
+        const rel = relationSignal(text, metricCfg);
         // Temporal relevance is intentionally heaviest.
-        return temporal * 10 + explicitMonthMatch * 8 + overlap * 1.5;
+        return temporal * 14 + explicitMonthMatch * 10 + overlap * 1.2 + (rel.strong ? 6 : (rel.causeHit || rel.effectHit ? 2 : 0));
       }
 
       function collectSupplementalForMetric(supplementalPayload, key) {
@@ -862,13 +883,18 @@
             const abstract = invertOpenAlexAbstract(rec.abstract_inverted_index);
             const combinedText = `${title}. ${abstract}`.trim();
             const monthHit = monthMentionScore(combinedText, context.date) === 1;
+            const rel = relationSignal(combinedText, metricCfg);
             combined.push({
               sourceType: "paper",
               title,
               year,
               url,
               monthMatched: monthHit,
-              score: scoreResult(combinedText, query, year, context.date),
+              relationStrong: rel.strong,
+              relationCause: rel.causeHit,
+              relationEffect: rel.effectHit,
+              relationCue: rel.cueHit,
+              score: scoreResult(combinedText, query, year, context.date, metricCfg),
               summary: simpleDeterministicSummary(title, abstract),
             });
           });
@@ -884,13 +910,18 @@
             const abstract = stripHtmlTags(rec.abstract || "");
             const combinedText = `${title}. ${container}. ${abstract}`.trim();
             const monthHit = monthMentionScore(combinedText, context.date) === 1;
+            const rel = relationSignal(combinedText, metricCfg);
             combined.push({
               sourceType: "article",
               title,
               year,
               url,
               monthMatched: monthHit,
-              score: scoreResult(combinedText, query, year, context.date),
+              relationStrong: rel.strong,
+              relationCause: rel.causeHit,
+              relationEffect: rel.effectHit,
+              relationCue: rel.cueHit,
+              score: scoreResult(combinedText, query, year, context.date, metricCfg),
               summary: simpleDeterministicSummary(title, `${container}. ${abstract}`),
             });
           });
@@ -901,16 +932,21 @@
           const key = (item.url || item.title).toLowerCase();
           if (!dedup.has(key) || item.score > dedup.get(key).score) dedup.set(key, item);
         });
-        const ranked = Array.from(dedup.values())
+        const all = Array.from(dedup.values())
           .filter((item) => item.monthMatched || Number.isFinite(item.year))
-          .sort((a, b) => b.score - a.score)
-          .slice(0, 8);
+          .sort((a, b) => b.score - a.score);
+
+        const prior = all.filter((x) => Number.isFinite(x.year) && x.year < targetYear).slice(0, 4);
+        const current = all.filter((x) => Number.isFinite(x.year) && x.year === targetYear).slice(0, 4);
+        const future = all.filter((x) => Number.isFinite(x.year) && x.year > targetYear).slice(0, 4);
+
         return {
           metricCfg,
           queries,
-          evidence: ranked,
+          evidence: all.slice(0, 10),
+          buckets: { prior, current, future },
           yearWindow: [yearFloor, yearCeil],
-          monthSpecificCount: ranked.filter((x) => x.monthMatched).length,
+          monthSpecificCount: all.filter((x) => x.monthMatched).length,
         };
       }
 
@@ -972,18 +1008,29 @@
           return;
         }
 
-        dynamic.evidence.forEach((item) => {
-          const card = document.createElement("article");
-          card.className = "evidence-item";
-          const sourceType = (item.sourceType || "article").toLowerCase();
-          const yearText = item.year ? ` (${item.year})` : "";
-          card.innerHTML = `
-            <span class="source-badge ${sourceType}">${sourceType}</span>
-            <h4><a class="req-link" href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>${yearText}</h4>
-            <p><strong>Rank score:</strong> ${Number(item.score).toFixed(2)}</p>
-            <p>${item.summary}</p>
-          `;
-          listHost.appendChild(card);
+        const bucketOrder = [
+          ["Prior observation", dynamic.buckets?.prior || []],
+          ["Current information (as of point)", dynamic.buckets?.current || []],
+          ["Future analysis", dynamic.buckets?.future || []],
+        ];
+        bucketOrder.forEach(([label, items]) => {
+          const header = document.createElement("article");
+          header.className = "evidence-item";
+          header.innerHTML = `<h4>${label}</h4><p>${items.length} references</p>`;
+          listHost.appendChild(header);
+          items.forEach((item) => {
+            const card = document.createElement("article");
+            card.className = "evidence-item";
+            const sourceType = (item.sourceType || "article").toLowerCase();
+            const yearText = item.year ? ` (${item.year})` : "";
+            card.innerHTML = `
+              <span class="source-badge ${sourceType}">${sourceType}</span>
+              <h4><a class="req-link" href="${item.url}" target="_blank" rel="noopener noreferrer">${item.title}</a>${yearText}</h4>
+              <p><strong>Rank score:</strong> ${Number(item.score).toFixed(2)} | <strong>Month match:</strong> ${item.monthMatched ? "yes" : "no"} | <strong>Cause/effect extraction:</strong> ${item.relationStrong ? "strong" : (item.relationCause || item.relationEffect ? "partial" : "weak")}</p>
+              <p>${item.summary}</p>
+            `;
+            listHost.appendChild(card);
+          });
         });
 
         supplemental.forEach((factor) => {
