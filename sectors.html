@@ -13,6 +13,34 @@
         background: radial-gradient(circle at top, #1e293b, #0b1022 55%);
         color: #f8fafc;
       }
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        border-bottom: 1px solid #334155;
+        background: rgba(2, 6, 23, 0.94);
+        backdrop-filter: blur(8px);
+      }
+      .topbar-inner {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 8px 16px;
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+      .topbar a {
+        color: #bfdbfe;
+        text-decoration: none;
+        border: 1px solid #334155;
+        border-radius: 999px;
+        padding: 4px 10px;
+        font-size: 0.82rem;
+      }
+      .topbar a.active {
+        border-color: #60a5fa;
+        color: #dbeafe;
+      }
       .wrap {
         max-width: 1240px;
         margin: 0 auto;
@@ -91,35 +119,24 @@
       .item h4 { margin: 0 0 6px; font-size: 0.9rem; }
       .item p { margin: 0; color: #cbd5e1; font-size: 0.8rem; line-height: 1.35; }
       .hint { color: #cbd5e1; font-size: 0.85rem; margin-top: 8px; }
-      .nav {
-        display: flex;
-        gap: 8px;
-        flex-wrap: wrap;
-      }
-      .nav a {
-        color: #93c5fd;
-        text-decoration: none;
-        border: 1px solid #334155;
-        border-radius: 999px;
-        padding: 4px 10px;
-      }
-      .nav a:hover { text-decoration: underline; }
       @media (max-width: 900px) {
         .controls, .evidence-list, .selection-grid { grid-template-columns: 1fr; }
       }
     </style>
   </head>
   <body>
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a href="./index.html">Macro cycle</a>
+        <a class="active" href="./sectors.html">Sectors</a>
+        <a href="./combined.html">Combined</a>
+      </div>
+    </header>
     <main class="wrap">
       <h1>Sector Leadership Dashboard</h1>
       <p class="hint">
         Click any plotted data point to fetch dynamic papers/articles for the selected market leadership regime.
       </p>
-      <div class="nav">
-        <a href="./index.html">Macro Cycle</a>
-        <a href="./sectors.html">Sectors</a>
-        <a href="./combined.html">Combined View</a>
-      </div>
       <section class="panel">
         <div class="controls">
           <div>
@@ -188,16 +205,32 @@
         }
         return out.length ? out.join(" ") : (title.endsWith(".") ? title : title + ".");
       }
-      function score(text, query, year) {
+      function monthMentionScore(text, targetDate) {
+        const target = new Date(targetDate + "T00:00:00Z");
+        const y = target.getUTCFullYear();
+        const mIdx = target.getUTCMonth();
+        const monthNames = [
+          "january","february","march","april","may","june",
+          "july","august","september","october","november","december",
+        ];
+        const shortNames = monthNames.map((x) => x.slice(0, 3));
+        const longPattern = new RegExp(`\\b${monthNames[mIdx]}\\s+${y}\\b`, "i");
+        const shortPattern = new RegExp(`\\b${shortNames[mIdx]}\\.?\\s+${y}\\b`, "i");
+        const ymdPattern = new RegExp(`\\b${y}-${String(mIdx + 1).padStart(2, "0")}\\b`);
+        const t = String(text || "");
+        return longPattern.test(t) || shortPattern.test(t) || ymdPattern.test(t) ? 1 : 0;
+      }
+      function score(text, query, year, targetDate) {
         const tset = new Set(String(text).toLowerCase().match(/[a-z0-9]+/g) || []);
         const q = (String(query).toLowerCase().match(/[a-z0-9]+/g) || []).filter((x) => x.length > 2);
         const overlap = q.reduce((n, tok) => n + (tset.has(tok) ? 1 : 0), 0);
-        let rec = 0;
+        const targetYear = Number(String(targetDate).slice(0, 4));
+        let temporal = 0;
         if (Number.isFinite(year)) {
-          const now = new Date().getUTCFullYear();
-          rec = Math.max(0, 1 - Math.min(20, now - year) / 20);
+          temporal = Math.max(0, 1 - Math.min(20, Math.abs(year - targetYear)) / 20);
         }
-        return overlap * 2 + rec;
+        const monthHit = monthMentionScore(text, targetDate);
+        return temporal * 10 + monthHit * 8 + overlap * 1.5;
       }
       async function fetchOpenAlex(query) {
         const url = "https://api.openalex.org/works?search=" + encodeURIComponent(query) + "&per-page=5&select=display_name,publication_year,doi,id,abstract_inverted_index";
@@ -263,7 +296,8 @@
             if (!title || !url) return;
             const abs = invertOpenAlexAbstract(rec.abstract_inverted_index);
             const txt = `${title}. ${abs}`;
-            items.push({ sourceType: "paper", title, year, url, score: score(txt, q, year), summary: summarize(title, abs) });
+            const monthMatched = monthMentionScore(txt, clickCtx.date) === 1;
+            items.push({ sourceType: "paper", title, year, url, monthMatched, score: score(txt, q, year, clickCtx.date), summary: summarize(title, abs) });
           });
           cr.forEach((rec) => {
             const title = String((rec.title || [])[0] || "").trim();
@@ -275,7 +309,8 @@
             const c = String((rec["container-title"] || [])[0] || "").trim();
             const abs = stripHtmlTags(rec.abstract || "");
             const txt = `${title}. ${c}. ${abs}`;
-            items.push({ sourceType: "article", title, year, url, score: score(txt, q, year), summary: summarize(title, `${c}. ${abs}`) });
+            const monthMatched = monthMentionScore(txt, clickCtx.date) === 1;
+            items.push({ sourceType: "article", title, year, url, monthMatched, score: score(txt, q, year, clickCtx.date), summary: summarize(title, `${c}. ${abs}`) });
           });
         }
 
@@ -284,7 +319,10 @@
           const k = (x.url || x.title).toLowerCase();
           if (!dedup.has(k) || x.score > dedup.get(k).score) dedup.set(k, x);
         });
-        const ranked = Array.from(dedup.values()).sort((a, b) => b.score - a.score).slice(0, 8);
+        const ranked = Array.from(dedup.values())
+          .filter((x) => x.monthMatched || Number.isFinite(x.year))
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 8);
         meta.innerHTML = `
           <div class="selection-card">
             <div class="selection-grid">
@@ -294,6 +332,7 @@
               <div class="selection-row"><strong>Value:</strong> ${clickCtx.value.toFixed(3)}%</div>
               <div class="selection-row"><strong>Publication window:</strong> ${yearFloor} to ${yearCeil}</div>
               <div class="selection-row"><strong>Live queries:</strong> ${queries.length}</div>
+              <div class="selection-row"><strong>Temporal weighting:</strong> dominant (year/month proximity)</div>
             </div>
           </div>
         `;
@@ -305,7 +344,8 @@
           const el = document.createElement("article");
           el.className = "item";
           const y = x.year ? ` (${x.year})` : "";
-          el.innerHTML = `<h4><a class="req-link" href="${x.url}" target="_blank" rel="noopener noreferrer">${x.title}</a>${y}</h4><p><strong>Rank score:</strong> ${x.score.toFixed(2)}</p><p>${x.summary}</p>`;
+          const monthTag = x.monthMatched ? " | month matched" : "";
+          el.innerHTML = `<h4><a class="req-link" href="${x.url}" target="_blank" rel="noopener noreferrer">${x.title}</a>${y}</h4><p><strong>Rank score:</strong> ${x.score.toFixed(2)}${monthTag}</p><p>${x.summary}</p>`;
           list.appendChild(el);
         });
       }
